@@ -79,6 +79,9 @@ app.use((req, res, next) => {
 // serve admin static
 app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
+// serve frontend static files (HTML, CSS, JS) from parent directory
+app.use(express.static(path.join(__dirname, '..')));
+
 // Basic health
 app.get('/api/ping', (req, res) => res.json({ ok: true }));
 
