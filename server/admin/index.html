@@ -1,58 +1,430 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Admin — MatsenseAI</title>
-    <style>body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;background:#0b0b10;color:#fff;padding:20px}table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid #222;font-size:13px}input,button{padding:8px;margin:6px 0;width:100%}</style>
-  </head>
-  <body>
-    <h1>Admin</h1>
-    <div id="login">
-      <input id="username" placeholder="username" />
-      <input id="password" type="password" placeholder="password" />
-      <button id="loginBtn">Login</button>
-    </div>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin — MatsenseAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#0f1117;color:#e1e4ea;min-height:100vh}
 
-    <div id="app" style="display:none">
-      <div style="display:flex;gap:8px;margin-bottom:8px">
-        <button id="refresh">Refresh</button>
-        <button id="logout">Logout</button>
+    /* ── LOGIN ───────────────────────────── */
+    .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0f1117 0%,#161922 50%,#0f1117 100%)}
+    .login-card{width:380px;background:#181b23;border:1px solid #252830;border-radius:16px;padding:40px 36px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    .login-card .logo{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+    .login-card .logo-dot{width:10px;height:10px;background:#6c5ce7;border-radius:50%;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .login-card .logo-text{font-size:18px;font-weight:700;letter-spacing:-.5px}
+    .login-card .logo-text span{color:#6c5ce7}
+    .login-card h2{font-size:22px;font-weight:600;margin-bottom:6px}
+    .login-card p.sub{font-size:13px;color:#6b7280;margin-bottom:28px}
+    .login-card label{display:block;font-size:12px;font-weight:500;color:#9ca3af;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+    .login-card input{width:100%;padding:11px 14px;background:#12141b;border:1px solid #2a2d37;border-radius:8px;color:#e1e4ea;font-size:14px;outline:none;transition:border .2s}
+    .login-card input:focus{border-color:#6c5ce7}
+    .login-card input+label{margin-top:16px}
+    .login-card .btn-login{width:100%;padding:12px;margin-top:24px;background:#6c5ce7;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+    .login-card .btn-login:hover{background:#5a4bd1}
+    .login-card .error{display:none;margin-top:12px;padding:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;font-size:13px;color:#f87171;text-align:center}
+
+    /* ── DASHBOARD SHELL ────────────────── */
+    .shell{display:none;height:100vh;overflow:hidden}
+    .sidebar{position:fixed;left:0;top:0;bottom:0;width:240px;background:#14161e;border-right:1px solid #1f222b;display:flex;flex-direction:column;z-index:10}
+    .sidebar .sb-logo{padding:24px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #1f222b}
+    .sidebar .sb-logo-dot{width:8px;height:8px;background:#6c5ce7;border-radius:50%}
+    .sidebar .sb-logo-text{font-size:15px;font-weight:700;letter-spacing:-.3px}
+    .sidebar .sb-logo-text span{color:#6c5ce7}
+    .sidebar nav{flex:1;padding:16px 12px}
+    .sidebar nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#9ca3af;text-decoration:none;margin-bottom:2px;transition:all .15s}
+    .sidebar nav a:hover{background:#1c1f2a;color:#e1e4ea}
+    .sidebar nav a.active{background:#6c5ce722;color:#a78bfa}
+    .sidebar nav a svg{width:18px;height:18px;flex-shrink:0}
+    .sidebar .sb-footer{padding:16px;border-top:1px solid #1f222b}
+    .sidebar .sb-footer .sb-user{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer;transition:background .15s}
+    .sidebar .sb-footer .sb-user:hover{background:#1c1f2a}
+    .sidebar .sb-footer .sb-avatar{width:32px;height:32px;border-radius:8px;background:#6c5ce7;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff}
+    .sidebar .sb-footer .sb-name{font-size:13px;font-weight:500;line-height:1.2}
+    .sidebar .sb-footer .sb-role{font-size:11px;color:#6b7280}
+
+    .main{margin-left:240px;height:100vh;overflow-y:auto;background:#0f1117}
+    .topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:rgba(15,17,23,.85);backdrop-filter:blur(12px);border-bottom:1px solid #1f222b}
+    .topbar h1{font-size:20px;font-weight:600}
+    .topbar .tb-actions{display:flex;gap:8px}
+    .topbar .tb-btn{padding:8px 16px;background:#1c1f2a;border:1px solid #2a2d37;border-radius:8px;color:#e1e4ea;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+    .topbar .tb-btn:hover{background:#252830}
+    .topbar .tb-btn.primary{background:#6c5ce7;border-color:#6c5ce7;color:#fff}
+    .topbar .tb-btn.primary:hover{background:#5a4bd1}
+
+    /* ── STATS CARDS ────────────────────── */
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;padding:24px 28px 0}
+    .stat-card{background:#181b23;border:1px solid #1f222b;border-radius:12px;padding:20px}
+    .stat-card .sc-label{font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+    .stat-card .sc-val{font-size:28px;font-weight:700;letter-spacing:-1px}
+    .stat-card .sc-val.purple{color:#a78bfa}
+
+    /* ── TABLE ───────────────────────────── */
+    .table-wrap{padding:24px 28px}
+    .table-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .table-header h2{font-size:16px;font-weight:600}
+    .table-header .search{padding:8px 12px;background:#12141b;border:1px solid #2a2d37;border-radius:8px;color:#e1e4ea;font-size:13px;outline:none;width:240px;transition:border .2s}
+    .table-header .search:focus{border-color:#6c5ce7}
+    .tbl{width:100%;border-collapse:separate;border-spacing:0;background:#181b23;border:1px solid #1f222b;border-radius:12px;overflow:hidden}
+    .tbl thead{background:#14161e}
+    .tbl th{padding:12px 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;text-align:left;border-bottom:1px solid #1f222b}
+    .tbl td{padding:12px 16px;font-size:13px;border-bottom:1px solid #1a1d25}
+    .tbl tbody tr{cursor:pointer;transition:background .1s}
+    .tbl tbody tr:hover{background:#1c1f2a}
+    .tbl tbody tr:last-child td{border-bottom:none}
+    .tbl .email-cell{color:#a78bfa}
+    .tbl .badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:500;background:#6c5ce722;color:#a78bfa}
+    .tbl .date-cell{color:#6b7280;font-size:12px}
+    .empty-state{text-align:center;padding:60px 20px;color:#6b7280}
+    .empty-state svg{width:48px;height:48px;margin-bottom:12px;opacity:.3}
+    .empty-state p{font-size:14px}
+
+    /* ── DETAIL PANEL ────────────────────── */
+    .detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20}
+    .detail-panel{position:fixed;right:0;top:0;bottom:0;width:440px;background:#14161e;border-left:1px solid #1f222b;z-index:21;display:none;flex-direction:column;overflow-y:auto;animation:slideIn .2s ease}
+    @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+    .dp-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #1f222b;position:sticky;top:0;background:#14161e;z-index:1}
+    .dp-header h3{font-size:16px;font-weight:600}
+    .dp-close{width:32px;height:32px;border-radius:8px;background:#1c1f2a;border:1px solid #2a2d37;color:#e1e4ea;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .15s}
+    .dp-close:hover{background:#252830}
+    .dp-body{padding:24px}
+    .dp-field{margin-bottom:20px}
+    .dp-field .dp-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;margin-bottom:4px}
+    .dp-field .dp-val{font-size:14px;line-height:1.5}
+    .dp-field .dp-val.msg{background:#12141b;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:13px;color:#9ca3af;line-height:1.6}
+    .dp-field .dp-copy{display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:2px 8px;border-radius:4px;background:#1c1f2a;border:1px solid #2a2d37;color:#a78bfa;font-size:11px;cursor:pointer;transition:background .15s}
+    .dp-field .dp-copy:hover{background:#252830}
+    .dp-actions{padding:0 24px 24px;display:flex;gap:8px}
+    .dp-actions button{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+    .dp-actions .btn-email{background:#6c5ce7;border:none;color:#fff}
+    .dp-actions .btn-email:hover{background:#5a4bd1}
+    .dp-actions .btn-del{background:transparent;border:1px solid #2a2d37;color:#9ca3af}
+    .dp-actions .btn-del:hover{border-color:#ef4444;color:#f87171}
+
+    /* ── TOAST ────────────────────────────── */
+    .toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;background:#22c55e;color:#fff;border-radius:8px;font-size:13px;font-weight:500;z-index:50;opacity:0;transform:translateY(10px);transition:all .3s}
+    .toast.show{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ─────────────────── -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-card">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      <div class="logo-text">Matsense<span>AI</span></div>
+    </div>
+    <h2>Welcome back</h2>
+    <p class="sub">Sign in to access the admin dashboard</p>
+    <label for="username">Username</label>
+    <input id="username" placeholder="Enter your username" autocomplete="username"/>
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password"/>
+    <button class="btn-login" id="loginBtn">Sign In</button>
+    <div class="error" id="loginError">Invalid credentials. Please try again.</div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD SHELL ──────────────── -->
+<div class="shell" id="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-dot"></div>
+      <div class="sb-logo-text">Matsense<span>AI</span></div>
+    </div>
+    <nav>
+      <a href="#" class="active" data-page="submissions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Submissions
+      </a>
+      <a href="#" data-page="analytics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        Analytics
+      </a>
+      <a href="#" data-page="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Settings
+      </a>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-user" id="userMenu">
+        <div class="sb-avatar">A</div>
+        <div>
+          <div class="sb-name">Admin</div>
+          <div class="sb-role">Administrator</div>
+        </div>
       </div>
-      <table id="tbl"><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th>Services</th><th>When</th></tr></thead><tbody></tbody></table>
-      <div id="detail" style="margin-top:12px;padding:12px;border:1px solid #222;display:none;background:#08080b"></div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="topbar">
+      <h1 id="pageTitle">Submissions</h1>
+      <div class="tb-actions">
+        <button class="tb-btn" id="refreshBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Refresh
+        </button>
+        <button class="tb-btn" id="exportBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="tb-btn" id="logoutBtn" style="color:#f87171">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+        </button>
+      </div>
     </div>
 
-    <script>
-      let token = null;
-      document.getElementById('loginBtn').addEventListener('click', async ()=>{
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const res = await fetch('/admin/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username,password})});
-        const j = await res.json();
-        if (j.ok && j.token) { token = j.token; document.getElementById('login').style.display='none'; document.getElementById('app').style.display='block'; load(); }
-        else alert('login failed');
-      });
-      async function load(){
-        const r = await fetch('/admin/submissions', {headers:{'Authorization':'Bearer '+token}});
-        const j = await r.json();
-        if (!j.ok) return alert('unauthorized');
-        const tbody = document.querySelector('#tbl tbody'); tbody.innerHTML = '';
-        j.rows.forEach(row=>{
-          const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${row.id}</td><td>${row.name||''}</td><td>${row.email||''}</td><td>${row.phone||''}</td><td>${row.company||''}</td><td>${row.services||''}</td><td>${row.created_at||row.created_at}</td>`;
-          tr.style.cursor='pointer';
-          tr.addEventListener('click', ()=> showDetail(row));
-          tbody.appendChild(tr);
-        });
-      }
-      function showDetail(row){
-        const d = document.getElementById('detail');
-        d.style.display = 'block';
-        d.innerHTML = `<b>Submission #${row.id}</b><br/><b>Name:</b> ${row.name||''}<br/><b>Email:</b> ${row.email||''} <button onclick="navigator.clipboard.writeText('${row.email||''}')">Copy</button><br/><b>Phone:</b> ${row.phone||''}<br/><b>Company:</b> ${row.company||''}<br/><b>Services:</b> ${row.services||''}<br/><b>Budget:</b> ${row.budget||''}<br/><b>Timeline:</b> ${row.timeline||''}<br/><pre style="white-space:pre-wrap;margin-top:8px">${row.message||''}</pre>`;
-      }
-      document.getElementById('logout').addEventListener('click', ()=>{ token=null; document.getElementById('login').style.display='block'; document.getElementById('app').style.display='none'; document.getElementById('detail').style.display='none'; });
-      document.getElementById('refresh').addEventListener('click', load);
-    </script>
-  </body>
+    <!-- Stats -->
+    <div class="stats" id="statsRow">
+      <div class="stat-card"><div class="sc-label">Total Submissions</div><div class="sc-val purple" id="statTotal">0</div></div>
+      <div class="stat-card"><div class="sc-label">This Month</div><div class="sc-val" id="statMonth">0</div></div>
+      <div class="stat-card"><div class="sc-label">This Week</div><div class="sc-val" id="statWeek">0</div></div>
+      <div class="stat-card"><div class="sc-label">Today</div><div class="sc-val" id="statToday">0</div></div>
+    </div>
+
+    <!-- Submissions Table -->
+    <div class="table-wrap">
+      <div class="table-header">
+        <h2>All Submissions</h2>
+        <input class="search" id="searchInput" placeholder="Search by name, email, company..."/>
+      </div>
+      <table class="tbl" id="tbl">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Company</th>
+            <th>Services</th>
+            <th>Budget</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="tblBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <p>No submissions yet. They'll appear here once someone fills out the contact form.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ── DETAIL PANEL ─────────────────── -->
+<div class="detail-overlay" id="detailOverlay"></div>
+<div class="detail-panel" id="detailPanel">
+  <div class="dp-header">
+    <h3 id="dpTitle">Submission</h3>
+    <button class="dp-close" id="dpClose">&times;</button>
+  </div>
+  <div class="dp-body" id="dpBody"></div>
+  <div class="dp-actions">
+    <button class="btn-email" id="dpEmail">Send Email</button>
+    <button class="btn-del" id="dpCopyAll">Copy All Info</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+let token = null;
+let allRows = [];
+let currentRow = null;
+
+// ── LOGIN ──────────────────────────
+document.getElementById('loginBtn').addEventListener('click', doLogin);
+document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+async function doLogin(){
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  try {
+    const res = await fetch('/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+    const j = await res.json();
+    if(j.ok && j.token){
+      token = j.token;
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      load();
+    } else {
+      errEl.style.display = 'block';
+    }
+  } catch(e){
+    errEl.textContent = 'Connection error. Please try again.';
+    errEl.style.display = 'block';
+  }
+}
+
+// ── LOAD SUBMISSIONS ───────────────
+async function load(){
+  try {
+    const r = await fetch('/admin/submissions',{headers:{'Authorization':'Bearer '+token}});
+    const j = await r.json();
+    if(!j.ok){ logout(); return; }
+    allRows = j.rows || [];
+    updateStats();
+    renderTable(allRows);
+  } catch(e){
+    toast('Failed to load submissions','#ef4444');
+  }
+}
+
+function updateStats(){
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay());
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  document.getElementById('statTotal').textContent = allRows.length;
+  document.getElementById('statMonth').textContent = allRows.filter(r => new Date(r.created_at) >= startOfMonth).length;
+  document.getElementById('statWeek').textContent = allRows.filter(r => new Date(r.created_at) >= startOfWeek).length;
+  document.getElementById('statToday').textContent = allRows.filter(r => new Date(r.created_at) >= startOfDay).length;
+}
+
+function renderTable(rows){
+  const tbody = document.getElementById('tblBody');
+  const empty = document.getElementById('emptyState');
+  tbody.innerHTML = '';
+
+  if(rows.length === 0){
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  rows.forEach(row => {
+    const tr = document.createElement('tr');
+    const d = row.created_at ? new Date(row.created_at) : null;
+    const dateStr = d ? d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    tr.innerHTML = `
+      <td>${esc(String(row.id))}</td>
+      <td><strong>${esc(row.name||'—')}</strong></td>
+      <td class="email-cell">${esc(row.email||'—')}</td>
+      <td>${esc(row.company||'—')}</td>
+      <td>${row.services ? `<span class="badge">${esc(row.services)}</span>` : '—'}</td>
+      <td>${esc(row.budget||'—')}</td>
+      <td class="date-cell">${dateStr}</td>`;
+    tr.addEventListener('click', () => showDetail(row));
+    tbody.appendChild(tr);
+  });
+}
+
+// ── SEARCH ─────────────────────────
+document.getElementById('searchInput').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  if(!q){ renderTable(allRows); return; }
+  renderTable(allRows.filter(r =>
+    (r.name||'').toLowerCase().includes(q) ||
+    (r.email||'').toLowerCase().includes(q) ||
+    (r.company||'').toLowerCase().includes(q) ||
+    (r.services||'').toLowerCase().includes(q)
+  ));
+});
+
+// ── DETAIL PANEL ───────────────────
+function showDetail(row){
+  currentRow = row;
+  document.getElementById('detailOverlay').style.display = 'block';
+  const panel = document.getElementById('detailPanel');
+  panel.style.display = 'flex';
+  document.getElementById('dpTitle').textContent = `Submission #${row.id}`;
+
+  const d = row.created_at ? new Date(row.created_at).toLocaleString('en-GB',{dateStyle:'long',timeStyle:'short'}) : '—';
+  const fields = [
+    ['Name', row.name],
+    ['Email', row.email, true],
+    ['Phone', row.phone, true],
+    ['Company', row.company],
+    ['Role', row.role],
+    ['Services', row.services],
+    ['Budget', row.budget],
+    ['Timeline', row.timeline],
+    ['Submitted', d],
+    ['Message', row.message, false, true]
+  ];
+
+  const body = document.getElementById('dpBody');
+  body.innerHTML = fields.filter(f=>f[1]).map(([label, val, copyable, isMsg]) => `
+    <div class="dp-field">
+      <div class="dp-label">${esc(label)}</div>
+      <div class="dp-val${isMsg?' msg':''}">${esc(val||'')}${copyable?`<button class="dp-copy" onclick="copyText('${esc(val||'')}')">Copy</button>`:''}</div>
+    </div>`).join('');
+}
+
+function closeDetail(){
+  document.getElementById('detailOverlay').style.display = 'none';
+  document.getElementById('detailPanel').style.display = 'none';
+  currentRow = null;
+}
+document.getElementById('dpClose').addEventListener('click', closeDetail);
+document.getElementById('detailOverlay').addEventListener('click', closeDetail);
+
+document.getElementById('dpEmail').addEventListener('click', ()=>{
+  if(currentRow && currentRow.email) window.open(`mailto:${currentRow.email}`);
+});
+
+document.getElementById('dpCopyAll').addEventListener('click', ()=>{
+  if(!currentRow) return;
+  const text = Object.entries(currentRow).map(([k,v])=>`${k}: ${v||''}`).join('\n');
+  navigator.clipboard.writeText(text);
+  toast('Copied to clipboard');
+});
+
+// ── EXPORT CSV ─────────────────────
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  if(!allRows.length) return toast('No data to export','#ef4444');
+  const headers = ['id','name','email','phone','company','role','services','budget','timeline','message','created_at'];
+  const csv = [headers.join(','), ...allRows.map(r => headers.map(h => `"${(r[h]||'').toString().replace(/"/g,'""')}"`).join(','))].join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `submissions_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  toast('CSV downloaded');
+});
+
+// ── TOPBAR ACTIONS ─────────────────
+document.getElementById('refreshBtn').addEventListener('click', ()=>{ load(); toast('Refreshed'); });
+document.getElementById('logoutBtn').addEventListener('click', logout);
+
+function logout(){
+  token = null;
+  allRows = [];
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  closeDetail();
+}
+
+// ── HELPERS ────────────────────────
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function copyText(t){
+  navigator.clipboard.writeText(t);
+  toast('Copied to clipboard');
+}
+
+function toast(msg, bg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = bg || '#22c55e';
+  t.classList.add('show');
+  setTimeout(()=> t.classList.remove('show'), 2000);
+}
+</script>
+</body>
 </html>
