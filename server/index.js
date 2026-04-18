@@ -158,7 +158,7 @@ app.post('/admin/login', async (req, res) => {
 
   let ok = false;
   try {
-    if (ADMIN_PASS_HASH) {
+    if (ADMIN_PASS_HASH && ADMIN_PASS_HASH.startsWith('$2')) {
       ok = await bcrypt.compare(password || '', ADMIN_PASS_HASH);
     } else {
       ok = password === ADMIN_PASS;
