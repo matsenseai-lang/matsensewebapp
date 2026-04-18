@@ -5,6 +5,30 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+// Email helper: uses Resend HTTP API if RESEND_API_KEY is set, otherwise SMTP
+async function sendEmail({ from, to, subject, text, html }) {
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  if (RESEND_API_KEY) {
+    const resp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: Array.isArray(to) ? to : [to], subject, text, html })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.message || JSON.stringify(data));
+    return data;
+  }
+  // fallback: SMTP
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+    port: Number(process.env.SMTP_PORT) || 465,
+    secure: process.env.SMTP_SECURE === 'true' || (Number(process.env.SMTP_PORT) || 465) === 465,
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+    connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 15000
+  });
+  return transporter.sendMail({ from, to, subject, text, html });
+}
+
 const { Pool } = require('pg');
 let db;
 
@@ -112,24 +136,11 @@ app.post('/api/submit', async (req, res) => {
 
     // send emails in background (don't block the response)
     try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-        port: Number(process.env.SMTP_PORT) || 465,
-        secure: process.env.SMTP_SECURE === 'true' || (Number(process.env.SMTP_PORT) || 465) === 465,
-        auth: {
-          user: process.env.SMTP_USER || process.env.SMTP_USERNAME,
-          pass: process.env.SMTP_PASS || process.env.SMTP_PASSWORD
-        },
-        connectionTimeout: 10000,
-        greetingTimeout: 10000,
-        socketTimeout: 15000
-      });
-
       const from = process.env.FROM_EMAIL || 'info@matsenseai.co.uk';
 
       // thank-you email to submitter
       if (email) {
-        await transporter.sendMail({
+        await sendEmail({
           from,
           to: email,
           subject: 'Thanks — we received your request',
@@ -139,7 +150,7 @@ app.post('/api/submit', async (req, res) => {
       }
 
       // admin copy
-      await transporter.sendMail({
+      await sendEmail({
         from,
         to: process.env.ADMIN_EMAILS || 'matsenseai@gmail.com,info@matsenseai.co.uk',
         subject: `New contact form submission from ${name || email}`,
@@ -160,20 +171,8 @@ app.post('/api/test-email', async (req, res) => {
   const { to } = req.body || {};
   if (!to) return res.status(400).json({ ok: false, error: 'Missing "to" field' });
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-      port: Number(process.env.SMTP_PORT) || 465,
-      secure: process.env.SMTP_SECURE === 'true' || (Number(process.env.SMTP_PORT) || 465) === 465,
-      auth: {
-        user: process.env.SMTP_USER || process.env.SMTP_USERNAME,
-        pass: process.env.SMTP_PASS || process.env.SMTP_PASSWORD
-      },
-      connectionTimeout: 15000,
-      greetingTimeout: 15000,
-      socketTimeout: 20000
-    });
     const from = process.env.FROM_EMAIL || 'info@matsenseai.co.uk';
-    await transporter.sendMail({
+    await sendEmail({
       from,
       to,
       subject: 'MatsenseAI — Test Email',
