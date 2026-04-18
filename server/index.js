@@ -107,42 +107,82 @@ app.post('/api/submit', async (req, res) => {
       db.query('INSERT INTO submissions (name,email,phone,company,role,services,budget,timeline,message,source) VALUES (?,?,?,?,?,?,?,?,?,?)', [name,email,phone,company,role,services,budget,timeline,message,source]);
     }
 
-    // send emails
+    // respond success immediately (data is saved)
+    res.json({ ok: true });
+
+    // send emails in background (don't block the response)
+    try {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+        port: Number(process.env.SMTP_PORT) || 465,
+        secure: process.env.SMTP_SECURE === 'true' || (Number(process.env.SMTP_PORT) || 465) === 465,
+        auth: {
+          user: process.env.SMTP_USER || process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASS || process.env.SMTP_PASSWORD
+        },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 15000
+      });
+
+      const from = process.env.FROM_EMAIL || 'info@matsenseai.co.uk';
+
+      // thank-you email to submitter
+      if (email) {
+        await transporter.sendMail({
+          from,
+          to: email,
+          subject: 'Thanks — we received your request',
+          text: `Hi ${name || ''},\n\nThanks — we received your request and will reply within one business day.\n\n— MatsenseAI`,
+        });
+        console.log('Thank-you email sent to', email);
+      }
+
+      // admin copy
+      await transporter.sendMail({
+        from,
+        to: process.env.ADMIN_EMAILS || 'matsenseai@gmail.com,info@matsenseai.co.uk',
+        subject: `New contact form submission from ${name || email}`,
+        text: `New submission:\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company}\nRole: ${role}\nServices: ${services}\nBudget: ${budget}\nTimeline: ${timeline}\nMessage: ${message}\nSource: ${source}`
+      });
+      console.log('Admin notification email sent');
+    } catch (mailErr) {
+      console.error('Email send failed (submission was saved):', mailErr.message);
+    }
+  } catch (err) {
+    console.error('submit error', err);
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Test email endpoint (POST /api/test-email)
+app.post('/api/test-email', async (req, res) => {
+  const { to } = req.body || {};
+  if (!to) return res.status(400).json({ ok: false, error: 'Missing "to" field' });
+  try {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: process.env.SMTP_SECURE === 'true' || false,
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: process.env.SMTP_SECURE === 'true' || (Number(process.env.SMTP_PORT) || 465) === 465,
       auth: {
         user: process.env.SMTP_USER || process.env.SMTP_USERNAME,
         pass: process.env.SMTP_PASS || process.env.SMTP_PASSWORD
-      }
+      },
+      connectionTimeout: 15000,
+      greetingTimeout: 15000,
+      socketTimeout: 20000
     });
-
-    const from = process.env.FROM_EMAIL || 'hello@matsenseai.co.uk';
-
-    // thank-you email to submitter
-    const userMail = {
+    const from = process.env.FROM_EMAIL || 'info@matsenseai.co.uk';
+    await transporter.sendMail({
       from,
-      to: email,
-      subject: 'Thanks — we received your request',
-      text: `Hi ${name || ''},\n\nThanks — we received your request and will reply within one business day.\n\n— MatsenseAI`,
-    };
-
-    // admin copy
-    const adminMail = {
-      from,
-      to: process.env.ADMIN_EMAILS || 'matsenseai@gmail.com,info@matsenseai.co.uk',
-      subject: `New contact form submission from ${name || email}`,
-      text: `New submission:\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company}\nRole: ${role}\nServices: ${services}\nBudget: ${budget}\nTimeline: ${timeline}\nMessage: ${message}\nSource: ${source}`
-    };
-
-    // send both
-    await transporter.sendMail(userMail);
-    await transporter.sendMail(adminMail);
-
-    res.json({ ok: true });
+      to,
+      subject: 'MatsenseAI — Test Email',
+      text: 'This is a test email from MatsenseAI. If you received this, the email system is working correctly.\n\n— MatsenseAI'
+    });
+    console.log('Test email sent to', to);
+    res.json({ ok: true, message: `Test email sent to ${to}` });
   } catch (err) {
-    console.error('submit error', err);
+    console.error('Test email error:', err.message);
     res.status(500).json({ ok: false, error: err.message });
   }
 });
