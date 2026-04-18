@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>About — MatsenseAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="fx-root" aria-hidden="true"><div class="fx-grid"></div><div class="fx-orb fx-orb--a"></div><div class="fx-orb fx-orb--b"></div><div class="fx-orb fx-orb--c"></div><div class="fx-noise"></div><div class="fx-scan"></div></div>
+  <div class="topbar">
+    <div class="topbar__left"><span class="topbar__item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Hours</span><em>Mon – Fri · 09:00 – 17:30 GMT</em></span></div>
+    <div class="topbar__right"><a href="tel:+442000000000" class="topbar__item"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><em>+44 20 0000 0000</em></a><a href="mailto:hello@matsense.ai" class="topbar__item"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><em>hello@matsense.ai</em></a></div>
+  </div>
+  <header class="nav"><a href="index.html" class="nav__brand"><span class="brand-mark" aria-hidden="true"><span class="brand-mark__cube"><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span class="brand-word">MatsenseAI<span class="brand-word__dot">●</span></span></a>
+    <nav class="nav__links"><a href="index.html" data-link="home">Home</a><a href="about.html" data-link="about">About</a><a href="services.html" data-link="services">Services</a><a href="work.html" data-link="work">Work</a><a href="process.html" data-link="process">Process</a><a href="contact.html" data-link="contact">Contact</a></nav>
+    <div class="nav__cta"><span class="nav__status"><i></i> Booking Q3 · 2026</span><a href="contact.html" class="btn btn--ghost-s">Start a project →</a></div>
+  </header>
+
+  <header class="phead">
+    <div class="phead__crumbs"><a href="index.html">Home</a><span class="sep">/</span><span class="cur">About</span></div>
+    <h1 class="phead__title">About MatsenseAI <span class="i">— a small independent studio</span></h1>
+    <p class="phead__sub">Seven humans. Product-first thinking. We design, build and grow digital products at speed.</p>
+  </header>
+
+  <main>
+    <section class="about">
+      <div class="about__grid">
+        <div class="about__intro">
+          <h2 class="h2">One team, <span class="thin">one brain</span></h2>
+          <p class="about__sig">— <b>Arda Miyake</b>, principal &amp; founder</p>
+          <p>We pair product design with engineering and measurable growth. Our approach favours shipping and iterating in production.</p>
+        </div>
+        <div class="about__cards">
+          <article class="wcard"><div class="wcard__ico"><svg viewBox="0 0 40 40"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="22" y="6" width="12" height="12" rx="2"/><rect x="6" y="22" width="28" height="12" rx="2"/></svg></div><h3>Design &amp; Brand</h3><p>Systems that scale and copy that converts.</p><span class="wcard__tag">Design</span></article>
+          <article class="wcard wcard--hi"><div class="wcard__ico"><svg viewBox="0 0 40 40"><path d="M6 20 L20 6 L34 20 L20 34 Z"/><circle cx="20" cy="20" r="5"/></svg></div><h3>Engineering</h3><p>Full-stack delivery, serverless-first and observability baked in.</p><span class="wcard__tag">Build</span></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot"> ... </footer>
+
+  <script>
+    (function(){const path=(location.pathname.split('/').pop()||'index.html').replace('.html','');const map={index:'home','':'home',about:'about',services:'services',work:'work',process:'process',contact:'contact'};const k=map[path]||'home';document.querySelectorAll('[data-link]').forEach(a=>a.classList.toggle('is-active',a.dataset.link===k));})();
+  </script>
+</body>
+</html>

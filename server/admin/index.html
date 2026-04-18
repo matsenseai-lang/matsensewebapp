@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin — MatsenseAI</title>
+    <style>body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;background:#0b0b10;color:#fff;padding:20px}table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid #222;font-size:13px}input,button{padding:8px;margin:6px 0;width:100%}</style>
+  </head>
+  <body>
+    <h1>Admin</h1>
+    <div id="login">
+      <input id="username" placeholder="username" />
+      <input id="password" type="password" placeholder="password" />
+      <button id="loginBtn">Login</button>
+    </div>
+
+    <div id="app" style="display:none">
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button id="refresh">Refresh</button>
+        <button id="logout">Logout</button>
+      </div>
+      <table id="tbl"><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th>Services</th><th>When</th></tr></thead><tbody></tbody></table>
+      <div id="detail" style="margin-top:12px;padding:12px;border:1px solid #222;display:none;background:#08080b"></div>
+    </div>
+
+    <script>
+      let token = null;
+      document.getElementById('loginBtn').addEventListener('click', async ()=>{
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const res = await fetch('/admin/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username,password})});
+        const j = await res.json();
+        if (j.ok && j.token) { token = j.token; document.getElementById('login').style.display='none'; document.getElementById('app').style.display='block'; load(); }
+        else alert('login failed');
+      });
+      async function load(){
+        const r = await fetch('/admin/submissions', {headers:{'Authorization':'Bearer '+token}});
+        const j = await r.json();
+        if (!j.ok) return alert('unauthorized');
+        const tbody = document.querySelector('#tbl tbody'); tbody.innerHTML = '';
+        j.rows.forEach(row=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${row.id}</td><td>${row.name||''}</td><td>${row.email||''}</td><td>${row.phone||''}</td><td>${row.company||''}</td><td>${row.services||''}</td><td>${row.created_at||row.created_at}</td>`;
+          tr.style.cursor='pointer';
+          tr.addEventListener('click', ()=> showDetail(row));
+          tbody.appendChild(tr);
+        });
+      }
+      function showDetail(row){
+        const d = document.getElementById('detail');
+        d.style.display = 'block';
+        d.innerHTML = `<b>Submission #${row.id}</b><br/><b>Name:</b> ${row.name||''}<br/><b>Email:</b> ${row.email||''} <button onclick="navigator.clipboard.writeText('${row.email||''}')">Copy</button><br/><b>Phone:</b> ${row.phone||''}<br/><b>Company:</b> ${row.company||''}<br/><b>Services:</b> ${row.services||''}<br/><b>Budget:</b> ${row.budget||''}<br/><b>Timeline:</b> ${row.timeline||''}<br/><pre style="white-space:pre-wrap;margin-top:8px">${row.message||''}</pre>`;
+      }
+      document.getElementById('logout').addEventListener('click', ()=>{ token=null; document.getElementById('login').style.display='block'; document.getElementById('app').style.display='none'; document.getElementById('detail').style.display='none'; });
+      document.getElementById('refresh').addEventListener('click', load);
+    </script>
+  </body>
+</html>

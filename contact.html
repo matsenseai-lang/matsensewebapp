@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Contact — MatsenseAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Contact page — keep only tiny page-specific overrides here */
+    .cmap__lbl{ /* placeholder for small tweaks */ }
+  </style>
+</head>
+
+<body>
+
+<!-- ambient FX -->
+ 
+<div class="fx-root" aria-hidden="true">
+  <div class="fx-grid"></div>
+  <div class="fx-orb fx-orb--a"></div>
+  <div class="fx-orb fx-orb--b"></div>
+  <div class="fx-orb fx-orb--c"></div>
+  <div class="fx-noise"></div>
+  <div class="fx-scan"></div>
+</div>
+
+<!-- NAV -->
+<header class="nav" data-screen-label="00 Nav">
+  <a href="index.html" class="nav__brand">
+    <span class="brand-mark" aria-hidden="true">
+      <span class="brand-mark__cube"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    </span>
+    <span class="brand-word">MatsenseAI<span class="brand-word__dot">●</span></span>
+  </a>
+  <nav class="nav__links">
+    <a href="index.html#about">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#work">Work</a>
+    <a href="index.html#process">Process</a>
+    <a href="index.html#voices">Voices</a>
+    <a href="contact.html" style="color:#fff;background:rgba(255,255,255,0.06)">Contact</a>
+  </nav>
+  <div class="nav__cta">
+    <span class="nav__status"><i></i> Booking Q3 · 2026</span>
+    <a href="index.html" class="btn btn--ghost-s">← Back home</a>
+  </div>
+</header>
+
+<main class="cpage" data-screen-label="01 Contact Page">
+
+  <div class="sect-head">
+    <span class="sect-head__num">/</span>
+    <span class="sect-head__lbl">/ contact · start_a_project</span>
+  </div>
+
+  <section class="cpage__hero">
+    <div>
+      <div class="eyebrow">
+        <span class="eyebrow__dot"></span>
+        <span>REPLY SLA · ONE BUSINESS DAY · REAL HUMANS</span>
+      </div>
+      <h1 class="cpage__title">
+        <span class="out">Let's build</span><br/>
+        <span class="mark">something</span><br/>
+        <span class="out">worth shipping.</span>
+      </h1>
+      <p class="cpage__sub">
+        Tell us what you have in mind. We reply within one business day — with a real
+        human, not an AE funnel. If we're not the right fit, we'll tell you and
+        recommend who is.
+      </p>
+    </div>
+
+    <div class="cpage__facts">
+      <div class="fact fact--hi">
+        <div class="fact__k">Next availability</div>
+        <div class="fact__v">June 2026 <em>— 2 slots open</em></div>
+      </div>
+        <div class="fact">
+        <div class="fact__k">Typical response</div>
+        <div class="fact__v">&lt; 6 hours <em>— Mon–Fri, GMT</em></div>
+      </div>
+      <div class="fact">
+        <div class="fact__k">Minimum engagement</div>
+        <div class="fact__v">€9k <em>— single discipline</em></div>
+      </div>
+      <div class="fact">
+        <div class="fact__k">Working hours</div>
+        <div class="fact__v">09–18 GMT <em>— async friendly</em></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cpage__body">
+    <!-- FORM -->
+    <form id="contactForm" class="form">
+      <div class="form__head">
+        <span class="form__dot"></span>
+        <span>NEW_PROJECT.REQ</span>
+        <span class="form__id">#2026-<span id="formId">0841</span></span>
+      </div>
+
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" placeholder="Ada Lovelace" required/>
+        <span class="field__line"></span>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" placeholder="you@company.com" required/>
+          <span class="field__line"></span>
+        </div>
+        <div class="field">
+          <label>Phone <span class="opt">opt.</span></label>
+          <input type="tel" placeholder="+44 …"/>
+          <span class="field__line"></span>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Company</label>
+          <input type="text" placeholder="Company name"/>
+          <span class="field__line"></span>
+        </div>
+        <div class="field">
+          <label>Role</label>
+          <input type="text" placeholder="Founder / CMO / Product…"/>
+          <span class="field__line"></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Service needed</label>
+        <div class="chips">
+          <label class="chip"><input type="checkbox"/><span>Website Design</span></label>
+          <label class="chip"><input type="checkbox"/><span>Development</span></label>
+          <label class="chip"><input type="checkbox"/><span>SEO</span></label>
+          <label class="chip"><input type="checkbox"/><span>Digital Marketing</span></label>
+          <label class="chip"><input type="checkbox"/><span>SaaS Product</span></label>
+          <label class="chip"><input type="checkbox"/><span>POS Product</span></label>
+          <label class="chip"><input type="checkbox"/><span>Maintenance</span></label>
+          <label class="chip"><input type="checkbox"/><span>Not sure yet</span></label>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Budget range</label>
+          <select>
+            <option>&lt; €10k</option>
+            <option selected>€10–30k</option>
+            <option>€30–80k</option>
+            <option>€80k+</option>
+            <option>Retainer</option>
+          </select>
+          <span class="field__line"></span>
+        </div>
+        <div class="field">
+          <label>Timeline</label>
+          <select>
+            <option>ASAP</option>
+            <option selected>In 1–2 months</option>
+            <option>Q3 · 2026</option>
+            <option>No rush</option>
+          </select>
+          <span class="field__line"></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Tell us about the project</label>
+        <textarea rows="5" placeholder="A few sentences is plenty — we'll take it from there."></textarea>
+        <span class="field__line"></span>
+      </div>
+
+      <div class="field">
+        <label>How did you hear about us?</label>
+        <select>
+          <option>Referral from a client</option>
+          <option>Dribbble / Awwwards</option>
+          <option>LinkedIn</option>
+          <option>Google search</option>
+          <option>A conference talk</option>
+          <option>Other</option>
+        </select>
+        <span class="field__line"></span>
+      </div>
+
+      <div class="form__foot">
+        <label class="check">
+          <input type="checkbox" checked/>
+          <span></span>
+          <em>Keep me on the studio newsletter — once a month, no fluff.</em>
+        </label>
+        <button type="submit" class="btn btn--primary btn--wide">
+          <span>Transmit request</span>
+          <span class="btn__arrow">→</span>
+        </button>
+      </div>
+
+      <div class="form__sent">
+        <div class="form__sent-dot"></div>
+        <div>
+          <b>Request transmitted.</b>
+          <span>We'll reply within one business day from hello@matsense.ai</span>
+        </div>
+      </div>
+    </form>
+
+    <!-- SIDE -->
+    <aside class="cpage__side">
+      <h3>/ direct channels</h3>
+      <div class="cchannels">
+        <a class="cchannel cchannel--hi" href="mailto:hello@matsense.ai">
+          <span class="cchannel__k">New business</span>
+          <span class="cchannel__v">hello@matsense.ai ↗</span>
+        </a>
+        <a class="cchannel" href="mailto:press@matsense.ai">
+          <span class="cchannel__k">Press & speaking</span>
+          <span class="cchannel__v">press@matsense.ai ↗</span>
+        </a>
+        <a class="cchannel" href="mailto:careers@matsense.ai">
+          <span class="cchannel__k">Careers · 2 open</span>
+          <span class="cchannel__v">careers@matsense.ai ↗</span>
+        </a>
+        <a class="cchannel" href="tel:+442000000000">
+          <span class="cchannel__k">Studio line</span>
+          <span class="cchannel__v">+44 20 0000 0000</span>
+        </a>
+      </div>
+
+      <h3>/ studio</h3>
+      <ul>
+          <li>
+          <i>◆</i>
+          <span>
+            <b>12 Berners St, London W1T 3LN, UK</b>
+            <em>By appointment — knock twice, bring coffee</em>
+          </span>
+        </li>
+        <li>
+          <i>●</i>
+          <span>
+            <b>Remote-first across EU & LATAM</b>
+            <em>7 humans · 5 timezones · 1 Slack</em>
+          </span>
+        </li>
+        <li>
+          <i>◇</i>
+          <span>
+            <b>Mon–Fri · 09–18 GMT</b>
+            <em>We don't Slack on weekends. Neither should you.</em>
+          </span>
+        </li>
+      </ul>
+
+      <div class="cmap" aria-hidden="true">
+        <div class="cmap__pin"><i></i></div>
+        <div class="cmap__lbl">LONDON · 51.5074° N</div>
+      </div>
+
+      <h3>/ what to expect</h3>
+      <ul>
+        <li><i>1</i><span><b>Reply within one business day</b><em>From the person who'll actually run your project.</em></span></li>
+        <li><i>2</i><span><b>A 30-min intro call</b><em>Scope, timeline, money — upfront, no theatre.</em></span></li>
+        <li><i>3</i><span><b>A written proposal in 72h</b><em>Fixed price, fixed scope. Sign or don't.</em></span></li>
+        <li><i>4</i><span><b>Kickoff in 1–2 weeks</b><em>Or sooner, if a slot is free.</em></span></li>
+      </ul>
+
+      <h3>/ frequently asked</h3>
+      <div class="cfaq">
+        <details>
+          <summary>Do you work with early-stage startups?</summary>
+          <p>Yes — about a third of our work. We have a lighter engagement model (€9–18k, 3–4 weeks) for pre-seed and seed teams shipping v1.</p>
+        </details>
+        <details>
+          <summary>Can you work under NDA?</summary>
+          <p>Of course. Send us one, or we'll send you ours. We're happy to redact any project from our portfolio indefinitely.</p>
+        </details>
+        <details>
+          <summary>Do you offer retainers?</summary>
+          <p>Yes. Most clients stay on a monthly retainer after launch (€4–12k/mo) covering growth, maintenance and a quarterly redesign sprint.</p>
+        </details>
+        <details>
+          <summary>What about international / non-EU clients?</summary>
+          <p>Half our work is outside the EU. Invoicing in EUR or USD, English as default, async by design.</p>
+        </details>
+      </div>
+
+      <h3>/ elsewhere</h3>
+      <div class="cchannels">
+        <a class="cchannel" href="#"><span class="cchannel__k">LinkedIn</span><span class="cchannel__v">@matsenseai ↗</span></a>
+        <a class="cchannel" href="#"><span class="cchannel__k">Dribbble</span><span class="cchannel__v">@matsenseai ↗</span></a>
+        <a class="cchannel" href="#"><span class="cchannel__k">GitHub</span><span class="cchannel__v">@matsenseai ↗</span></a>
+        <a class="cchannel" href="#"><span class="cchannel__k">Read.cv</span><span class="cchannel__v">@matsenseai ↗</span></a>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<!-- FOOTER (same shell, condensed) -->
+<footer class="foot">
+  <div class="foot__mega" aria-hidden="true">MatsenseAI<span>●</span></div>
+  <div class="foot__cols">
+    <div>
+      <div class="foot__k">Studio</div>
+      <ul><li>Manifesto</li><li>Careers · 2 open</li><li>Press kit</li><li>Internships</li></ul>
+    </div>
+    <div>
+      <div class="foot__k">Services</div>
+      <ul><li>Website Design</li><li>Development</li><li>SEO</li><li>Digital Marketing</li><li>SaaS Products</li><li>POS Products</li><li>Maintenance</li></ul>
+    </div>
+    <div>
+      <div class="foot__k">Elsewhere</div>
+      <ul><li>LinkedIn</li><li>Dribbble</li><li>GitHub</li><li>Read.cv</li><li>Are.na</li></ul>
+    </div>
+    <div>
+      <div class="foot__k">Signal</div>
+      <ul><li>Newsletter</li><li>RSS feed</li><li>Status page</li><li>Changelog</li></ul>
+    </div>
+  </div>
+  <div class="foot__legal">
+    <span>© 2026 MatsenseAI Studio · Ltd.</span>
+    <span class="foot__sep">◆</span>
+    <span>Typeset in Space Grotesk &amp; JetBrains Mono</span>
+    <span class="foot__sep">◆</span>
+    <span>Crafted with care in London &amp; everywhere</span>
+    <span class="foot__sep">◆</span>
+    <span>Registered office: 36 Malthouse Road, Stoke-On-Trent, England, ST2 9HY</span>
+    <span class="foot__sep">◆</span>
+    <span>Company status: Active · Private limited Company · Incorporated 16 July 2025</span>
+    <span class="foot__sep">◆</span>
+    <a href="legal.html">Company details</a>
+    <a href="#">Cookies</a>
+    <a href="#">Privacy</a>
+    <a href="#">Imprint</a>
+  </div>
+</footer>
+
+    <script>
+  // Backend API URL - update this with your Railway URL in production
+  const API_URL = 'http://localhost:3000';  // Change to https://your-app.up.railway.app for production
+
+  // small script: post form JSON to backend /api/submit
+  const fid = document.getElementById('formId');
+  if (fid) fid.textContent = String(Math.floor(800 + Math.random() * 199)).padStart(4, '0');
+
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const f = e.target;
+    const data = {
+      name: f.querySelector('input[placeholder="Ada Lovelace"]').value,
+      email: f.querySelector('input[type="email"]').value,
+      phone: f.querySelector('input[type="tel"]').value,
+      company: f.querySelector('input[placeholder="Company name"]').value,
+      role: f.querySelector('input[placeholder^="Founder"]').value,
+      services: Array.from(f.querySelectorAll('.chips input:checked')).map(i=>i.nextElementSibling.textContent).join(', '),
+      budget: f.querySelector('select').value,
+      timeline: f.querySelectorAll('select')[1].value,
+      message: f.querySelector('textarea').value
+    };
+
+    const res = await fetch(`${API_URL}/api/submit`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
+    if (res.ok) {
+      f.classList.add('is-sent');
+    } else {
+      alert('Submission failed — please try again.');
+    }
+  });
+</script>
+</body>
+</html>

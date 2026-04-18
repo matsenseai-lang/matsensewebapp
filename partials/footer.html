@@ -1,0 +1,76 @@
+<!-- big CTA strip -->
+<section class="bigcta">
+  <h3>Got a project <span class="i">in mind?</span> Let's ship it.</h3>
+  <p>A 30-minute intro call is enough to know if we're the right fit. No decks, no salespeople, just the person who'd run your project.</p>
+  <div class="bigcta__ctas">
+    <a href="contact.html" class="btn btn--primary"><span>Start a project</span><span class="btn__arrow">→</span></a>
+    <a href="work.html" class="btn btn--ghost"><span>See selected work</span></a>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="foot__mega" aria-hidden="true">MatsenseAI<span>●</span></div>
+  <div class="foot__cols">
+    <div>
+      <div class="foot__k">Studio</div>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#">Manifesto</a></li>
+        <li><a href="#">Careers · 2 open</a></li>
+        <li><a href="#">Press kit</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot__k">Services</div>
+      <ul>
+        <li><a href="services.html">Website Design</a></li>
+        <li><a href="services.html">Development</a></li>
+        <li><a href="services.html">SEO</a></li>
+        <li><a href="services.html">Digital Marketing</a></li>
+        <li><a href="services.html">SaaS Products</a></li>
+        <li><a href="services.html">POS Products</a></li>
+        <li><a href="services.html">Maintenance</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot__k">Explore</div>
+      <ul>
+        <li><a href="work.html">Selected work</a></li>
+        <li><a href="process.html">Our process</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot__k">Elsewhere</div>
+      <ul>
+        <li><a href="#">LinkedIn ↗</a></li>
+        <li><a href="#">Dribbble ↗</a></li>
+        <li><a href="#">GitHub ↗</a></li>
+        <li><a href="#">Read.cv ↗</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot__legal">
+    <span>© 2026 MatsenseAI Studio · Ltd.</span>
+    <span class="foot__sep">◆</span>
+    <span>Typeset in Space Grotesk, Fraunces &amp; JetBrains Mono</span>
+    <span class="foot__sep">◆</span>
+    <span>Crafted with care in London &amp; everywhere</span>
+    <span class="foot__sep">◆</span>
+    <a href="#">Cookies</a>
+    <a href="#">Privacy</a>
+    <a href="#">Imprint</a>
+    <span class="foot__sep">◆</span>
+    <a href="legal.html">Company details</a>
+  </div>
+</footer>
+<script>
+  // active nav state
+  (function(){
+    const path = (location.pathname.split('/').pop() || 'index.html').replace('.html','');
+    const map = {index:'home','':'home',about:'about',services:'services',work:'work',process:'process',contact:'contact'};
+    const k = map[path] || 'home';
+    document.querySelectorAll('[data-link]').forEach(a => a.classList.toggle('is-active', a.dataset.link===k));
+  })();
+</script>
