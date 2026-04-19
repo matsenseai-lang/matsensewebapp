@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-watchPatterns = ["server/**"]
+watchPatterns = ["**"]
 
 [deploy]
 startCommand = "cd /app/server && node index.js"
