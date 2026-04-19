@@ -128,6 +128,46 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
 .nav__status i{width:7px;height:7px;background:var(--lime);border-radius:50%;box-shadow:0 0 10px var(--lime);animation:pulse 2s ease-in-out infinite}
 @media (max-width:960px){.nav__links,.nav__status{display:none}}
 
+/* ============== MOBILE HAMBURGER NAV ============== */
+.nav__hamburger{
+  display:none;width:40px;height:40px;border:none;background:none;cursor:pointer;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  padding:0;z-index:102;position:relative;
+}
+.nav__hamburger span{
+  display:block;width:22px;height:2px;background:var(--fg);border-radius:2px;
+  transition:transform .3s,opacity .3s;
+}
+.nav__hamburger.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav__hamburger.is-open span:nth-child(2){opacity:0}
+.nav__hamburger.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.nav__mobile-overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(6,6,10,0.97);backdrop-filter:blur(20px);
+  flex-direction:column;align-items:center;justify-content:center;gap:0;
+  opacity:0;transition:opacity .3s;
+}
+.nav__mobile-overlay.is-open{display:flex;opacity:1}
+.nav__mobile-overlay a{
+  font-size:clamp(22px,5vw,32px);color:var(--fg-dim);padding:14px 24px;
+  border-radius:12px;transition:color .2s,background .2s;text-align:center;
+  display:flex;align-items:center;gap:8px;
+}
+.nav__mobile-overlay a:hover,.nav__mobile-overlay a:focus{color:var(--fg);background:rgba(255,255,255,0.06)}
+.nav__mobile-overlay a svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;opacity:0.6}
+.nav__mobile-overlay .mobile-cta{
+  margin-top:32px;padding:14px 36px;font-size:16px;
+  background:var(--cyan);color:var(--bg);border-radius:999px;font-weight:600;
+  transition:transform .2s;
+}
+.nav__mobile-overlay .mobile-cta:hover{transform:scale(1.05);background:var(--cyan)}
+
+@media (max-width:960px){
+  .nav__hamburger{display:flex}
+  .nav__cta{display:none}
+}
+
 /* ============== IMAGE HERO (home) ============== */
 .imghero{
   position:relative;

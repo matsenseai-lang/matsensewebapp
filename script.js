@@ -6,6 +6,24 @@
    ========================================================================= */
 
 (() => {
+  // ---------- MOBILE NAV HAMBURGER ----------
+  const hamburger = document.querySelector('.nav__hamburger');
+  const overlay = document.querySelector('.nav__mobile-overlay');
+  if (hamburger && overlay) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('is-open');
+      overlay.classList.toggle('is-open');
+      document.body.style.overflow = overlay.classList.contains('is-open') ? 'hidden' : '';
+    });
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('is-open');
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
   // ---------- 3D CAROUSEL ----------
   const projects = [
     {
