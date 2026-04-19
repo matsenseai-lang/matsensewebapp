@@ -57,6 +57,7 @@
 
   <script>
     (function(){const path=(location.pathname.split('/').pop()||'index.html').replace('.html','');const map={index:'home','':'home',about:'about',services:'services',work:'work',process:'process',contact:'contact'};const k=map[path]||'home';document.querySelectorAll('[data-link]').forEach(a=>a.classList.toggle('is-active',a.dataset.link===k));})();
+    (function(){var h=document.querySelector('.nav__hamburger'),o=document.querySelector('.nav__mobile-overlay');if(!h||!o)return;h.addEventListener('click',function(){h.classList.toggle('is-open');o.classList.toggle('is-open');document.body.style.overflow=o.classList.contains('is-open')?'hidden':'';});o.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){h.classList.remove('is-open');o.classList.remove('is-open');document.body.style.overflow='';});});})();
   </script>
 </body>
 </html>
