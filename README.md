@@ -23,7 +23,7 @@ Edit `server/.env` and add your **Hostinger SMTP password**:
 SMTP_PASS=YOUR_ACTUAL_HOSTINGER_PASSWORD
 ```
 
-The admin password is already hashed (`Matsenseai@1122`).
+The admin password is already hashed (`@1122`).
 
 ### 3. Run Server
 ```powershell
