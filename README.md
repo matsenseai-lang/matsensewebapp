@@ -1,5 +1,7 @@
 # MatsenseAI - Backend & Deployment Guide
 
+> **Security note:** an earlier version of this README contained a real admin password, SMTP username, and other credential-shaped values in plain text, in a public repository. Those values have been removed from this file, but if they were ever real and in use, **they must be treated as compromised** — rotate the actual admin password (via `ADMIN_PASS_HASH` in Railway), the SMTP password in Hostinger, and `ADMIN_JWT_SECRET`, even after this fix. Removing text from a file does not remove it from Git history — anyone with repo access can still see old commits.
+
 ## Overview
 Node.js/Express backend with:
 - Form submission endpoint (`POST /api/submit`)
@@ -23,7 +25,7 @@ Edit `server/.env` and add your **Hostinger SMTP password**:
 SMTP_PASS=YOUR_ACTUAL_HOSTINGER_PASSWORD
 ```
 
-The admin password is already hashed (`@1122`).
+Generate your own admin password hash (do not use a default/shared password) — see "Change Admin Password" below.
 
 ### 3. Run Server
 ```powershell
@@ -36,7 +38,7 @@ Server runs at: **http://localhost:3000**
 - Health: http://localhost:3000/api/ping
 - Admin: http://localhost:3000/admin
   - Username: `admin`
-  - Password: `Matsenseai@1122`
+  - Password: set your own — see "Change Admin Password" below
 
 ### 5. Update Frontend
 The contact form at `contact.html` posts to `/api/submit`. For local testing with the static server:
@@ -83,14 +85,16 @@ In Railway project settings → **Variables**, add:
 SMTP_HOST=smtp.hostinger.com
 SMTP_PORT=587
 SMTP_SECURE=false
-SMTP_USER=Matsenseai@1122
+SMTP_USER=your_hostinger_email@matsenseai.co.uk
 SMTP_PASS=your_hostinger_smtp_password
 FROM_EMAIL=info@matsenseai.co.uk
-ADMIN_EMAILS=matsenseai@gmail.com,info@matsenseai.co.uk
+ADMIN_EMAILS=info@matsenseai.co.uk
 ADMIN_USER=admin
-ADMIN_PASS_HASH=$2a$10$Mx3/AaNKChbo2Seu3IrFf.filDdab.Crtqz1VLT4CPktYD4SpqHFm
-ADMIN_JWT_SECRET=generate_random_string_for_production
+ADMIN_PASS_HASH=generate_your_own_with_gen-hash.js
+ADMIN_JWT_SECRET=generate_a_long_random_string
 ```
+
+**Do not reuse any password or secret that has ever appeared in this repository's history** — even after removal, old commits keep it recoverable via `git log`. Generate fresh values (see "Change Admin Password" below).
 
 **Note:** `DATABASE_URL` is automatically set by Railway when you add Postgres.
 
@@ -146,7 +150,7 @@ const res = await fetch(`${API_URL}/api/submit`, {
 
 You have:
 - **Email:** info@matsenseai.co.uk
-- **SMTP User:** Matsenseai@1122
+- **SMTP User:** your Hostinger email login (usually the same as the mailbox address)
 - **SMTP Pass:** (get from Hostinger control panel → Email → Password)
 
 ### Get Hostinger SMTP Password:
@@ -172,7 +176,7 @@ You have:
 
 ### Login
 - Username: `admin`
-- Password: `Matsenseai@1122`
+- Password: whatever you set via `ADMIN_PASS_HASH` (see "Change Admin Password" below) — never document the real password here
 
 ### Features
 - View all form submissions
@@ -207,7 +211,7 @@ Submit contact form
   "company": "Acme Ltd",
   "role": "Founder",
   "services": "Website Design, Development",
-  "budget": "€10–30k",
+  "budget": "Mid-size project",
   "timeline": "Q3 · 2026",
   "message": "We need a new website..."
 }
@@ -226,7 +230,7 @@ Submit contact form
 ### `POST /admin/login`
 Admin authentication
 ```json
-{"username": "admin", "password": "Matsenseai@1122"}
+{"username": "admin", "password": "your_admin_password"}
 ```
 
 **Response:**

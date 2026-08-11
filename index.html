@@ -1,9 +1,41 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>Home — MatsenseAI</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>MatsenseAI — Software Development &amp; AI Consultancy, UK</title>
+  <meta name="description" content="MatsenseAI is a UK-registered software development and AI consultancy, delivering AI/ML products, enterprise software and web development, led by an academic AI researcher and a senior engineering team."/>
+  <link rel="canonical" href="https://matsenseai.co.uk/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="MatsenseAI"/>
+  <meta property="og:title" content="MatsenseAI — Software Development &amp; AI Consultancy, UK"/>
+  <meta property="og:description" content="MatsenseAI is a UK-registered software development and AI consultancy, delivering AI/ML products, enterprise software and web development, led by an academic AI researcher and a senior engineering team."/>
+  <meta property="og:url" content="https://matsenseai.co.uk/"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="MatsenseAI — Software Development &amp; AI Consultancy, UK"/>
+  <meta name="twitter:description" content="MatsenseAI is a UK-registered software development and AI consultancy, delivering AI/ML products, enterprise software and web development, led by an academic AI researcher and a senior engineering team."/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MatsenseAI",
+    "url": "https://matsenseai.co.uk",
+    "email": "info@matsenseai.co.uk",
+    "description": "UK-registered software development and AI consultancy providing AI/ML product development, enterprise software, and web development.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "36 Malthouse Road",
+      "addressLocality": "Stoke-on-Trent",
+      "postalCode": "ST2 9HY",
+      "addressCountry": "GB"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Dr Ateeq Ur Rehman"
+    }
+  }
+  </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -50,7 +82,7 @@ input,select,textarea{font:inherit;color:inherit;background:none;border:0;outlin
 @keyframes orb{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,-40px) scale(1.08)}}
 .fx-noise{position:absolute;inset:0;opacity:0.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
 .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(255,255,255,0.012) 3px 4px);mix-blend-mode:overlay}
-section,footer,.topbar,.nav,main{position:relative;z-index:2}
+section,footer,.topbar,.nav,.announce,main{position:relative;z-index:2}
 
 /* TYPE */
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fg-dim);padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,0.02);backdrop-filter:blur(6px)}
@@ -79,6 +111,39 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
 .btn--outline:hover{background:rgba(255,255,255,0.08);border-color:#fff}
 .btn--ghost-s{padding:8px 14px;font-size:13px;border:1px solid var(--line-2);border-radius:999px;background:rgba(255,255,255,0.02)}
 .btn--wide{width:100%;justify-content:center;padding:16px}
+
+/* ============== ANNOUNCEMENT BAR ============== */
+.announce{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:11px var(--pad-x);text-align:center;
+  background:linear-gradient(90deg, rgba(198,255,91,0.16), rgba(54,226,255,0.12), rgba(198,255,91,0.16));
+  background-size:200% 100%;
+  animation:announceShift 6s ease-in-out infinite;
+  border-bottom:1px solid rgba(198,255,91,0.35);
+  font-family:var(--f-mono);font-size:12.5px;letter-spacing:0.04em;color:var(--fg);
+  cursor:pointer;transition:padding .3s;
+}
+.announce:hover{background:linear-gradient(90deg, rgba(198,255,91,0.24), rgba(54,226,255,0.18), rgba(198,255,91,0.24));background-size:200% 100%}
+@keyframes announceShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.announce::after{
+  content:"";position:absolute;top:0;bottom:0;left:-30%;width:22%;
+  background:linear-gradient(100deg, transparent, rgba(255,255,255,0.32), transparent);
+  transform:skewX(-20deg);
+  animation:announceShine 3.4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes announceShine{0%{left:-30%}35%{left:120%}100%{left:120%}}
+.announce__dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime);flex-shrink:0;animation:announcePulse 1.4s ease-in-out infinite}
+@keyframes announcePulse{0%,100%{opacity:1;box-shadow:0 0 12px var(--lime)}50%{opacity:0.25;box-shadow:0 0 4px var(--lime)}}
+.announce b{color:var(--lime);font-weight:700;animation:announceBlink 1.4s ease-in-out infinite}
+@keyframes announceBlink{0%,100%{opacity:1;text-shadow:0 0 12px rgba(198,255,91,0.7)}50%{opacity:0.55;text-shadow:0 0 2px rgba(198,255,91,0.3)}}
+.announce__arrow{font-family:var(--f-disp);transition:transform .3s}
+.announce:hover .announce__arrow{transform:translateX(4px)}
+@media (max-width:700px){
+  .announce{font-size:11px;padding:10px 16px;gap:6px;white-space:normal;line-height:1.5}
+  .announce span.announce__hide-mobile{display:none}
+}
 
 /* ============== TOP UTILITY BAR (inspired layout, remixed) ============== */
 .topbar{
@@ -181,7 +246,7 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
   overflow:hidden;
   isolation:isolate;
 }
-.imghero__bg{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;background-repeat:no-repeat}
+.imghero__bg{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;background-repeat:no-repeat;background:radial-gradient(ellipse at 30% 20%, rgba(54,226,255,0.15), transparent 55%),radial-gradient(ellipse at 75% 65%, rgba(139,91,255,0.15), transparent 55%),var(--bg)}
 .imghero__bg::after{
   content:"";position:absolute;inset:0;
   background:
@@ -272,8 +337,52 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
   position:relative;aspect-ratio: 4/5;border-radius: var(--r-lg);overflow:hidden;
   border:1px solid var(--line-2);
   background-size:cover;background-position:center;
+  background-image:
+    radial-gradient(circle at 25% 20%, rgba(54,226,255,0.35), transparent 45%),
+    radial-gradient(circle at 80% 75%, rgba(139,91,255,0.35), transparent 50%),
+    radial-gradient(circle at 50% 100%, rgba(255,61,165,0.2), transparent 55%),
+    linear-gradient(160deg, var(--bg-2), var(--bg-3));
 }
-.teaser__img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%, rgba(6,6,10,0.85));}
+.teaser__img::before{
+  content:"";position:absolute;inset:0;opacity:0.5;
+  background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);
+  background-size:34px 34px;
+}
+.client-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.client-card{
+  position:relative;overflow:hidden;display:flex;flex-direction:column;gap:6px;
+  padding:22px 20px;border-radius:var(--r-md);border:1px solid var(--line-2);
+  background:linear-gradient(160deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s;
+}
+.client-card::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(220px at 85% -10%,color-mix(in oklab,var(--cc) 30%,transparent) 0%,transparent 60%);opacity:0.6}
+.client-card:hover{transform:translateY(-4px);border-color:color-mix(in oklab,var(--cc) 60%,transparent)}
+.client-card__sector{font-family:var(--f-mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--cc)}
+.client-card__name{font-size:17px;font-weight:500;color:#fff;letter-spacing:-0.01em}
+.client-card__loc{font-family:var(--f-mono);font-size:11.5px;color:var(--fg-dim)}
+@media (max-width:540px){.client-grid{grid-template-columns:1fr}}
+.teaser__roster{
+  position:absolute;left:24px;right:24px;top:64px;bottom:56px;z-index:1;
+  display:flex;flex-direction:column;justify-content:center;gap:4px;
+}
+.roster__row{
+  display:flex;align-items:center;gap:14px;padding:12px 6px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.roster__row:last-child{border-bottom:0}
+.roster__avatar{
+  width:44px;height:44px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--f-mono);font-weight:600;font-size:14px;color:var(--ac);
+  border:1.5px solid var(--ac);background:color-mix(in oklab, var(--ac) 16%, rgba(6,6,10,0.9));
+}
+.roster__info{display:flex;flex-direction:column;gap:2px;min-width:0}
+.roster__info b{font-size:14.5px;font-weight:500;color:#fff;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.roster__info em{font-family:var(--f-mono);font-style:normal;font-size:11px;color:var(--fg-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.teaser__caption{
+  position:absolute;left:0;right:0;top:26px;z-index:1;text-align:center;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg-dim);
+}
+.teaser__img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,10,0.55) 0%, rgba(6,6,10,0.72) 35%, rgba(6,6,10,0.9) 100%);}
 .teaser__img .tag{
   position:absolute;left:20px;bottom:20px;z-index:2;
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#fff;
@@ -331,6 +440,10 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
 .glyph--pos{width:120px;height:80px;background:linear-gradient(135deg,#1a1a2a,#0c0c18);border:1px solid color-mix(in oklab,var(--svc-c) 40%,transparent);border-radius:8px;position:relative;box-shadow:0 10px 30px -10px color-mix(in oklab,var(--svc-c) 40%,transparent)}
 .glyph__pos-scr{position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid var(--svc-c);border-radius:4px;display:grid;place-items:center;font-family:var(--f-mono);color:var(--svc-c);font-size:16px;text-shadow:0 0 8px var(--svc-c)}
 .glyph--wrench svg{width:64px;height:64px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;filter:drop-shadow(0 0 10px currentColor)}
+.glyph--network svg{width:68px;height:68px;stroke:currentColor;stroke-width:1.6;fill:none;filter:drop-shadow(0 0 10px currentColor)}
+.glyph--network circle{fill:var(--svc-c);stroke:none}
+.glyph--chip svg{width:64px;height:64px;stroke:currentColor;stroke-width:1.6;fill:none;filter:drop-shadow(0 0 10px currentColor)}
+.glyph--chip rect.core{fill:color-mix(in oklab,var(--svc-c) 18%,transparent)}
 @media (max-width:1100px){.svc-grid{grid-template-columns:repeat(2,1fr)}.svc--wide{grid-column:span 2}.services__top{grid-template-columns:1fr}}
 @media (max-width:600px){.svc-grid{grid-template-columns:1fr}.svc--wide{grid-column:span 1}}
 
@@ -567,6 +680,47 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
 .bigcta p{color:var(--fg-dim);max-width:48ch;margin:20px auto 32px;font-size:16px}
 .bigcta__ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
+/* PROMO */
+.promo{padding:90px var(--pad-x);position:relative}
+.promo__wrap{
+  position:relative;overflow:hidden;border-radius:var(--r-xl);
+  padding:56px clamp(24px,5vw,64px);
+  border:1px solid rgba(198,255,91,0.35);
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(198,255,91,0.16), transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(54,226,255,0.14), transparent 55%),
+    linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+}
+.promo__badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;
+  color:#0A1A08;background:var(--lime);padding:8px 14px;border-radius:999px;font-weight:600;
+  box-shadow:0 0 30px -6px rgba(198,255,91,0.7);
+}
+.promo__head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:36px}
+.promo__head h2{max-width:26ch}
+.promo__head p{color:var(--fg-dim);max-width:44ch;font-size:15px;line-height:1.6}
+.promo__grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.promo__card{
+  position:relative;border-radius:var(--r-lg);padding:32px 28px;
+  border:1px solid var(--line-2);background:rgba(6,6,10,0.5);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s;
+}
+.promo__card:hover{transform:translateY(-4px);border-color:rgba(198,255,91,0.5)}
+.promo__card--hi{border-color:rgba(198,255,91,0.6);background:linear-gradient(160deg,rgba(198,255,91,0.06),rgba(6,6,10,0.6))}
+.promo__kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg-dim)}
+.promo__title{font-size:clamp(20px,2vw,26px);font-weight:500;color:#fff;margin-top:8px;letter-spacing:-0.02em}
+.promo__price{display:flex;align-items:baseline;gap:8px;margin-top:16px}
+.promo__price b{font-size:clamp(34px,4vw,48px);font-weight:600;letter-spacing:-0.03em;color:var(--lime)}
+.promo__price span{font-family:var(--f-mono);font-size:12px;color:var(--fg-dim);text-transform:uppercase;letter-spacing:0.08em}
+.promo__note{color:var(--fg-dim);font-size:13.5px;margin-top:6px}
+.promo__list{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.promo__list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--fg-dim);line-height:1.5}
+.promo__list li i{width:16px;height:16px;flex-shrink:0;margin-top:2px;border-radius:50%;background:rgba(198,255,91,0.15);position:relative}
+.promo__list li i::after{content:"";position:absolute;left:5px;top:3px;width:4px;height:8px;border-right:2px solid var(--lime);border-bottom:2px solid var(--lime);transform:rotate(40deg)}
+.promo__foot{margin-top:26px;font-size:14px;color:var(--fg-dim);line-height:1.6;border-top:1px solid var(--line);padding-top:22px}
+@media (max-width:800px){.promo__grid{grid-template-columns:1fr}}
+
 /* ticker */
 .ticker{margin-top:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:14px 0;background:linear-gradient(90deg,rgba(54,226,255,0.04),rgba(255,61,165,0.04))}
 .ticker__track{display:inline-flex;gap:48px;white-space:nowrap;font-family:var(--f-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg-dim);animation:tick 40s linear infinite;padding-right:48px}
@@ -596,20 +750,10 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
     </span>
   </div>
   <div class="topbar__right">
-    <a href="tel:+442000000000" class="topbar__item">
-      <svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
-      <em>+44 20 0000 0000</em>
-    </a>
     <a href="mailto:info@matsenseai.co.uk" class="topbar__item">
       <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
       <em>info@matsenseai.co.uk</em>
     </a>
-    <span class="topbar__social">
-      <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 11-.001 5.001A2.5 2.5 0 014.98 3.5zM3 9h4v12H3zM9 9h3.8v1.75h.05A4.16 4.16 0 0117 8.5c4 0 4.7 2.63 4.7 6.06V21H18v-5.54c0-1.32-.03-3.02-1.84-3.02-1.85 0-2.13 1.44-2.13 2.93V21H9z"/></svg></a>
-      <a href="#" aria-label="Twitter/X"><svg viewBox="0 0 24 24"><path d="M18.244 2H21l-6.52 7.46L22 22h-6.52l-4.84-6.32L5.08 22H2.32l6.96-7.96L2 2h6.64l4.37 5.78L18.24 2zm-1.15 18h1.68L7 4H5.23l11.87 16z"/></svg></a>
-      <a href="#" aria-label="Dribbble"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2 12c3-1 11-2 18 6M8 2c2 2 7 7 8 20M22 12c-1-3-8-9-20-5" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></a>
-      <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 007.86 10.92c.57.1.78-.25.78-.56v-1.97c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.35.96.1-.75.4-1.26.73-1.55-2.56-.3-5.25-1.28-5.25-5.7 0-1.26.45-2.3 1.2-3.1-.12-.3-.52-1.5.1-3.1 0 0 .98-.31 3.2 1.18a11.1 11.1 0 015.82 0c2.22-1.5 3.19-1.18 3.19-1.18.63 1.6.23 2.8.11 3.1.75.8 1.2 1.84 1.2 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.15v3.19c0 .31.21.67.79.56A11.5 11.5 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
-    </span>
   </div>
 </div>
 
@@ -630,7 +774,7 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
     <a href="contact.html" data-link="contact">Contact</a>
   </nav>
   <div class="nav__cta">
-    <span class="nav__status"><i></i> Booking Q3 · 2026</span>
+    <span class="nav__status"><i></i> Open for new projects</span>
     <a href="contact.html" class="btn btn--ghost-s">Start a project →</a>
   </div>
   <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -646,6 +790,12 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
   <a href="contact.html" class="mobile-cta">Start a project →</a>
 </div>
 
+<!-- ANNOUNCEMENT BAR -->
+<a href="#promo" class="announce">
+  <span class="announce__dot"></span>
+  <span><b>LIVE OFFER</b> <span class="announce__hide-mobile">·</span> Personal sites &lt;£300 · Business sites &lt;£500 <span class="announce__hide-mobile">— static build, fixed scope</span></span>
+  <span class="announce__arrow">→</span>
+</a>
 
 <section class="imghero" data-screen-label="01 Hero">
   <div class="imghero__bg" style="background-image:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2000&q=80')"></div>
@@ -655,40 +805,41 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
   <div class="imghero__eyebrow">
     <div class="eyebrow">
       <span class="eyebrow__dot"></span>
-      <span>MATSENSE.AI · INDEPENDENT DIGITAL STUDIO · 2026</span>
+      <span>MATSENSEAI · SOFTWARE, AI CONSULTANCY &amp; AI/ML PRODUCT DEVELOPMENT</span>
     </div>
   </div>
 
   <h1 class="imghero__title">
-    Lead <span class="tilde">~</span> <span class="mark">Customer</span>
+    Software <span class="tilde">+</span> <span class="mark">AI</span>, built right.
   </h1>
 
   <p class="imghero__sub">
-    Successful strategies require data, craft and relentless customer focus.
-    We design software, brands &amp; growth engines for teams who'd rather ship than wait.
+    MatsenseAI designs and builds software, advises on where AI genuinely fits
+    your organisation, and develops AI/ML products — led by a team with academic
+    and industry roots in software engineering and applied AI.
   </p>
 
   <div class="imghero__ctas">
     <a href="contact.html" class="btn btn--solid"><span>Get in touch</span><span class="btn__arrow">→</span></a>
-    <a href="work.html" class="btn btn--outline"><span>Read more</span></a>
+    <a href="work.html" class="btn btn--outline"><span>See our work</span></a>
   </div>
 
   <div class="imghero__ribbon" aria-hidden="true">
-    <div><b>142</b><em>Projects shipped</em></div>
-    <div><b>4.9<span>/5</span></b><em>Client NPS · 47 reviews</em></div>
-    <div><b>6<span>wk</span></b><em>Avg. launch time</em></div>
-    <div><b>Q3<span>'26</span></b><em>Next availability</em></div>
+    <div><b>UK</b><em>Registered company</em></div>
+    <div><b>4</b><em>Core disciplines</em></div>
+    <div><b>15<span>+yr</span></b><em>Founder's experience</em></div>
+    <div><b>Open</b><em>For new projects</em></div>
   </div>
 </section>
 
 <!-- ticker -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker__track">
-    <span>◆ BOOKING Q3 · 2026</span><span>◇ BASED IN LONDON · REMOTE-FIRST</span>
-    <span>◆ SEVEN HUMANS · ZERO AGENCIES-IN-AGENCIES</span><span>◇ FIXED-PRICE OR RETAINER</span>
-    <span>◆ DESIGN · DEVELOPMENT · GROWTH</span><span>◇ 4.9/5 ON CLUTCH</span>
-    <span>◆ BOOKING Q3 · 2026</span><span>◇ BASED IN LONDON · REMOTE-FIRST</span>
-    <span>◆ SEVEN HUMANS · ZERO AGENCIES-IN-AGENCIES</span><span>◇ FIXED-PRICE OR RETAINER</span>
+    <span>◆ SOFTWARE DEVELOPMENT</span><span>◇ AI CONSULTANCY</span>
+    <span>◆ AI/ML PRODUCT DEVELOPMENT</span><span>◇ UK REGISTERED COMPANY</span>
+    <span>◆ LED BY AN ACADEMIC &amp; INDUSTRY TEAM</span><span>◇ FIXED-PRICE OR RETAINER</span>
+    <span>◆ SOFTWARE DEVELOPMENT</span><span>◇ AI CONSULTANCY</span>
+    <span>◆ AI/ML PRODUCT DEVELOPMENT</span><span>◇ UK REGISTERED COMPANY</span>
   </div>
 </div>
 
@@ -697,17 +848,23 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
   <div class="sect-head"><span class="sect-head__num">01</span><span class="sect-head__lbl">/ who_we_are</span></div>
   <div class="teaser__grid">
     <div class="teaser__img" style="background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80')">
-      <span class="tag">Studio · London</span>
-      <div class="badge"><span>Est.<br/>2015</span></div>
+      <span class="teaser__caption">Our disciplines</span>
+      <div class="teaser__roster">
+        <div class="roster__row"><span class="roster__avatar" style="--ac:#36E2FF">&lt;/&gt;</span><span class="roster__info"><b>Full-Stack Development</b><em>Web &amp; software engineers</em></span></div>
+        <div class="roster__row"><span class="roster__avatar" style="--ac:#8B5BFF">AI</span><span class="roster__info"><b>AI &amp; ML Development</b><em>Applied AI engineers</em></span></div>
+        <div class="roster__row"><span class="roster__avatar" style="--ac:#FF3DA5">SE</span><span class="roster__info"><b>Software Engineering</b><em>Enterprise application specialists</em></span></div>
+        <div class="roster__row"><span class="roster__avatar" style="--ac:#FF9B57">PM</span><span class="roster__info"><b>Project Delivery</b><em>Leadership &amp; programme management</em></span></div>
+      </div>
+      <span class="tag">MatsenseAI · UK</span>
     </div>
     <div class="teaser__txt">
-      <h2 class="h2">A small studio <span class="thin">with unusually</span> wide range.</h2>
-      <p>Seven humans, one roof. MatsenseAI blends design, engineering and growth — the person who sketched your homepage is the one shipping its API, and the one writing its landing copy.</p>
-      <p>We work in sprints of six weeks, ship to production on day one, and treat launch as the midpoint, not the end.</p>
+      <h2 class="h2">A senior team <span class="thin">with academic</span> and industry roots.</h2>
+      <p>MatsenseAI is led by Dr Ateeq Ur Rehman, an Associate Professor of Software Engineering and a highly cited AI researcher. Our team spans full-stack development, software engineering, AI/ML development and project delivery, with decades of combined experience in enterprise software.</p>
+      <p>We work directly with the people running your project — no account layers, no handoffs between departments.</p>
       <div class="teaser__stats">
-        <div><b>142</b><em>Shipped projects</em></div>
-        <div><b>11<span style="color:var(--fg-dim);font-size:0.6em;margin-left:4px;-webkit-text-fill-color:var(--fg-dim)">yr</span></b><em>Avg. team tenure</em></div>
-        <div><b>80<span style="color:var(--fg-dim);font-size:0.6em;margin-left:4px;-webkit-text-fill-color:var(--fg-dim)">%</span></b><em>Retainer renewal</em></div>
+        <div><b>15+<span style="color:var(--fg-dim);font-size:0.6em;margin-left:4px;-webkit-text-fill-color:var(--fg-dim)">yr</span></b><em>Founder's software experience</em></div>
+        <div><b>30+<span style="color:var(--fg-dim);font-size:0.6em;margin-left:4px;-webkit-text-fill-color:var(--fg-dim)">yr</span></b><em>Senior consultant's experience</em></div>
+        <div><b>UK</b><em>Registered &amp; based</em></div>
       </div>
       <div class="teaser__cta">
         <a href="about.html" class="btn btn--primary"><span>More about us</span><span class="btn__arrow">→</span></a>
@@ -721,66 +878,82 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
 <section class="services" data-screen-label="03 Services teaser">
   <div class="sect-head"><span class="sect-head__num">02</span><span class="sect-head__lbl">/ capabilities</span></div>
   <div class="services__top">
-    <h2 class="h2">Seven disciplines, <span class="thin">engineered</span> to compound.</h2>
-    <div class="services__lede"><p>Pick one — or let us braid them together. Brand feeds the site, site feeds SEO, SEO feeds paid, paid feeds the product roadmap.</p></div>
+    <h2 class="h2">Software and AI, <span class="thin">engineered</span> to compound.</h2>
+    <div class="services__lede"><p>Pick one discipline, or combine them. Our AI consultancy and AI/ML product work is led directly by our founder, an active AI researcher.</p></div>
   </div>
   <div class="svc-grid">
-    
+
     <article class="svc" style="--svc-hue:190;--svc-c:#36E2FF">
       <div class="svc__num">01</div>
+      <div class="svc__glyph"><div class="glyph glyph--network"><svg viewBox="0 0 40 40"><circle cx="8" cy="10" r="3"/><circle cx="8" cy="30" r="3"/><circle cx="20" cy="20" r="4"/><circle cx="32" cy="8" r="3"/><circle cx="32" cy="32" r="3"/><path d="M11 11 L17 18 M11 29 L17 22 M23 18 L29 10 M23 22 L29 30"/></svg></div></div>
+      <h3 class="svc__h">AI Consultancy</h3>
+      <p class="svc__p">Independent advice on where AI genuinely fits your organisation, led by an active AI researcher — not a hype cycle.</p>
+      <ul class="svc__list"><li>AI readiness audits</li><li>Use-case scoping</li><li>Risk &amp; governance</li><li>Vendor evaluation</li></ul>
+      <span class="svc__from">Tailored to your budget</span>
+    </article>
+    <article class="svc" style="--svc-hue:265;--svc-c:#8B5BFF">
+      <div class="svc__num">02</div>
+      <div class="svc__glyph"><div class="glyph glyph--chip"><svg viewBox="0 0 40 40"><rect class="core" x="13" y="13" width="14" height="14" rx="2"/><rect x="13" y="13" width="14" height="14" rx="2"/><path d="M20 4v7M20 29v7M4 20h7M29 20h7M9 9l4 4M27 27l4 4M31 9l-4 4M9 31l4-4"/></svg></div></div>
+      <h3 class="svc__h">AI/ML Product Development</h3>
+      <p class="svc__p">Design and build of machine learning and AI-driven products, from proof of concept through to production.</p>
+      <ul class="svc__list"><li>ML pipelines</li><li>Model integration</li><li>MLOps</li><li>Evaluation &amp; monitoring</li></ul>
+      <span class="svc__from">Tailored to your budget</span>
+    </article>
+    <article class="svc" style="--svc-hue:220;--svc-c:#7FB8FF">
+      <div class="svc__num">03</div>
       <div class="svc__glyph"><div class="glyph glyph--grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
       <h3 class="svc__h">Website Design</h3>
       <p class="svc__p">Brand-first marketing sites that read like a statement and convert like a funnel.</p>
       <ul class="svc__list"><li>Art direction</li><li>Figma systems</li><li>Motion</li><li>Copy</li></ul>
-      <span class="svc__from">from €9k · 4 wks</span>
+      <span class="svc__from">Tailored to your budget</span>
     </article>
     <article class="svc" style="--svc-hue:265;--svc-c:#8B5BFF">
-      <div class="svc__num">02</div>
+      <div class="svc__num">04</div>
       <div class="svc__glyph"><div class="glyph glyph--braces"><span>&lt;/&gt;</span></div></div>
       <h3 class="svc__h">Development</h3>
       <p class="svc__p">Next.js, Astro, Shopify Hydrogen — hand-coded, edge-deployed, obsessively fast.</p>
       <ul class="svc__list"><li>Headless</li><li>E-com</li><li>Migrations</li><li>A11y</li></ul>
-      <span class="svc__from">from €14k · 5–8 wks</span>
+      <span class="svc__from">Tailored to your budget</span>
     </article>
     <article class="svc" style="--svc-hue:325;--svc-c:#FF3DA5">
-      <div class="svc__num">03</div>
+      <div class="svc__num">05</div>
       <div class="svc__glyph"><div class="glyph glyph--mag"><svg viewBox="0 0 40 40"><circle cx="17" cy="17" r="10"/><path d="M24 24 L34 34"/></svg></div></div>
       <h3 class="svc__h">SEO</h3>
       <p class="svc__p">Technical audits, programmatic content, backlink ops — indexable growth, not wishful keywords.</p>
       <ul class="svc__list"><li>Tech SEO</li><li>Content</li><li>Clusters</li><li>Schema</li></ul>
-      <span class="svc__from">from €3.2k / mo</span>
+      <span class="svc__from">Tailored to your budget</span>
     </article>
     <article class="svc" style="--svc-hue:24;--svc-c:#FF9B57">
-      <div class="svc__num">04</div>
+      <div class="svc__num">06</div>
       <div class="svc__glyph"><div class="glyph glyph--bars"><i style="--h:40%"></i><i style="--h:72%"></i><i style="--h:56%"></i><i style="--h:92%"></i></div></div>
       <h3 class="svc__h">Digital Marketing</h3>
       <p class="svc__p">Paid, lifecycle, creative. One team runs strategy, production and reporting end-to-end.</p>
       <ul class="svc__list"><li>Meta / Google</li><li>Email</li><li>Creative</li><li>Attribution</li></ul>
-      <span class="svc__from">from €4.5k / mo</span>
+      <span class="svc__from">Tailored to your budget</span>
     </article>
     <article class="svc svc--wide" style="--svc-hue:160;--svc-c:#4DF0B2">
-      <div class="svc__num">05</div>
+      <div class="svc__num">07</div>
       <div class="svc__glyph"><div class="glyph glyph--stack"><div></div><div></div><div></div></div></div>
       <h3 class="svc__h">SaaS Products</h3>
       <p class="svc__p">From wireframe to v1 — auth, billing, admin, integrations. Ship in a quarter, not a year.</p>
       <ul class="svc__list"><li>Strategy</li><li>Design system</li><li>Full-stack</li><li>Observability</li></ul>
-      <span class="svc__from">from €38k · 10–14 wks</span>
+      <span class="svc__from">Tailored to your budget</span>
     </article>
     <article class="svc" style="--svc-hue:85;--svc-c:#C6FF5B">
-      <div class="svc__num">06</div>
+      <div class="svc__num">08</div>
       <div class="svc__glyph"><div class="glyph glyph--pos"><div class="glyph__pos-scr"><span>€ 42.80</span></div></div></div>
       <h3 class="svc__h">POS Products</h3>
       <p class="svc__p">Terminal-ready checkout, kitchen displays, inventory — for hospitality, retail and marketplaces.</p>
       <ul class="svc__list"><li>Stripe / Adyen</li><li>Offline</li><li>Tablet</li><li>Hardware</li></ul>
-      <span class="svc__from">from €22k · 8 wks</span>
+      <span class="svc__from">Tailored to your budget</span>
     </article>
     <article class="svc" style="--svc-hue:220;--svc-c:#7FB8FF">
-      <div class="svc__num">07</div>
+      <div class="svc__num">09</div>
       <div class="svc__glyph"><div class="glyph glyph--wrench"><svg viewBox="0 0 40 40"><path d="M6 34 L20 20 M26 8 a8 8 0 1 0 6 6 L20 26"/></svg></div></div>
       <h3 class="svc__h">Maintenance</h3>
       <p class="svc__p">Monthly care plans: uptime, CMS updates, security, perf tuning, and quarterly redesign sprints.</p>
       <ul class="svc__list"><li>Monitoring</li><li>Reports</li><li>Training</li><li>Growth tweaks</li></ul>
-      <span class="svc__from">from €600 / mo</span>
+      <span class="svc__from">Tailored to your budget</span>
     </article>
   </div>
   <div style="display:flex;justify-content:center;margin-top:40px">
@@ -793,15 +966,15 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
   <div class="sect-head"><span class="sect-head__num">03</span><span class="sect-head__lbl">/ why_matsenseai</span></div>
   <div class="about__grid">
     <div class="about__intro">
-      <h2 class="h2">Why teams <span class="thin">keep</span> choosing us.</h2>
-      <p>Four things we've stopped apologising for: one team with no subcontractors, a shipping tempo that feels indecent, a ruthless focus on measurable outcomes, and retainers that compound over years.</p>
-      <p class="about__sig">— <b>Arda Miyake</b>, principal &amp; founder</p>
+      <h2 class="h2">Why teams <span class="thin">choose</span> MatsenseAI.</h2>
+      <p>An academic-led research background, direct senior involvement in every project, no subcontractors, and a straightforward, measurable approach to both software and AI work.</p>
+      <p class="about__sig">— <b>Dr Ateeq Ur Rehman</b>, Founder &amp; Lead Architect</p>
     </div>
     <div class="about__cards">
-      <article class="wcard"><div class="wcard__ico"><svg viewBox="0 0 40 40"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="22" y="6" width="12" height="12" rx="2"/><rect x="6" y="22" width="28" height="12" rx="2"/></svg></div><h3>One team, one brain</h3><p>No subcontractors. Every file, pixel and endpoint is owned by the same seven people.</p><span class="wcard__tag">01 · model</span></article>
-      <article class="wcard wcard--hi"><div class="wcard__ico"><svg viewBox="0 0 40 40"><path d="M6 20 L20 6 L34 20 L20 34 Z"/><circle cx="20" cy="20" r="5"/></svg></div><h3>Shipped &gt; perfect</h3><p>We default to launching in six weeks and iterating in production — real data beats theory.</p><span class="wcard__tag">02 · tempo</span></article>
-      <article class="wcard"><div class="wcard__ico"><svg viewBox="0 0 40 40"><circle cx="14" cy="20" r="8"/><circle cx="26" cy="20" r="8"/></svg></div><h3>Design, measured</h3><p>Every release is tied to a number — conversion, LCP, MRR — before a single pixel moves.</p><span class="wcard__tag">03 · method</span></article>
-      <article class="wcard"><div class="wcard__ico"><svg viewBox="0 0 40 40"><path d="M8 32 L32 8"/><circle cx="8" cy="32" r="3"/><circle cx="32" cy="8" r="3"/><circle cx="20" cy="20" r="3"/></svg></div><h3>Long games</h3><p>80% of our clients renew. We'd rather grow with you than auction retainers quarterly.</p><span class="wcard__tag">04 · horizon</span></article>
+      <article class="wcard"><div class="wcard__ico"><svg viewBox="0 0 40 40"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="22" y="6" width="12" height="12" rx="2"/><rect x="6" y="22" width="28" height="12" rx="2"/></svg></div><h3>One team, no subcontractors</h3><p>Every project is delivered by our own consultants and engineers, not outsourced.</p><span class="wcard__tag">01 · model</span></article>
+      <article class="wcard wcard--hi"><div class="wcard__ico"><svg viewBox="0 0 40 40"><path d="M6 20 L20 6 L34 20 L20 34 Z"/><circle cx="20" cy="20" r="5"/></svg></div><h3>Research-grounded AI work</h3><p>Our AI consultancy is led by an academic, highly cited AI researcher — not a reseller of third-party tools.</p><span class="wcard__tag">02 · expertise</span></article>
+      <article class="wcard"><div class="wcard__ico"><svg viewBox="0 0 40 40"><circle cx="14" cy="20" r="8"/><circle cx="26" cy="20" r="8"/></svg></div><h3>Senior delivery</h3><p>Decades of combined enterprise software experience across the team, on every engagement.</p><span class="wcard__tag">03 · method</span></article>
+      <article class="wcard"><div class="wcard__ico"><svg viewBox="0 0 40 40"><path d="M8 32 L32 8"/><circle cx="8" cy="32" r="3"/><circle cx="32" cy="8" r="3"/><circle cx="20" cy="20" r="3"/></svg></div><h3>Built for long relationships</h3><p>We would rather grow with a client over time than take on one-off work and move on.</p><span class="wcard__tag">04 · horizon</span></article>
     </div>
   </div>
 </section>
@@ -814,13 +987,74 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
   </div>
   <div class="teaser__grid" style="grid-template-columns:1.2fr 1fr">
     <div class="teaser__txt">
-      <h2 class="h2"><span class="thin">A gallery of</span> things we're proud to have shipped.</h2>
-      <p>Five industries. Five very different problems. One team. Explore the 3D gallery with the full roster, or dive into a single case study.</p>
-      <div class="teaser__cta"><a href="work.html" class="btn btn--primary"><span>Enter the gallery</span><span class="btn__arrow">→</span></a></div>
+      <h2 class="h2"><span class="thin">Real clients,</span> across different sectors.</h2>
+      <p>We're currently working with organisations including a taxi operator, a driving academy, a ceramics business and individual clients across the UK.</p>
+      <div class="teaser__cta"><a href="work.html" class="btn btn--primary"><span>See our clients</span><span class="btn__arrow">→</span></a></div>
     </div>
-    <div class="teaser__img" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80');aspect-ratio:5/4">
-      <span class="tag">Case · Outfield Labs · SaaS</span>
+    <div class="client-grid">
+      <a href="https://007taxis.co.uk/" target="_blank" rel="noopener" class="client-card" style="--cc:#36E2FF">
+        <span class="client-card__sector">Transport</span>
+        <span class="client-card__name">007 Taxis</span>
+        <span class="client-card__loc">Oxfordshire ↗</span>
+      </a>
+      <a href="https://www.driveonacademy.co.uk/" target="_blank" rel="noopener" class="client-card" style="--cc:#8B5BFF">
+        <span class="client-card__sector">Education</span>
+        <span class="client-card__name">Drive On Academy</span>
+        <span class="client-card__loc">UK ↗</span>
+      </a>
+      <a href="https://zasceramics.co.uk/" target="_blank" rel="noopener" class="client-card" style="--cc:#FF3DA5">
+        <span class="client-card__sector">Retail / Craft</span>
+        <span class="client-card__name">ZAS Ceramics</span>
+        <span class="client-card__loc">UK ↗</span>
+      </a>
+      <a href="https://amirkhesro.com/" target="_blank" rel="noopener" class="client-card" style="--cc:#FF9B57">
+        <span class="client-card__sector">Personal</span>
+        <span class="client-card__name">Amir Khesro</span>
+        <span class="client-card__loc">UK ↗</span>
+      </a>
     </div>
+  </div>
+</section>
+
+<!-- PROMOTION -->
+<section class="promo" id="promo" data-screen-label="05a Promotion">
+  <div class="promo__wrap">
+    <div class="promo__head">
+      <div>
+        <span class="promo__badge"><span class="eyebrow__dot" style="background:#0A1A08;box-shadow:none"></span> Current promotion</span>
+        <h2 class="h2" style="margin-top:18px">Want an online identity, <span class="thin">without the wait?</span></h2>
+        <p>Whether you're an individual building a personal presence or a business that needs to look credible online, we're currently offering websites at a lower entry price than our standard rates.</p>
+      </div>
+      <a href="contact.html" class="btn btn--primary"><span>Claim this offer</span><span class="btn__arrow">→</span></a>
+    </div>
+
+    <div class="promo__grid">
+      <article class="promo__card">
+        <div class="promo__kicker">For individuals</div>
+        <h3 class="promo__title">Personal Website</h3>
+        <div class="promo__price"><b>&lt; £300</b><span>static site</span></div>
+        <div class="promo__note">Dynamic personal sites priced slightly higher, depending on features.</div>
+        <ul class="promo__list">
+          <li><i></i><span>A clean, professional site to establish your online identity</span></li>
+          <li><i></i><span>Ideal for CVs, portfolios, personal branding or a simple landing page</span></li>
+          <li><i></i><span>Mobile-friendly and fast to launch</span></li>
+        </ul>
+      </article>
+
+      <article class="promo__card promo__card--hi">
+        <div class="promo__kicker">For businesses</div>
+        <h3 class="promo__title">Business Website</h3>
+        <div class="promo__price"><b>&lt; £500</b><span>static site</span></div>
+        <div class="promo__note">Dynamic business sites with additional features are quoted individually, based on your requirements.</div>
+        <ul class="promo__list">
+          <li><i></i><span>A credible, professional online presence for your business</span></li>
+          <li><i></i><span>Built to represent your brand properly, not a generic template</span></li>
+          <li><i></i><span>Scoped around what your business actually needs</span></li>
+        </ul>
+      </article>
+    </div>
+
+    <p class="promo__foot">Additional cost may apply for features beyond a standard static site — for example online payments, booking systems, user accounts, or custom integrations. Tell us what you need and we'll give you a clear, honest quote before any work begins.</p>
   </div>
 </section>
 
@@ -841,14 +1075,14 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
       <div class="foot__k">Studio</div>
       <ul>
         <li><a href="about.html">About</a></li>
-        <li><a href="#">Manifesto</a></li>
-        <li><a href="#">Careers · 2 open</a></li>
-        <li><a href="#">Press kit</a></li>
+        <li><a href="legal.html">Company details</a></li>
       </ul>
     </div>
     <div>
       <div class="foot__k">Services</div>
       <ul>
+        <li><a href="services.html">AI Consultancy</a></li>
+        <li><a href="services.html">AI/ML Product Development</a></li>
         <li><a href="services.html">Website Design</a></li>
         <li><a href="services.html">Development</a></li>
         <li><a href="services.html">SEO</a></li>
@@ -864,29 +1098,23 @@ section,footer,.topbar,.nav,main{position:relative;z-index:2}
         <li><a href="work.html">Selected work</a></li>
         <li><a href="process.html">Our process</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="#">Changelog</a></li>
       </ul>
     </div>
     <div>
-      <div class="foot__k">Elsewhere</div>
+      <div class="foot__k">Get in touch</div>
       <ul>
-        <li><a href="#">LinkedIn ↗</a></li>
-        <li><a href="#">Dribbble ↗</a></li>
-        <li><a href="#">GitHub ↗</a></li>
-        <li><a href="#">Read.cv ↗</a></li>
+        <li><a href="mailto:info@matsenseai.co.uk">info@matsenseai.co.uk</a></li>
+        <li><a href="mailto:matsenseai@outlook.com">matsenseai@outlook.com</a></li>
       </ul>
+      <a href="contact.html" class="btn btn--ghost-s" style="margin-top:16px">Start a project →</a>
     </div>
   </div>
   <div class="foot__legal">
-    <span>© 2026 MatsenseAI Studio · Lda. 516 823 991</span>
+    <span>© 2026 MatsenseAI Ltd</span>
     <span class="foot__sep">◆</span>
-    <span>Typeset in Space Grotesk, Fraunces &amp; JetBrains Mono</span>
+    <span>UK registered software &amp; AI consultancy</span>
     <span class="foot__sep">◆</span>
-    <span>Crafted with care in London &amp; everywhere</span>
-    <span class="foot__sep">◆</span>
-    <a href="#">Cookies</a>
-    <a href="#">Privacy</a>
-    <a href="#">Imprint</a>
+    <a href="legal.html">Company details</a>
   </div>
 </footer>
 <script>
