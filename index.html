@@ -726,6 +726,14 @@ section,footer,.topbar,.nav,.announce,main{position:relative;z-index:2}
 .ticker__track{display:inline-flex;gap:48px;white-space:nowrap;font-family:var(--f-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg-dim);animation:tick 40s linear infinite;padding-right:48px}
 @keyframes tick{to{transform:translateX(-50%)}}
 
+
+/* highlighted Demo button in the main nav */
+.nav__links a.nav__demo{color:#06060A;font-weight:600;background:linear-gradient(135deg,#9EF4FF 0%,#36E2FF 45%,#8B5BFF 100%);box-shadow:0 0 0 3px rgba(54,226,255,0.18),0 6px 24px -6px rgba(54,226,255,0.75)}
+.nav__links a.nav__demo::before{content:"";width:7px;height:7px;border-radius:50%;background:#06060A;animation:navDemoPulse 1.6s ease-in-out infinite}
+.nav__links a.nav__demo:hover,.nav__links a.nav__demo.is-active{color:#06060A;background:linear-gradient(135deg,#C9F9FF 0%,#7DEBFF 45%,#A88BFF 100%)}
+.nav__mobile-overlay a.nav__demo{color:#06060A;background:linear-gradient(135deg,#9EF4FF,#36E2FF 45%,#8B5BFF)}
+@keyframes navDemoPulse{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.nav__links a.nav__demo::before{animation:none}}
 </style>
 
 </head>
@@ -771,7 +779,7 @@ section,footer,.topbar,.nav,.announce,main{position:relative;z-index:2}
     <a href="services.html" data-link="services">Services <svg viewBox="0 0 10 10"><path d="M1 3 L5 7 L9 3"/></svg></a>
     <a href="work.html" data-link="work">Work</a>
     <a href="process.html" data-link="process">Process</a>
-    <a href="demo.html" data-link="demo">Demo</a>
+    <a href="demo.html" data-link="demo" class="nav__demo">Demo</a>
     <a href="contact.html" data-link="contact">Contact</a>
   </nav>
   <div class="nav__cta">
@@ -787,7 +795,7 @@ section,footer,.topbar,.nav,.announce,main{position:relative;z-index:2}
   <a href="services.html">Services <svg viewBox="0 0 10 10"><path d="M1 3 L5 7 L9 3"/></svg></a>
   <a href="work.html">Work</a>
   <a href="process.html">Process</a>
-  <a href="demo.html">Demo</a>
+  <a href="demo.html" class="nav__demo">Demo</a>
   <a href="contact.html">Contact</a>
   <a href="contact.html" class="mobile-cta">Start a project →</a>
 </div>

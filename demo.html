@@ -1,788 +1,1048 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="description" content="Interactive demo: an AI business assistant connected to your till, CRM, accounts, bookings and Microsoft 365. Ask questions, get reports, quotes and draft emails from live data."/>
-  <link rel="canonical" href="https://matsenseai.co.uk/demo.html"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:site_name" content="MatsenseAI"/>
-  <meta property="og:title" content="AI Business Assistant Demo | MatsenseAI"/>
-  <meta property="og:description" content="Pick your type of business and see an AI assistant answer questions, build reports, write quotes and draft emails from sample data."/>
-  <meta property="og:url" content="https://matsenseai.co.uk/demo.html"/>
-  <meta name="twitter:card" content="summary"/>
-  <meta name="twitter:title" content="AI Business Assistant Demo | MatsenseAI"/>
-  <meta name="twitter:description" content="Pick your type of business and see an AI assistant answer questions, build reports, write quotes and draft emails from sample data."/>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-  <title>AI Assistant Demo — MatsenseAI</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    .dm-sec{padding:90px var(--pad-x) 40px;position:relative;z-index:2}
-    .dm-sec + .dm-sec{border-top:1px solid var(--line)}
-    .dm-lede{color:var(--fg-dim);font-size:17px;line-height:1.6;max-width:62ch;margin-top:20px}
-    .dm-h2{font-size:clamp(30px,3.6vw,54px);font-weight:500;line-height:1.05;letter-spacing:-0.03em;max-width:24ch;margin-top:18px}
-    .dm-h2 .i{font-family:var(--f-serif);font-style:italic;font-weight:400;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .dm-mono{font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg-dim)}
-    .dm-hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-    .dm-works{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:var(--fg-dim);font-size:14px}
-    .dm-works b{font-family:var(--f-mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fg);margin-right:6px}
-    .dm-works span{padding:5px 11px;border:1px solid var(--line-2);border-radius:999px;background:rgba(255,255,255,0.02)}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Interactive demo: an AI business assistant connected to your till, CRM, accounts, bookings and Microsoft 365. Ask questions, get reports, quotes and draft emails from live data.">
+<link rel="canonical" href="https://matsenseai.co.uk/demo.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MatsenseAI">
+<meta property="og:title" content="AI Business Assistant Demo | MatsenseAI">
+<meta property="og:description" content="Pick your type of business and see an AI assistant answer questions, build reports, write quotes and draft emails from sample data.">
+<meta property="og:url" content="https://matsenseai.co.uk/demo.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>MatsenseAI Business Assistant Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+[hidden]{display:none!important}
+img{max-width:100%}
+/* Layout: one dark "control room" page — hero, live demo console, then the service story in plain sections. Single deliberate dark look, matching the MatsenseAI video. */
+:root{
+  --bg:#070d1a; --bg-2:#0a1324; --panel:#0d1729; --panel-2:#12203a; --line:#1e2c47; --line-2:#2a3b5c;
+  --fg:#e7eef8; --muted:#b4c0d4; --dim:#8593ad; /* WCAG AA+ on all panels */
+  --accent:#38bdf8; --accent-ink:#04121f; --user:#2563eb;
+  --ok:#34d399; --warn:#fbbf24; --bad:#f87171;
+  --paper:#ffffff; --ink:#172033; --ink-2:#5a6578; --paper-line:#e3e7ee; --paper-fill:#f4f6f9; --paper-accent:#0a72a1;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:12px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(1.6rem,3.2vw,2.3rem);line-height:1.15}
+h3{font-size:1.12rem;line-height:1.3}
+p{margin:0}
+.eyebrow{font:500 .74rem/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--muted)}
 
-    /* demo shell */
-    .dm-shell{margin-top:40px;display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:20px;align-items:start}
-    .dm-panel{border:1px solid var(--line);border-radius:var(--r-lg);background:linear-gradient(160deg,rgba(255,255,255,0.035),rgba(255,255,255,0.01));backdrop-filter:blur(8px)}
-    .dm-biz{padding:20px}
-    .dm-biz__list{display:grid;gap:8px;margin-top:14px}
-    .dm-biz__btn{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;border-radius:var(--r-sm);border:1px solid var(--line);background:rgba(255,255,255,0.015);transition:border-color .25s,background .25s}
-    .dm-biz__btn:hover{border-color:var(--line-2);background:rgba(255,255,255,0.04)}
-    .dm-biz__btn[aria-pressed="true"]{border-color:var(--cyan);background:linear-gradient(135deg,rgba(54,226,255,0.12),rgba(139,91,255,0.12));box-shadow:0 0 22px -8px rgba(54,226,255,0.6)}
-    .dm-biz__ico{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,0.05);font-size:17px}
-    .dm-biz__btn strong{display:block;font-weight:500;font-size:14.5px}
-    .dm-biz__btn small{display:block;color:var(--fg-dim);font-size:12px;margin-top:1px}
-    .dm-co{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
-    .dm-co h4{font-size:17px;font-weight:500;margin-top:6px}
-    .dm-co p{color:var(--fg-dim);font-size:13px;margin-top:4px}
-    .dm-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-    .dm-tag{font-family:var(--f-mono);font-size:10.5px;padding:5px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--fg-dim);display:inline-flex;align-items:center;gap:6px}
-    .dm-tag i{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px var(--mint)}
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{font:700 1.15rem var(--f-display);color:var(--fg);text-decoration:none;display:flex;align-items:center;gap:2px}
+.logo i{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;margin-left:3px;font-style:normal}
+.top nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.top nav a{color:var(--muted);text-decoration:none;font-size:.92rem}
+.top nav a:hover{color:var(--fg)}
+.top nav a.btn-primary,.top nav a.btn-primary:hover{color:var(--accent-ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:11px 18px;font-weight:600;font-size:.95rem;text-decoration:none;cursor:pointer;transition:transform .15s,background .15s}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:#7dd3fc}
+.btn-ghost{background:transparent;color:var(--fg);border:1px solid var(--line-2)}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn-sm{padding:7px 12px;font-size:.85rem;border-radius:8px}
+@media (max-width:640px){.top nav a.hide-sm{display:none}}
 
-    .dm-chat{display:flex;flex-direction:column;min-height:620px;overflow:hidden}
-    .dm-chat__top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-    .dm-chat__title{display:flex;align-items:center;gap:10px;font-weight:500}
-    .dm-chat__title i{width:9px;height:9px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint)}
-    .dm-chat__title span{color:var(--fg-dim);font-weight:400}
-    .dm-badge{font-family:var(--f-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,155,87,0.4);color:var(--amber)}
-    .dm-log{flex:1;padding:20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;max-height:640px;scroll-behavior:smooth}
-    .dm-msg{max-width:92%;font-size:14.5px;line-height:1.55}
-    .dm-msg--user{align-self:flex-end;padding:10px 15px;border-radius:16px 16px 4px 16px;background:linear-gradient(135deg,rgba(54,226,255,0.22),rgba(139,91,255,0.22));border:1px solid rgba(54,226,255,0.3)}
-    .dm-msg--bot{align-self:flex-start;width:92%}
-    .dm-msg--bot > p{margin-top:8px}
-    .dm-msg--bot > p:first-child{margin-top:0}
-    .dm-hello{color:var(--fg-dim)}
-    .dm-trace{font-family:var(--f-mono);font-size:11.5px;color:var(--fg-dim);border-left:2px solid var(--violet);padding:4px 0 4px 12px;display:grid;gap:4px;margin-bottom:10px}
-    .dm-trace div{opacity:0;transform:translateY(3px);transition:opacity .3s,transform .3s}
-    .dm-trace div.on{opacity:1;transform:none}
-    .dm-trace b{color:var(--cyan);font-weight:500}
-    .dm-trace em{font-style:normal;color:var(--mint)}
-    .dm-ans{opacity:0;transition:opacity .4s}
-    .dm-ans.on{opacity:1}
-    .dm-ans > p + p{margin-top:8px}
-    .dm-ans strong{color:var(--fg);font-weight:600}
-    .dm-tbl-wrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:var(--r-sm)}
-    .dm-tbl{width:100%;border-collapse:collapse;font-size:13px}
-    .dm-tbl th{font-family:var(--f-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-dim);font-weight:400;text-align:left;padding:9px 12px;background:rgba(255,255,255,0.03);white-space:nowrap}
-    .dm-tbl td{padding:9px 12px;border-top:1px solid var(--line);white-space:nowrap}
-    .dm-tbl td.n,.dm-tbl th.n{text-align:right;font-variant-numeric:tabular-nums}
-    .dm-tbl tr.tot td{font-weight:600;border-top:1px solid var(--line-2)}
-    .dm-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
-    .dm-kpi{padding:12px;border:1px solid var(--line);border-radius:var(--r-sm);background:rgba(255,255,255,0.02)}
-    .dm-kpi small{display:block;font-family:var(--f-mono);font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-dim)}
-    .dm-kpi b{display:block;font-size:20px;font-weight:500;margin-top:4px;font-variant-numeric:tabular-nums}
-    .dm-kpi span{font-size:11.5px;color:var(--mint)}
-    .dm-kpi span.down{color:var(--magenta)}
-    .dm-bars{margin-top:12px;display:grid;gap:7px;padding:14px;border:1px solid var(--line);border-radius:var(--r-sm)}
-    .dm-bars__t{font-family:var(--f-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-dim);margin-bottom:4px}
-    .dm-bar{display:grid;grid-template-columns:minmax(70px,120px) 1fr auto;align-items:center;gap:10px;font-size:12.5px}
-    .dm-bar__track{height:10px;border-radius:999px;background:rgba(255,255,255,0.05);overflow:hidden}
-    .dm-bar__fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--violet));width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
-    .dm-bar b{font-weight:500;font-variant-numeric:tabular-nums;color:var(--fg-dim)}
-    .dm-card{margin-top:12px;border:1px solid var(--line-2);border-radius:var(--r-md);overflow:hidden;background:rgba(6,6,10,0.5)}
-    .dm-card__head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.04);font-family:var(--f-mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-dim);flex-wrap:wrap}
-    .dm-card__head em{font-style:normal;color:var(--amber)}
-    .dm-card__head em.ok{color:var(--mint)}
-    .dm-card__body{padding:14px;font-size:13.5px;line-height:1.6}
-    .dm-email__meta{color:var(--fg-dim);font-size:12.5px;display:grid;gap:2px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--line)}
-    .dm-email__meta b{color:var(--fg);font-weight:500}
-    .dm-email__text{white-space:pre-wrap;outline:none;border-radius:6px}
-    .dm-email__text[contenteditable="true"]{background:rgba(255,255,255,0.04);padding:8px;box-shadow:inset 0 0 0 1px var(--cyan)}
-    .dm-card__acts{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 14px}
-    .dm-btn{font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,0.03);transition:background .2s,border-color .2s}
-    .dm-btn:hover{background:rgba(255,255,255,0.08)}
-    .dm-btn--go{background:var(--cyan);color:#06060A;border-color:var(--cyan);font-weight:500}
-    .dm-btn--go:hover{background:#9EF4FF}
-    .dm-btn:disabled{opacity:.5;cursor:default}
-    .dm-done{margin:0 14px 14px;padding:10px 12px;border-radius:var(--r-sm);background:rgba(77,240,178,0.08);border:1px solid rgba(77,240,178,0.3);color:var(--mint);font-size:12.5px}
-    .dm-note{font-size:12.5px;color:var(--fg-dim);margin-top:10px}
-    .dm-typing{display:inline-flex;gap:4px;padding:6px 0}
-    .dm-typing i{width:6px;height:6px;border-radius:50%;background:var(--fg-dim);animation:dmdot 1s infinite}
-    .dm-typing i:nth-child(2){animation-delay:.15s}.dm-typing i:nth-child(3){animation-delay:.3s}
-    @keyframes dmdot{0%,80%,100%{opacity:.25}40%{opacity:1}}
-    .dm-suggest{padding:12px 20px 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
-    .dm-sug{display:inline-flex;align-items:center;gap:8px;text-align:left;font-size:13px;padding:8px 12px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,0.02);transition:border-color .2s,background .2s}
-    .dm-sug:hover{border-color:var(--cyan);background:rgba(54,226,255,0.06)}
-    .dm-sug b{font-family:var(--f-mono);font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:var(--c,var(--cyan))}
-    .dm-ask{display:flex;gap:10px;padding:14px 20px 18px}
-    .dm-ask input{flex:1;min-width:0;padding:12px 16px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,0.03);font-size:14.5px}
-    .dm-ask input:focus{border-color:var(--cyan)}
-    .dm-ask .btn{padding:11px 20px}
-    .dm-disclaim{margin-top:14px;font-size:13px;color:var(--fg-dimmer);max-width:80ch}
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto auto;width:70%;height:140%;background:radial-gradient(closest-side,rgba(37,99,235,.28),transparent 70%);pointer-events:none}
+.hero::after{content:"";position:absolute;left:-10%;bottom:-60%;width:60%;height:120%;background:radial-gradient(closest-side,rgba(20,184,166,.16),transparent 70%);pointer-events:none}
+.hero .wrap{position:relative;padding-block:56px 40px;display:grid;gap:18px}
+.hero h1{font-size:clamp(2.2rem,5.4vw,4rem);line-height:1.02;max-width:16ch}
+.hero h1 span{color:var(--accent)}
+.hero .lede{font-size:1.1rem;color:var(--muted);max-width:60ch}
+.hero .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.works{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:.86rem;color:var(--dim);margin-top:10px}
+.works b{color:var(--muted);font-weight:500}
 
-    /* jobs */
-    .dm-grid4{margin-top:40px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .dm-job{padding:24px 22px;border-radius:var(--r-md);border:1px solid var(--line);background:linear-gradient(160deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));display:flex;flex-direction:column;gap:10px}
-    .dm-job .dm-mono{color:var(--c)}
-    .dm-job h3{font-size:20px;font-weight:500;letter-spacing:-0.02em}
-    .dm-job p{color:var(--fg-dim);font-size:14px;line-height:1.55}
-    .dm-job q{margin-top:auto;font-family:var(--f-serif);font-style:italic;font-size:15px;color:var(--fg);padding-top:12px;border-top:1px solid var(--line)}
+/* demo */
+.demo{padding-block:48px 64px}
+.demo-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.demo-head p{max-width:58ch}
+.badge-demo{font:500 .75rem var(--f-mono);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);padding:5px 10px;border-radius:999px;white-space:nowrap}
+.console{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7),0 0 0 1px rgba(56,189,248,.04);display:flex;flex-direction:column;height:min(720px,82vh);min-height:520px;overflow:hidden}
+.c-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.c-title{display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap}
+.c-title strong{font-size:.95rem}
+.pill{font:500 .72rem var(--f-mono);padding:3px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--muted);white-space:nowrap}
+.pill.live{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.sys{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.sys .pill::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:6px;vertical-align:1px}
+.c-body{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.msg{max-width:min(760px,100%);min-width:0}
+.msg.bot{align-self:flex-start}
+.msg.user{align-self:flex-end;background:var(--user);color:#fff;padding:9px 14px;border-radius:14px 14px 4px 14px;font-size:.95rem;max-width:80%}
+.msg.bot .txt{font-size:.97rem}
+.msg.bot .txt b{color:var(--fg)}
+.msg.bot .txt .hl{color:var(--accent);font-weight:600}
+.msg .stack{display:grid;gap:12px}
+.tools{display:grid;gap:5px}
+.tool{font:400 .78rem/1.4 var(--f-mono);color:var(--muted);background:var(--bg-2);border:1px solid var(--line);border-radius:7px;padding:5px 9px;width:fit-content;max-width:100%;overflow-wrap:anywhere;display:flex;gap:8px;align-items:flex-start}
+.tool .st{color:var(--dim);flex:none}
+.tool.done .st{color:var(--ok)}
+.spin{display:inline-block;width:10px;height:10px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;margin-top:2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.typing{display:flex;gap:4px;padding:6px 2px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:bl 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bl{50%{opacity:.3}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:8px 12px;font-size:.9rem;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+.chip:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel-2))}
+.chip small{display:block;color:var(--dim);font-size:.76rem;margin-top:1px}
+.chips.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.chips.q .chip{border-radius:999px;padding:7px 14px}
+.chips.q .chip::before{content:"→ ";color:var(--accent)}
+.chips[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table.t{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}
+table.t th{font:500 .72rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.t td{padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.t tr:last-child td{border-bottom:0}
+table.t td.num,table.t th.num{text-align:right}
+.tag{font:500 .74rem var(--f-mono);padding:2px 8px;border-radius:999px;display:inline-block}
+.tag.bad{color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.tag.warn{color:var(--warn);background:color-mix(in srgb,var(--warn) 13%,transparent)}
+.tag.ok{color:var(--ok);background:color-mix(in srgb,var(--ok) 13%,transparent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.kpi{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:.78rem;color:var(--muted)}
+.kpi .v{font:600 1.3rem/1.2 var(--f-display);font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi .d{font:500 .74rem var(--f-mono);margin-top:3px}
+.d.good{color:var(--ok)}.d.badd{color:var(--bad)}
+.chart{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:12px 12px 6px}
+.chart .ct{font-size:.8rem;color:var(--muted);margin-bottom:6px}
+.chart svg{width:100%;height:auto;display:block}
+.chart{--c-bar:#1f4f86;--c-bar-hi:var(--accent);--c-txt:var(--dim);--c-grid:var(--line)}
+.mail{background:var(--bg-2);border:1px solid var(--line-2);border-radius:12px;overflow:hidden}
+.mail .mh{padding:10px 14px;border-bottom:1px solid var(--line);font-size:.85rem;display:grid;gap:2px}
+.mail .mh span{color:var(--dim);display:inline-block;width:62px}
+.mail .mb{padding:12px 14px;white-space:pre-wrap;font-size:.92rem;line-height:1.55;outline:none}
+.mail .mb[contenteditable="true"]{background:color-mix(in srgb,var(--accent) 5%,transparent);box-shadow:inset 0 0 0 1px var(--accent)}
+.mail .mf{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--line);flex-wrap:wrap;align-items:center}
+.approve{background:var(--ok);color:#052016}
+.note-ok{font-size:.85rem;color:var(--ok)}
+.doccard{display:flex;align-items:center;gap:14px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;flex-wrap:wrap}
+.doccard .ic{width:40px;height:48px;border-radius:5px;background:var(--paper);position:relative;flex:none}
+.doccard .ic::before{content:"";position:absolute;left:8px;right:8px;top:10px;height:3px;background:var(--paper-accent);box-shadow:0 8px 0 #cfd6e0,0 15px 0 #cfd6e0,0 22px 0 #cfd6e0}
+.doccard .meta{flex:1;min-width:160px}
+.doccard .meta b{display:block;font-size:.95rem}
+.doccard .meta small{color:var(--muted)}
+.c-input{border-top:1px solid var(--line);padding:12px;display:flex;gap:8px}
+.c-input input{flex:1;min-width:0;background:var(--bg-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;color:var(--fg);font:inherit;font-size:.95rem}
+.c-input input::placeholder{color:var(--dim)}
+.c-input input:focus{outline:none;border-color:var(--accent)}
+.demo-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:.84rem;color:var(--dim)}
+.linkbtn{background:none;border:0;color:var(--accent);cursor:pointer;padding:0;font-size:.84rem;text-decoration:underline}
 
-    /* architecture */
-    .dm-arch{margin-top:40px;display:grid;grid-template-columns:1fr auto 1.15fr auto 1fr;gap:16px;align-items:center}
-    .dm-col{display:grid;gap:8px}
-    .dm-col .dm-mono{margin-bottom:4px}
-    .dm-node{padding:12px 14px;border-radius:var(--r-sm);border:1px solid var(--line);background:rgba(255,255,255,0.02);font-weight:500;font-size:14px}
-    .dm-node small{display:block;color:var(--fg-dim);font-weight:400;font-size:12px}
-    .dm-node--sys{border-color:rgba(77,240,178,0.3)}
-    .dm-arrow{font-size:26px;color:var(--fg-dim);text-align:center}
-    .dm-core{padding:26px;border-radius:var(--r-lg);border:1px solid rgba(139,91,255,0.45);background:radial-gradient(ellipse at 50% 0%,rgba(139,91,255,0.2),transparent 70%),rgba(255,255,255,0.02);box-shadow:0 0 50px -18px rgba(139,91,255,0.7)}
-    .dm-core h3{font-size:22px;font-weight:500;margin-top:6px}
-    .dm-core ul{list-style:none;margin-top:14px;display:grid;gap:8px;font-size:14px;color:var(--fg-dim)}
-    .dm-core li::before{content:"✓";color:var(--mint);margin-right:8px}
+/* sections */
+section.s{padding-block:64px;border-top:1px solid var(--line)}
+.s-head{display:grid;gap:10px;margin-bottom:28px;max-width:66ch}
+.cap{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.cap > div{background:var(--panel);padding:22px;display:grid;gap:8px;align-content:start}
+.cap .k{font:500 .74rem var(--f-mono);color:var(--accent)}
+.cap p{color:var(--muted);font-size:.95rem}
+.cap .ex{font:400 .8rem/1.45 var(--f-mono);color:var(--fg);background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-top:4px}
 
-    /* sizes */
-    .dm-grid3{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .dm-size{position:relative;padding:26px 24px;border-radius:var(--r-md);border:1px solid var(--line);background:linear-gradient(160deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));transition:border-color .3s,box-shadow .3s}
-    .dm-size.is-sel{border-color:var(--cyan);box-shadow:0 0 34px -14px rgba(54,226,255,0.8)}
-    .dm-size__sel{position:absolute;top:-11px;left:22px;font-family:var(--f-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--cyan);color:#06060A;display:none}
-    .dm-size.is-sel .dm-size__sel{display:inline-block}
-    .dm-size h3{font-size:22px;font-weight:500;margin-top:6px}
-    .dm-size ul{margin-top:14px;padding-left:18px;color:var(--fg-dim);font-size:14px;display:grid;gap:6px}
-    .dm-size__time{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:11.5px;color:var(--fg)}
-    .dm-small{margin-top:18px;color:var(--fg-dimmer);font-size:13px}
+.arch{display:grid;grid-template-columns:1fr auto 1.2fr auto 1fr;gap:12px;align-items:center}
+.arch .col{display:grid;gap:8px}
+.arch .lab{font:500 .72rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.node{background:var(--panel);border:1px solid var(--line-2);border-radius:10px;padding:10px 12px;font-size:.92rem}
+.node small{display:block;color:var(--dim);font-size:.78rem}
+.hub{background:linear-gradient(180deg,color-mix(in srgb,var(--user) 22%,var(--panel)),var(--panel));border:1px solid var(--user);border-radius:14px;padding:18px;display:grid;gap:8px}
+.hub h3{font-size:1.05rem}
+.hub ul{margin:0;padding-left:18px;color:var(--muted);font-size:.9rem;display:grid;gap:3px}
+.arrow{color:var(--accent);font:600 1.3rem var(--f-mono);text-align:center}
+@media (max-width:860px){.arch{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}}
 
-    /* security */
-    .dm-sec-grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .dm-check{display:flex;gap:14px;padding:22px;border-radius:var(--r-md);border:1px solid var(--line);background:rgba(255,255,255,0.015)}
-    .dm-check > i{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;color:#06060A;background:var(--mint);font-size:14px;font-weight:700}
-    .dm-check b{display:block;font-weight:500;font-size:16px}
-    .dm-check p{color:var(--fg-dim);font-size:14px;margin-top:4px;line-height:1.55}
+.sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.size{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:10px;align-content:start;transition:border-color .2s}
+.size.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.size .who{font:500 .74rem var(--f-mono);color:var(--muted)}
+.size ul{margin:0;padding-left:18px;color:var(--muted);font-size:.93rem;display:grid;gap:4px}
+.size .tl{font:500 .82rem var(--f-mono);color:var(--fg);border-top:1px solid var(--line);padding-top:10px}
+.size .you{font:500 .72rem var(--f-mono);color:var(--accent)}
+.fine{font-size:.84rem;color:var(--dim);margin-top:14px}
 
-    /* steps */
-    .dm-steps{margin-top:40px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;list-style:none}
-    .dm-step{padding:24px 22px;border-radius:var(--r-md);border:1px solid var(--line);background:rgba(255,255,255,0.015)}
-    .dm-step h3{font-size:19px;font-weight:500;margin-top:8px}
-    .dm-step p{color:var(--fg-dim);font-size:14px;margin-top:8px;line-height:1.55}
+.sec{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 28px}
+.sec div{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.sec .ico{width:28px;height:28px;border-radius:8px;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--ok);font:600 .8rem var(--f-mono)}
+.sec p{color:var(--muted);font-size:.93rem}
+.sec b{color:var(--fg);display:block;font-weight:600}
 
-    /* contact */
-    .dm-cta{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-    .dm-cta__meta{margin-top:26px;color:var(--fg-dim);font-size:14px;line-height:1.7}
-    .dm-cta__meta a{color:var(--cyan)}
-    .dm-compose{padding:24px}
-    .dm-compose .field-row{gap:16px}
-    .dm-compose textarea{min-height:170px}
-    .dm-compose__acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center}
-    .dm-status{font-size:13px;color:var(--fg-dim)}
-    .dm-status.ok{color:var(--mint)}.dm-status.err{color:var(--magenta)}
-    .dm-fine{margin-top:6px;font-size:12px;color:var(--fg-dimmer)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;counter-reset:st}
+.step{border-top:2px solid var(--line-2);padding-top:14px;display:grid;gap:6px}
+.step:first-child{border-top-color:var(--accent)}
+.step .n{font:500 .78rem var(--f-mono);color:var(--accent)}
+.step p{color:var(--muted);font-size:.93rem}
 
-    @media (max-width:1100px){.dm-grid4,.dm-steps{grid-template-columns:repeat(2,1fr)}.dm-sec-grid{grid-template-columns:repeat(2,1fr)}.dm-arch{grid-template-columns:1fr}.dm-arrow{transform:rotate(90deg)}}
-    @media (max-width:900px){.dm-shell,.dm-cta{grid-template-columns:1fr}.dm-grid3{grid-template-columns:1fr;gap:22px}.dm-chat{min-height:520px}.dm-biz__list{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:600px){.dm-grid4,.dm-steps,.dm-sec-grid{grid-template-columns:1fr}.dm-biz__list{grid-template-columns:1fr}.dm-msg--bot{width:100%}.dm-ask .btn span{display:none}}
-  </style>
+.cta{background:linear-gradient(135deg,color-mix(in srgb,var(--user) 26%,var(--panel)),var(--panel) 60%);border:1px solid var(--line-2);border-radius:18px;padding:32px;display:grid;grid-template-columns:1.1fr 1fr;gap:28px}
+@media (max-width:860px){.cta{grid-template-columns:1fr;padding:22px}}
+.cta h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+.interest{font:500 .82rem var(--f-mono);color:var(--accent);min-height:1.2em}
+.msgbox{background:var(--bg-2);border:1px solid var(--line-2);border-radius:12px;padding:14px;display:grid;gap:10px}
+.msgbox textarea{width:100%;min-height:130px;resize:vertical;background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--fg);font:inherit;font-size:.92rem;padding:10px}
+.msgbox .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.addr{font:500 .95rem var(--f-mono);user-select:all}
+
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--dim);font-size:.84rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* document modal (report + quote) */
+dialog.doc{border:0;padding:0;background:transparent;max-width:min(860px,96vw);width:100%;max-height:92vh;color:var(--ink)}
+dialog.doc::backdrop{background:rgba(3,7,15,.78);backdrop-filter:blur(3px)}
+.doc-shell{display:flex;flex-direction:column;max-height:92vh}
+.doc-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 4px;color:var(--fg);flex-wrap:wrap}
+.doc-tools .l{font:500 .8rem var(--f-mono);color:var(--muted)}
+.paper{background:var(--paper);color:var(--ink);border-radius:6px;overflow-y:auto;padding:clamp(20px,5vw,52px);font-size:.93rem;line-height:1.55}
+.paper .chart{--c-bar:#9cc7e3;--c-bar-hi:var(--paper-accent);--c-txt:var(--ink-2);--c-grid:#d5dbe4}
+.paper .ph{display:flex;justify-content:space-between;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px;flex-wrap:wrap}
+.paper .brand{font:700 1.05rem var(--f-display)}
+.paper .brand small{display:block;font:400 .78rem var(--f-body);color:var(--ink-2)}
+.paper h1{font:700 clamp(1.4rem,3vw,1.9rem)/1.15 var(--f-display);margin:0 0 6px}
+.paper h4{font:600 .78rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--paper-accent);margin:24px 0 8px}
+.paper .meta{color:var(--ink-2);font-size:.85rem}
+.paper .pk{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.paper .pk div{background:var(--paper-fill);border-radius:6px;padding:10px 12px}
+.paper .pk small{display:block;color:var(--ink-2);font-size:.76rem}
+.paper .pk b{font:600 1.15rem var(--f-display);font-variant-numeric:tabular-nums}
+.paper .pk em{display:block;font:500 .72rem var(--f-mono);font-style:normal}
+.paper .pk em.good{color:#047857}.paper .pk em.badd{color:#b91c1c}
+.paper .tw{overflow-x:auto}
+.paper table{border-collapse:collapse;width:100%;min-width:540px;font-size:.86rem;font-variant-numeric:tabular-nums}
+.paper th{text-align:left;font:600 .72rem var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);border-bottom:1px solid var(--ink);padding:7px 8px;white-space:nowrap}
+.paper td{border-bottom:1px solid var(--paper-line);padding:7px 8px}
+.paper td.num,.paper th.num{text-align:right;white-space:nowrap}
+.paper .tag{background:var(--paper-fill);color:var(--ink)}
+.paper .tag.bad{color:#b91c1c;background:#fde8e8}.paper .tag.warn{color:#92400e;background:#fdf3d8}.paper .tag.ok{color:#047857;background:#dcf5ea}
+.paper ol,.paper ul{padding-left:20px;margin:0;display:grid;gap:5px}
+.paper .tot{margin-left:auto;width:min(320px,100%);margin-top:10px}
+.paper .tot div{display:flex;justify-content:space-between;padding:4px 8px;font-variant-numeric:tabular-nums}
+.paper .tot .g{border-top:2px solid var(--ink);font-weight:700;font-size:1.05rem;padding-top:8px;margin-top:4px}
+.paper .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:560px){.paper .two{grid-template-columns:1fr}.paper .ph .meta{text-align:left!important}}
+.paper .pf{margin-top:28px;padding-top:12px;border-top:1px solid var(--paper-line);font-size:.78rem;color:var(--ink-2)}
+.paper .chart{background:var(--paper-fill);border:0}
+.paper .chart .ct{color:var(--ink-2)}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{
+  body > *:not(dialog){display:none!important}
+  dialog.doc{position:static;max-height:none;max-width:none}
+  .doc-tools{display:none}
+  .paper{overflow:visible;padding:0}
+  dialog.doc::backdrop{background:none}
+}
+
+/* site navigation (MatsenseAI) */
+.top nav{gap:4px 6px}
+.top nav a.nl{padding:7px 11px;border-radius:8px}
+.top nav a.nl:hover{background:var(--panel-2)}
+.top nav a.nav-demo{display:inline-flex;align-items:center;gap:7px;color:var(--accent-ink);background:var(--accent);font-weight:600;padding:7px 14px;border-radius:999px;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent),0 6px 22px -6px var(--accent)}
+.top nav a.nav-demo:hover{color:var(--accent-ink);background:#7dd3fc}
+.top nav a.nav-demo i{width:7px;height:7px;border-radius:50%;background:var(--accent-ink);animation:navpulse 1.6s ease-in-out infinite}
+@keyframes navpulse{50%{opacity:.35}}
+.top nav a.btn-ghost{margin-left:6px;color:var(--fg)}
+@media (max-width:980px){.top nav a.hide-md{display:none}}
+@media (max-width:640px){.top .wrap{flex-wrap:wrap}.top nav{width:100%;justify-content:flex-start}}
+
+</style>
 </head>
 <body>
-  <div class="fx-root" aria-hidden="true"><div class="fx-grid"></div><div class="fx-orb fx-orb--a"></div><div class="fx-orb fx-orb--b"></div><div class="fx-orb fx-orb--c"></div><div class="fx-noise"></div><div class="fx-scan"></div></div>
-  <div class="topbar"><div class="topbar__left"><span class="topbar__item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Hours</span><em>Mon – Fri · 09:00 – 17:30 GMT</em></span></div><div class="topbar__right"><a href="mailto:info@matsenseai.co.uk" class="topbar__item"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><em>info@matsenseai.co.uk</em></a></div></div>
-  <header class="nav"><a href="index.html" class="nav__brand"><span class="brand-mark" aria-hidden="true"><span class="brand-mark__cube"><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span class="brand-word">MatsenseAI<span class="brand-word__dot">●</span></span></a>
-    <nav class="nav__links"><a href="index.html" data-link="home">Home</a><a href="about.html" data-link="about">About</a><a href="services.html" data-link="services">Services <svg viewBox="0 0 10 10"><path d="M1 3 L5 7 L9 3"/></svg></a><a href="work.html" data-link="work">Work</a><a href="process.html" data-link="process">Process</a><a href="demo.html" data-link="demo">Demo</a><a href="contact.html" data-link="contact">Contact</a></nav>
-    <div class="nav__cta"><span class="nav__status"><i></i> Open for new projects</span><a href="#contact" class="btn btn--ghost-s">Book a free call →</a></div>
-    <button class="nav__hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-  </header>
-
-  <div class="nav__mobile-overlay">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services <svg viewBox="0 0 10 10"><path d="M1 3 L5 7 L9 3"/></svg></a>
-    <a href="work.html">Work</a>
-    <a href="process.html">Process</a>
-    <a href="demo.html">Demo</a>
-    <a href="contact.html">Contact</a>
-    <a href="#contact" class="mobile-cta">Book a free call →</a>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html">MatsenseAI<i></i></a>
+    <nav aria-label="Main">
+      <a class="nl hide-sm" href="index.html">Home</a>
+      <a class="nl hide-md" href="about.html">About</a>
+      <a class="nl hide-sm" href="services.html">Services</a>
+      <a class="nl hide-md" href="work.html">Work</a>
+      <a class="nl hide-md" href="process.html">Process</a>
+      <a class="nav-demo" href="demo.html" aria-current="page"><i aria-hidden="true"></i>Demo</a>
+      <a class="nl hide-sm" href="contact.html">Contact</a>
+      <a class="btn btn-ghost btn-sm" href="#contact">Book a free call</a>
+    </nav>
   </div>
+</header>
 
-  <header class="phead">
-    <div class="phead__crumbs"><a href="index.html">Home</a><span class="sep">/</span><span class="cur">Demo</span></div>
-    <span class="eyebrow"><span class="eyebrow__dot"></span>AI business assistant · interactive demo</span>
-    <h1 class="phead__title" style="margin-top:22px">Ask your business data <span class="i">anything.</span></h1>
-    <p class="phead__sub">We connect your till, CRM, accounts, bookings and Microsoft 365 to an AI assistant. Your team asks questions in plain English and gets answers, reports, quotes and draft emails from your live data.</p>
-    <div class="dm-hero-ctas">
-      <a href="#demo" class="btn btn--primary"><span>Try the demo for your business</span><span class="btn__arrow">→</span></a>
-      <a href="#contact" class="btn btn--ghost"><span>Talk to us</span></a>
-      <a href="downloads/MatsenseAI-AI-Business-Assistant.pdf" class="btn btn--ghost" download><span>Download the report (PDF)</span><span class="btn__arrow">↓</span></a>
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">AI business assistant · interactive demo</span>
+    <h1>Ask your business data <span>anything.</span></h1>
+    <p class="lede">We connect your till, CRM, accounts, bookings and Microsoft 365 to an AI assistant. Your team asks questions in plain English and gets answers, reports, quotes and draft emails from your live data.</p>
+    <div class="row">
+      <a class="btn btn-primary" href="#demo">Try the demo for your business</a>
+      <a class="btn btn-ghost" href="#contact">Talk to us</a>
+      <a class="btn btn-ghost" href="downloads/MatsenseAI-AI-Business-Assistant.pdf" download>Download the report (PDF)</a>
     </div>
-    <div class="dm-works"><b>Works inside</b><span>Claude</span><span>ChatGPT</span><span>Microsoft Copilot</span><span>your own website or app</span></div>
-  </header>
+    <div class="works"><b>Works inside</b> Claude · ChatGPT · Microsoft Copilot · your own website or app</div>
+  </div>
+</section>
 
-  <main>
-    <!-- DEMO -->
-    <section class="dm-sec" id="demo">
-      <div class="dm-mono">Try it</div>
-      <h2 class="dm-h2">Pick your type of business. <span class="i">See it work on a sample company like yours.</span></h2>
-
-      <div class="dm-shell">
-        <aside class="dm-panel dm-biz">
-          <div class="dm-mono">Choose a business type</div>
-          <div class="dm-biz__list" id="bizList" role="group" aria-label="Business type"></div>
-          <div class="dm-co" id="coCard"></div>
-        </aside>
-
-        <div class="dm-panel dm-chat">
-          <div class="dm-chat__top">
-            <div class="dm-chat__title"><i></i>AI Assistant <span id="chatCo">· Choose a business type</span></div>
-            <span class="dm-badge">Demo · sample data only</span>
-          </div>
-          <div class="dm-log" id="log" aria-live="polite"></div>
-          <div class="dm-suggest" id="suggest"></div>
-          <form class="dm-ask" id="askForm" autocomplete="off">
-            <label for="askInput" class="dm-mono" style="position:absolute;left:-9999px">Ask a question</label>
-            <input id="askInput" type="text" placeholder="Ask a question" maxlength="200"/>
-            <button class="btn btn--solid" type="submit"><span>Ask</span> →</button>
-          </form>
-        </div>
+<section class="demo" id="demo">
+  <div class="wrap">
+    <div class="demo-head">
+      <div class="s-head" style="margin:0">
+        <span class="eyebrow">Try it</span>
+        <h2>Pick your type of business. See it work on a sample company like yours.</h2>
       </div>
-      <p class="dm-disclaim">This is a guided demo. Every company, person and figure is made up. In your own build, the assistant reads your real systems.</p>
-    </section>
-
-    <!-- JOBS -->
-    <section class="dm-sec">
-      <div class="dm-mono">What it does</div>
-      <h2 class="dm-h2">Four jobs your team does every week, <span class="i">done in seconds</span></h2>
-      <p class="dm-lede">The assistant can only use the tools we give it. It reads data first. Anything that changes a record or sends a message waits for a person to approve it.</p>
-      <div class="dm-grid4">
-        <article class="dm-job" style="--c:var(--cyan)"><span class="dm-mono">Answer</span><h3>Questions from live data</h3><p>Customers, orders, stock, bookings, invoices and jobs, across all your systems at once.</p><q>Which customers haven't ordered in 90 days?</q></article>
-        <article class="dm-job" style="--c:var(--violet)"><span class="dm-mono">Report</span><h3>Reports on demand</h3><p>Weekly, monthly or board reports with figures, charts and next steps, in your own layout.</p><q>Create this month's management report.</q></article>
-        <article class="dm-job" style="--c:var(--magenta)"><span class="dm-mono">Quote</span><h3>Quotes and proposals</h3><p>Built from your own price list and rules, so prices stay correct. Saved as a draft for you to check.</p><q>Quote a full bathroom refit for the Doyles.</q></article>
-        <article class="dm-job" style="--c:var(--lime)"><span class="dm-mono">Act</span><h3>Emails and follow-ups</h3><p>Drafts reminders, chasers and offers in your tone. Nothing is sent until you approve it.</p><q>Chase Riverside Care Homes for payment.</q></article>
-      </div>
-    </section>
-
-    <!-- HOW -->
-    <section class="dm-sec" id="how">
-      <div class="dm-mono">How it works</div>
-      <h2 class="dm-h2">One secure connector between <span class="i">your AI tools and your systems</span></h2>
-      <p class="dm-lede">We build one connection layer using the open Model Context Protocol (MCP). Each AI tool connects to it once. Each of your systems is wired in once. Adding a new tool or system later is one connection, not a rebuild.</p>
-      <div class="dm-arch">
-        <div class="dm-col">
-          <div class="dm-mono">Your AI tools</div>
-          <div class="dm-node">Claude<small>web, desktop, mobile</small></div>
-          <div class="dm-node">ChatGPT<small>web, desktop, mobile</small></div>
-          <div class="dm-node">Microsoft Copilot<small>Teams, Outlook</small></div>
-          <div class="dm-node">Chat on your website<small>for customers, optional</small></div>
-        </div>
-        <div class="dm-arrow" aria-hidden="true">⇄</div>
-        <div class="dm-core">
-          <div class="dm-mono">Secure connector</div>
-          <h3>Your MCP server</h3>
-          <ul>
-            <li>Hosted in your own cloud, UK region</li>
-            <li>Staff sign in with their work account</li>
-            <li>Each person sees only what their role allows</li>
-            <li>Approval before any change or message</li>
-            <li>Every action logged: who, what, when</li>
-          </ul>
-        </div>
-        <div class="dm-arrow" aria-hidden="true">⇄</div>
-        <div class="dm-col">
-          <div class="dm-mono">Your systems <span id="sysFor"></span></div>
-          <div id="sysList" class="dm-col"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SIZES -->
-    <section class="dm-sec">
-      <div class="dm-mono">Built to your size</div>
-      <h2 class="dm-h2">From a single shop to a group <span class="i">with hundreds of sites</span></h2>
-      <p class="dm-lede">The idea is the same at every size. The scope, security and rollout change.</p>
-      <div class="dm-grid3">
-        <article class="dm-size" data-size="small"><span class="dm-size__sel">Your selection</span><div class="dm-mono">1–9 staff</div><h3>Small businesses</h3><ul><li>Shops, takeaways, trades, drivers, clinics</li><li>2–3 systems, e.g. till, accounts, email</li><li>Quotes, daily summaries and reminders</li><li>Works in the AI app you already use</li></ul><div class="dm-size__time">Typical build: 2–4 weeks</div></article>
-        <article class="dm-size" data-size="sme"><span class="dm-size__sel">Your selection</span><div class="dm-mono">10–249 staff</div><h3>Growing SMEs</h3><ul><li>3–6 systems including CRM and Microsoft 365</li><li>Team access with roles and approvals</li><li>Scheduled reports for managers</li><li>Pilot group first, then full team</li></ul><div class="dm-size__time">Typical build: 6–10 weeks</div></article>
-        <article class="dm-size" data-size="large"><span class="dm-size__sel">Your selection</span><div class="dm-mono">250+ staff</div><h3>Large organisations</h3><ul><li>ERP, CRM, data warehouse, HR and M365</li><li>Single sign-on, role-based access, audit trail</li><li>Data protection impact assessment</li><li>Phased rollout across departments</li></ul><div class="dm-size__time">Typical first rollout: 10–12 weeks</div></article>
-      </div>
-      <p class="dm-small">Timelines are typical ranges. We confirm scope, timeline and a fixed price after a free discovery call.</p>
-    </section>
-
-    <!-- SECURITY -->
-    <section class="dm-sec">
-      <div class="dm-mono">Security and UK GDPR</div>
-      <h2 class="dm-h2">Your data stays <span class="i">under your control</span></h2>
-      <div class="dm-sec-grid">
-        <div class="dm-check"><i>✓</i><div><b>No shared passwords</b><p>The AI never holds system passwords. Every request runs as the signed-in person, with their own permissions.</p></div></div>
-        <div class="dm-check"><i>✓</i><div><b>Read-only by default</b><p>We start with read access. Write actions are added one by one, each with an approval step.</p></div></div>
-        <div class="dm-check"><i>✓</i><div><b>Full audit trail</b><p>Every question and action is logged with who, what, when and the result.</p></div></div>
-        <div class="dm-check"><i>✓</i><div><b>UK hosting</b><p>The connector runs in your own cloud account in a UK region, with secrets kept in a key vault.</p></div></div>
-        <div class="dm-check"><i>✓</i><div><b>UK GDPR</b><p>We complete a data protection impact assessment at the start. Business AI plans do not train on your data by default.</p></div></div>
-        <div class="dm-check"><i>✓</i><div><b>No lock-in</b><p>Built on an open standard, so you can switch or mix AI providers without rebuilding.</p></div></div>
-      </div>
-    </section>
-
-    <!-- STEPS -->
-    <section class="dm-sec">
-      <div class="dm-mono">How we work</div>
-      <h2 class="dm-h2">Four steps, <span class="i">with a sign-off after each one</span></h2>
-      <ol class="dm-steps">
-        <li class="dm-step"><div class="dm-mono">Step 1</div><h3>Free 30-minute call</h3><p>We learn your systems, your team and the questions you ask most.</p></li>
-        <li class="dm-step"><div class="dm-mono">Step 2</div><h3>Discovery and design</h3><p>We check API access, agree the tools, and give you a fixed price.</p></li>
-        <li class="dm-step"><div class="dm-mono">Step 3</div><h3>Build and pilot</h3><p>A small group uses it on your live data. We tune it with their feedback.</p></li>
-        <li class="dm-step"><div class="dm-mono">Step 4</div><h3>Rollout and support</h3><p>Training, handover and an optional monthly support plan.</p></li>
-      </ol>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="dm-sec" id="contact">
-      <div class="dm-cta">
-        <div>
-          <div class="dm-mono">Next step</div>
-          <h2 class="dm-h2">Want this on <span class="i">your own systems?</span></h2>
-          <p class="dm-lede">Book a free 30-minute call. We will show you what your version would look like, what it connects to, and what it would cost. No obligation.</p>
-          <div class="dm-hero-ctas">
-            <a href="contact.html" class="btn btn--primary"><span>Book a free call</span><span class="btn__arrow">→</span></a>
-            <a href="mailto:info@matsenseai.co.uk?subject=AI%20assistant%20demo%20enquiry" class="btn btn--ghost"><span>Email us</span></a>
-            <a href="downloads/MatsenseAI-AI-Business-Assistant.pdf" class="btn btn--ghost" download><span>Download the report (PDF)</span><span class="btn__arrow">↓</span></a>
-          </div>
-          <p class="dm-fine" style="margin-top:12px">7-page PDF · company overview, how it works, security, a sample report and timelines · 0.8 MB</p>
-          <p class="dm-cta__meta">Email <a href="mailto:info@matsenseai.co.uk">info@matsenseai.co.uk</a><br>Mon–Fri, 09:00–17:30</p>
-        </div>
-        <form class="dm-panel dm-compose" id="composeForm">
-          <div class="dm-mono">Your message, ready to send</div>
-          <p class="dm-fine">Edit it, then send it to us here, or copy it into an email.</p>
-          <div class="field-row">
-            <div class="field"><label for="cName">Name</label><input id="cName" required placeholder="Your name"/><span class="field__line"></span></div>
-            <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" required placeholder="you@company.co.uk"/><span class="field__line"></span></div>
-          </div>
-          <div class="field"><label for="cCompany">Company <span class="opt">(optional)</span></label><input id="cCompany" placeholder="Company name"/><span class="field__line"></span></div>
-          <div class="field"><label for="cMsg">Message</label><textarea id="cMsg" required></textarea><span class="field__line"></span></div>
-          <div class="dm-compose__acts">
-            <button class="btn btn--solid" type="submit" id="cSend">Send to MatsenseAI →</button>
-            <button class="btn btn--ghost-s" type="button" id="cCopy">Copy message</button>
-            <span class="dm-status" id="cStatus" role="status"></span>
-          </div>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="foot">
-  <div class="foot__mega" aria-hidden="true">MatsenseAI<span>●</span></div>
-  <div class="foot__cols">
-    <div>
-      <div class="foot__k">Studio</div>
-      <ul>
-        <li><a href="about.html">About</a></li>
-        <li><a href="legal.html">Company details</a></li>
-      </ul>
+      <span class="badge-demo">Demo · sample data only</span>
     </div>
-    <div>
-      <div class="foot__k">Services</div>
-      <ul>
-        <li><a href="services.html">AI Consultancy</a></li>
-        <li><a href="services.html">AI/ML Product Development</a></li>
-        <li><a href="services.html">Website Design</a></li>
-        <li><a href="services.html">Development</a></li>
-        <li><a href="services.html">SEO</a></li>
-        <li><a href="services.html">Digital Marketing</a></li>
-        <li><a href="services.html">SaaS Products</a></li>
-        <li><a href="services.html">POS Products</a></li>
-        <li><a href="services.html">Maintenance</a></li>
-      </ul>
+
+    <div class="console" aria-label="Demo assistant">
+      <div class="c-bar">
+        <div class="c-title"><strong>AI Assistant</strong><span class="pill live" id="coPill">Choose a business type</span></div>
+        <div class="sys" id="sysChips"></div>
+      </div>
+      <div class="c-body" id="chat" aria-live="polite"></div>
+      <form class="c-input" id="askForm" autocomplete="off">
+        <label for="ask" class="sr" hidden>Ask a question</label>
+        <input id="ask" placeholder="Ask about your customers, sales, stock, invoices…" maxlength="200">
+        <button class="btn btn-primary btn-sm" type="submit">Ask</button>
+      </form>
     </div>
-    <div>
-      <div class="foot__k">Explore</div>
-      <ul>
-        <li><a href="work.html">Selected work</a></li>
-        <li><a href="process.html">Our process</a></li>
-        <li><a href="demo.html">AI assistant demo</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="foot__k">Get in touch</div>
-      <ul>
-        <li><a href="mailto:info@matsenseai.co.uk">info@matsenseai.co.uk</a></li>
-        <li><a href="mailto:matsenseai@outlook.com">matsenseai@outlook.com</a></li>
-      </ul>
-      <a href="contact.html" class="btn btn--ghost-s" style="margin-top:16px">Start a project →</a>
+    <div class="demo-foot">
+      <span>This is a guided demo. Every company, person and figure is made up. In your own build, the assistant reads your real systems.</span>
+      <button class="linkbtn" id="resetBtn" type="button">Start again with a different business</button>
     </div>
   </div>
-  <div class="foot__legal">
-    <span>© 2026 MatsenseAI Ltd</span>
-    <span class="foot__sep">◆</span>
-    <span>UK registered software &amp; AI consultancy</span>
-    <span class="foot__sep">◆</span>
-    <a href="legal.html">Company details</a>
-    <span class="foot__sep">◆</span>
+</section>
+
+<section class="s" id="what">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">What it does</span>
+      <h2>Four jobs your team does every week, done in seconds</h2>
+      <p class="muted">The assistant can only use the tools we give it. It reads data first. Anything that changes a record or sends a message waits for a person to approve it.</p>
+    </div>
+    <div class="cap">
+      <div><span class="k">Answer</span><h3>Questions from live data</h3><p>Customers, orders, stock, bookings, invoices and jobs, across all your systems at once.</p><div class="ex">"Which customers haven't ordered in 90 days?"</div></div>
+      <div><span class="k">Report</span><h3>Reports on demand</h3><p>Weekly, monthly or board reports with figures, charts and next steps, in your own layout.</p><div class="ex">"Create this month's management report."</div></div>
+      <div><span class="k">Quote</span><h3>Quotes and proposals</h3><p>Built from your own price list and rules, so prices stay correct. Saved as a draft for you to check.</p><div class="ex">"Quote a full bathroom refit for the Doyles."</div></div>
+      <div><span class="k">Act</span><h3>Emails and follow-ups</h3><p>Drafts reminders, chasers and offers in your tone. Nothing is sent until you approve it.</p><div class="ex">"Chase Riverside Care Homes for payment."</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="how">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">How it works</span>
+      <h2>One secure connector between your AI tools and your systems</h2>
+      <p class="muted">We build one connection layer using the open Model Context Protocol (MCP). Each AI tool connects to it once. Each of your systems is wired in once. Adding a new tool or system later is one connection, not a rebuild.</p>
+    </div>
+    <div class="arch">
+      <div class="col">
+        <div class="lab">Your AI tools</div>
+        <div class="node">Claude<small>web, desktop, mobile</small></div>
+        <div class="node">ChatGPT<small>web, desktop, mobile</small></div>
+        <div class="node">Microsoft Copilot<small>Teams, Outlook</small></div>
+        <div class="node">Chat on your website<small>for customers, optional</small></div>
+      </div>
+      <div class="arrow" aria-hidden="true">⇄</div>
+      <div class="hub">
+        <div class="lab" style="font:500 .72rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">Secure connector</div>
+        <h3>Your MCP server</h3>
+        <ul>
+          <li>Hosted in your own cloud, UK region</li>
+          <li>Staff sign in with their work account</li>
+          <li>Each person sees only what their role allows</li>
+          <li>Approval before any change or message</li>
+          <li>Every action logged: who, what, when</li>
+        </ul>
+      </div>
+      <div class="arrow" aria-hidden="true">⇄</div>
+      <div class="col" id="archSystems">
+        <div class="lab">Your systems</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="sizes">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Built to your size</span>
+      <h2>From a single shop to a group with hundreds of sites</h2>
+      <p class="muted">The idea is the same at every size. The scope, security and rollout change.</p>
+    </div>
+    <div class="sizes">
+      <div class="size" data-size="micro"><span class="you" hidden>Your selection</span><span class="who">1–9 staff</span><h3>Small businesses</h3><ul><li>Shops, takeaways, trades, drivers, clinics</li><li>2–3 systems, e.g. till, accounts, email</li><li>Quotes, daily summaries and reminders</li><li>Works in the AI app you already use</li></ul><div class="tl">Typical build: 2–4 weeks</div></div>
+      <div class="size" data-size="sme"><span class="you" hidden>Your selection</span><span class="who">10–249 staff</span><h3>Growing SMEs</h3><ul><li>3–6 systems including CRM and Microsoft 365</li><li>Team access with roles and approvals</li><li>Scheduled reports for managers</li><li>Pilot group first, then full team</li></ul><div class="tl">Typical build: 6–10 weeks</div></div>
+      <div class="size" data-size="large"><span class="you" hidden>Your selection</span><span class="who">250+ staff</span><h3>Large organisations</h3><ul><li>ERP, CRM, data warehouse, HR and M365</li><li>Single sign-on, role-based access, audit trail</li><li>Data protection impact assessment</li><li>Phased rollout across departments</li></ul><div class="tl">Typical first rollout: 10–12 weeks</div></div>
+    </div>
+    <p class="fine">Timelines are typical ranges. We confirm scope, timeline and a fixed price after a free discovery call.</p>
+  </div>
+</section>
+
+<section class="s" id="security">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">Security and UK GDPR</span>
+      <h2>Your data stays under your control</h2>
+    </div>
+    <div class="sec">
+      <div><span class="ico">✓</span><p><b>No shared passwords</b>The AI never holds system passwords. Every request runs as the signed-in person, with their own permissions.</p></div>
+      <div><span class="ico">✓</span><p><b>Read-only by default</b>We start with read access. Write actions are added one by one, each with an approval step.</p></div>
+      <div><span class="ico">✓</span><p><b>Full audit trail</b>Every question and action is logged with who, what, when and the result.</p></div>
+      <div><span class="ico">✓</span><p><b>UK hosting</b>The connector runs in your own cloud account in a UK region, with secrets kept in a key vault.</p></div>
+      <div><span class="ico">✓</span><p><b>UK GDPR</b>We complete a data protection impact assessment at the start. Business AI plans do not train on your data by default.</p></div>
+      <div><span class="ico">✓</span><p><b>No lock-in</b>Built on an open standard, so you can switch or mix AI providers without rebuilding.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="process">
+  <div class="wrap">
+    <div class="s-head">
+      <span class="eyebrow">How we work</span>
+      <h2>Four steps, with a sign-off after each one</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">Step 1</span><h3>Free 30-minute call</h3><p>We learn your systems, your team and the questions you ask most.</p></div>
+      <div class="step"><span class="n">Step 2</span><h3>Discovery and design</h3><p>We check API access, agree the tools, and give you a fixed price.</p></div>
+      <div class="step"><span class="n">Step 3</span><h3>Build and pilot</h3><p>A small group uses it on your live data. We tune it with their feedback.</p></div>
+      <div class="step"><span class="n">Step 4</span><h3>Rollout and support</h3><p>Training, handover and an optional monthly support plan.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="contact">
+  <div class="wrap">
+    <div class="cta">
+      <div style="display:grid;gap:14px;align-content:start">
+        <span class="eyebrow">Next step</span>
+        <h2>Want this on your own systems?</h2>
+        <p class="muted">Book a free 30-minute call. We will show you what your version would look like, what it connects to, and what it would cost. No obligation.</p>
+        <div class="interest" id="interest"></div>
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn btn-primary" href="contact.html">Book a free call</a>
+          <a class="btn btn-ghost" id="mailLink" href="mailto:info@matsenseai.co.uk?subject=AI%20assistant%20demo%20enquiry">Email us</a>
+          <a class="btn btn-ghost" href="downloads/MatsenseAI-AI-Business-Assistant.pdf" download>Download the report (PDF)</a>
+        </div>
+        <p class="muted" style="font-size:.9rem">Email <span class="addr">info@matsenseai.co.uk</span><br>Mon–Fri, 09:00–17:30</p>
+      </div>
+      <div class="msgbox">
+        <label for="enquiry" style="font-size:.88rem;color:var(--muted)">Your message, ready to send. Edit it, copy it and email it to us.</label>
+        <textarea id="enquiry"></textarea>
+        <div class="row"><button class="btn btn-ghost btn-sm" type="button" id="copyBtn">Copy message</button><span class="muted" id="copyNote" style="font-size:.84rem"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 MatsenseAI Ltd · UK registered software &amp; AI consultancy · <a href="legal.html">Company details</a></span>
     <span>All companies, people and figures in this demo are fictional.</span>
   </div>
 </footer>
 
+<dialog class="doc" id="docDlg">
+  <div class="doc-shell">
+    <div class="doc-tools">
+      <span class="l" id="docLabel">Generated document · sample data</span>
+      <span style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" type="button" id="printBtn" hidden>Download PDF</button>
+        <button class="btn btn-primary btn-sm" type="button" id="closeDoc">Close</button>
+      </span>
+    </div>
+    <div class="paper" id="paper"></div>
+  </div>
+</dialog>
+
 <script>
 (function(){
-  /* ---------- sample data (all fictional) ---------- */
-  var JOB = {answer:['Answer','var(--cyan)'],report:['Report','var(--violet)'],quote:['Quote','var(--magenta)'],act:['Act','var(--lime)']};
-  var BIZ = [
-    {id:'retail',ico:'🛍️',label:'Retail shop',hint:'Shops and online stores',size:'small',staff:'6',
-     co:'Hartley & Finch Homewares',where:'Independent homeware shop · York · 6 staff',
-     systems:[['Shopify POS','till and online shop'],['Xero','accounts'],['Mailchimp','email marketing'],['Microsoft 365','email and files']],
-     goals:'see which customers have gone quiet, get a weekly sales summary, quote corporate gift orders and draft win-back emails',
-     qs:[
-      {job:'answer',q:"Which customers haven't ordered in 90 days?",k:['customer','90','lapsed','ordered','quiet'],
-       trace:[['shopify.customers.search','last_order < 90 days ago','38 customers'],['shopify.orders.totals','by customer','done']],
-       text:['<strong>38 customers</strong> haven\'t ordered in the last 90 days. Between them they\'ve spent <strong>£12,460</strong> with you. These five spent the most:'],
-       table:{h:['Customer','Last order','Orders','Lifetime spend'],n:[2,3],r:[['Margaret Ellison','14 Jun 2026','11','£1,184'],['Tom Okafor','2 Jun 2026','8','£962'],['Priya Shah','28 May 2026','9','£871'],['The Lantern Café','19 May 2026','6','£840'],['Ruth Gallagher','11 Jun 2026','7','£655']]},
-       after:'Want me to draft a win-back email to all 38? It will wait for your approval before anything is sent.'},
-      {job:'report',q:"Create this week's sales summary.",k:['week','sales','summary','report'],
-       trace:[['shopify.sales.summary','5–11 Oct 2026','312 orders'],['shopify.products.top','by revenue','10 products'],['xero.bank.balance','main account','done']],
-       text:['Here\'s your summary for <strong>5–11 October 2026</strong>. Sales are up on last week, driven by Saturday and the new candle range.'],
-       kpis:[['Sales','£9,840','+12% vs last wk'],['Orders','312','+8%'],['Avg basket','£31.54','+4%'],['Online share','34%','+3 pts']],
-       bars:{t:'Sales by day',u:'£',r:[['Mon',980],['Tue',1040],['Wed',1190],['Thu',1260],['Fri',1620],['Sat',2510],['Sun',1240]]},
-       after:'Top seller: <strong>Fig & Cedar candle</strong> (64 sold). Low stock warning: linen napkins, 9 left. Next step: reorder napkins before Saturday.'},
-      {job:'quote',q:"Quote 40 gift hampers for Brightwell Dental's staff.",k:['quote','hamper','gift','brightwell'],
-       trace:[['pricelist.get','gift hampers','3 tiers'],['rules.discounts','corporate, 40 units','10% off'],['quotes.create_draft','Brightwell Dental','draft saved']],
-       text:['I\'ve built a draft quote from your price list. Your corporate rule gives <strong>10% off orders of 25+</strong>, so I\'ve applied it.'],
-       quote:{to:'Brightwell Dental · Ref Q-2026-118',lines:[['Classic hamper',40,'£38.00'],['Gift wrap and tag',40,'£2.50'],['Local delivery (one drop)',1,'£15.00'],['Corporate discount 10%','','-£163.50']],total:'£1,471.50',note:'Prices exclude VAT. Valid for 30 days.'},
-       after:'Saved as a draft in Xero. Check it, then I can email it to Brightwell Dental.'},
-      {job:'act',q:'Draft a win-back email to lapsed customers.',k:['email','win','back','draft','lapsed'],
-       trace:[['shopify.customers.search','no order in 90 days','38 recipients'],['mailchimp.campaigns.create_draft','win-back','draft created']],
-       text:['Here\'s a draft in your usual friendly tone. It goes to the 38 customers who haven\'t ordered in 90 days.'],
-       email:{to:'38 customers (Mailchimp segment: "Lapsed 90 days")',subj:'We\'ve missed you at Hartley & Finch',body:'Hi {first name},\n\nIt\'s been a little while since we last saw you, so here\'s 15% off your next visit, in store or online, until 31 October.\n\nOur autumn range has just landed, including the Fig & Cedar candles everyone keeps asking about.\n\nUse code WELCOMEBACK15 at the till or checkout.\n\nWarm wishes,\nThe Hartley & Finch team'}}
-     ]},
-    {id:'food',ico:'🍛',label:'Restaurant or takeaway',hint:'Cafés, restaurants, takeaways',size:'sme',staff:'14',
-     co:'Saffron Lane Kitchen',where:'Restaurant and takeaway · Leicester · 14 staff',
-     systems:[['Square POS','till'],['Deliveroo','delivery orders'],['ResDiary','table bookings'],['Xero','accounts']],
-     goals:'see what sells best, compare delivery with dine-in, quote for events and send booking reminders',
-     qs:[
-      {job:'answer',q:'What were our best-selling dishes last weekend?',k:['best','selling','dish','weekend','popular'],
-       trace:[['square.items.sales','10–11 Oct 2026','1,126 items'],['deliveroo.orders.items','10–11 Oct 2026','418 items']],
-       text:['Across the till and Deliveroo, last weekend\'s top five dishes were:'],
-       table:{h:['Dish','Dine-in','Delivery','Total','Revenue'],n:[1,2,3,4],r:[['Lamb rogan josh','84','61','145','£2,175'],['Chicken tikka masala','72','66','138','£1,932'],['Paneer butter masala','58','41','99','£1,287'],['Garlic naan','190','122','312','£936'],['Mango lassi','121','18','139','£556']]},
-       after:'Lamb rogan josh is your top earner. Paneer sold 22% more than the weekend before.'},
-      {job:'report',q:'Compare delivery and dine-in for September.',k:['compare','delivery','dine','september','month','report'],
-       trace:[['square.sales.summary','Sep 2026','dine-in'],['deliveroo.payouts','Sep 2026','after commission'],['xero.expenses','Sep 2026, packaging','done']],
-       text:['In <strong>September 2026</strong>, delivery brought in a third of sales but less of the profit, because of commission and packaging.'],
-       kpis:[['Dine-in sales','£41,200','+6% vs Aug'],['Delivery sales','£20,600','-3%','down'],['Delivery commission','£6,180','30% of sales'],['Covers','2,870','+5%']],
-       bars:{t:'Margin after commission and packaging',u:'£',r:[['Dine-in',27190],['Delivery',9270]]},
-       after:'Suggestion: a 10% "order direct" offer on your website could move some delivery orders away from the 30% commission.'},
-      {job:'quote',q:'Quote a buffet for 60 guests on 14 November.',k:['quote','buffet','guests','event','party','november'],
-       trace:[['menu.events.pricelist','buffet packages','3 packages'],['resdiary.availability','14 Nov 2026','private room free'],['quotes.create_draft','event, 60 guests','draft saved']],
-       text:['The private room is free on <strong>Friday 14 November</strong>. Here\'s a draft quote using your Silver buffet package.'],
-       quote:{to:'Event enquiry · 60 guests · Ref EV-2026-041',lines:[['Silver buffet (per head)',60,'£22.00'],['Private room hire',1,'£150.00'],['Soft drinks package (per head)',60,'£4.50']],total:'£1,740.00',note:'Includes VAT. 25% deposit secures the date.'},
-       after:'Want me to email this to the customer with your deposit link?'},
-      {job:'act',q:"Remind tonight's bookings about their table.",k:['remind','booking','tonight','table','reminder'],
-       trace:[['resdiary.bookings.list','tonight','17 bookings'],['sms.create_drafts','17 recipients','drafts ready']],
-       text:['You have <strong>17 bookings tonight</strong> (64 covers). I\'ve drafted one text message for all of them:'],
-       email:{to:'17 guests (SMS, from ResDiary bookings)',subj:'Table reminder',body:'Hi {name}, just a reminder of your table for {covers} at Saffron Lane Kitchen tonight at {time}. Running late or need to change? Reply to this message. See you soon!'}}
-     ]},
-    {id:'trades',ico:'🔧',label:'Trades and builders',hint:'Plumbers, builders, electricians',size:'small',staff:'9',
-     co:'Kestrel Home Improvements',where:'Kitchens and bathrooms · Bristol · 9 staff',
-     systems:[['Tradify','jobs and timesheets'],['Xero','accounts and invoices'],['Supplier price list','spreadsheet'],['Microsoft 365','Outlook and calendar']],
-     goals:'track job profit, get monthly management reports, write accurate quotes from our price list and chase unpaid invoices',
-     qs:[
-      {job:'answer',q:'Which jobs are over budget this month?',k:['job','over','budget','overrun'],
-       trace:[['tradify.jobs.list','active, Oct 2026','12 jobs'],['tradify.costs.compare','actual vs quoted','3 over']],
-       text:['<strong>3 of 12 active jobs</strong> are over budget. Most of the overrun is extra labour on the Patel kitchen.'],
-       table:{h:['Job','Quoted','Spent so far','Over by'],n:[1,2,3],r:[['Patel kitchen refit','£14,800','£15,920','£1,120'],['Moss Road bathroom','£7,200','£7,640','£440'],['Hughes en-suite','£5,100','£5,260','£160']]},
-       after:'The Patel job logged 36 extra labour hours after the wall was found to be out of true. That could be a variation to bill.'},
-      {job:'report',q:"Create this month's management report.",k:['management','report','month','monthly'],
-       trace:[['xero.reports.profit_loss','Sep 2026','done'],['tradify.jobs.summary','Sep 2026','9 completed'],['xero.invoices.aged','as of today','done']],
-       text:['Here\'s your management report for <strong>September 2026</strong>.'],
-       kpis:[['Revenue','£86,400','+9% vs Aug'],['Gross margin','31%','-2 pts','down'],['Jobs completed','9','+1'],['Owed to you','£18,950','4 invoices']],
-       bars:{t:'Revenue by job type',u:'£',r:[['Kitchens',44200],['Bathrooms',29600],['Repairs',8100],['Other',4500]]},
-       after:'Margin dipped because of tile price rises in August. Next steps: update the supplier price list and chase the £6,400 that is over 30 days.'},
-      {job:'quote',q:'Quote a full bathroom refit for the Doyles.',k:['quote','bathroom','refit','doyle'],
-       trace:[['crm.contacts.get','Doyle, 14 Elm Grove','survey notes found'],['pricelist.lookup','bathroom suite, tiling, labour','22 items'],['quotes.create_draft','Doyle bathroom','draft saved']],
-       text:['From the survey notes (2.4m × 1.9m room, walk-in shower, new suite), here\'s a draft quote using your current supplier prices and day rates.'],
-       quote:{to:'Mr & Mrs Doyle · 14 Elm Grove · Ref KHI-Q-0457',lines:[['Strip out and disposal',1,'£650.00'],['Bathroom suite (mid-range)',1,'£1,840.00'],['Walk-in shower and tray',1,'£1,120.00'],['Wall and floor tiling (m²)',24,'£58.00'],['Plumbing labour (days)',4,'£320.00'],['Electrics: extractor and lighting',1,'£480.00']],total:'£6,762.00',note:'Excludes VAT. Lead time about 3 weeks. Valid 30 days.'},
-       after:'Saved as a draft in Xero. Check the tile allowance, then I can send it with your usual cover note.'},
-      {job:'act',q:'Chase unpaid invoices over 30 days.',k:['chase','unpaid','invoice','overdue','payment'],
-       trace:[['xero.invoices.aged','over 30 days','2 invoices'],['outlook.drafts.create','2 chasers','drafts ready']],
-       text:['Two invoices are over 30 days, totalling <strong>£6,400</strong>. Here\'s the first chaser:'],
-       email:{to:'accounts@greenfieldlettings.co.uk (Greenfield Lettings)',subj:'Invoice INV-2291 – now 41 days overdue',body:'Hi Sam,\n\nI hope you\'re well. Our records show invoice INV-2291 for £4,250 (Clifton Road bathroom, completed 21 August) is now 41 days overdue.\n\nCould you let me know when we can expect payment? Our bank details are on the invoice, and I\'ve attached a copy.\n\nThanks,\nJo Kestrel\nKestrel Home Improvements'}}
-     ]},
-    {id:'wholesale',ico:'📦',label:'Wholesale and distribution',hint:'Suppliers, wholesalers, logistics',size:'sme',staff:'42',
-     co:'Northgate Catering Supplies',where:'Catering wholesaler · Manchester · 42 staff',
-     systems:[['Sage 200','accounts and orders'],['HubSpot','CRM'],['Unleashed','stock and warehouse'],['Microsoft 365','Outlook and Teams']],
-     goals:'spot stock running out, report sales by customer, build quotes for contract customers and chase late payments',
-     qs:[
-      {job:'answer',q:'Which products will run out in the next two weeks?',k:['stock','run','out','product','weeks','reorder'],
-       trace:[['unleashed.stock.levels','all warehouses','1,840 SKUs'],['sage.orders.velocity','last 60 days','done'],['unleashed.purchase_orders','open','done']],
-       text:['At the current rate of sales, <strong>4 products</strong> will run out within 14 days with no purchase order raised:'],
-       table:{h:['Product','In stock','Sold / week','Runs out'],n:[1,2],r:[['Nitrile gloves (L) case','46','38','in 8 days'],['Compostable cups 12oz','120','71','in 12 days'],['Blue roll 2-ply','64','39','in 11 days'],['Sanitiser 5L','22','14','in 11 days']]},
-       after:'Want me to draft purchase orders to your usual suppliers for these four?'},
-      {job:'report',q:'Create the monthly sales report by customer.',k:['report','monthly','customer','sales'],
-       trace:[['sage.sales.by_customer','Sep 2026','186 customers'],['hubspot.deals.pipeline','open','done']],
-       text:['<strong>September 2026</strong> sales were £412k, with care homes your fastest-growing sector.'],
-       kpis:[['Sales','£412,300','+7% vs Aug'],['Active customers','186','+5'],['Avg order','£1,264','+2%'],['Pipeline','£96,000','11 deals']],
-       bars:{t:'Top customers, September',u:'£',r:[['Riverside Care Homes',38400],['Pennine Schools Trust',31200],['Castlefield Hotels',24900],['Mersey Hospitals',19800],['Ardwick Kitchens',12600]]},
-       after:'Riverside Care Homes is your biggest customer, but they also have the largest overdue balance. I can chase that next.'},
-      {job:'quote',q:'Quote Riverside Care Homes for 3 months of supplies.',k:['quote','riverside','contract','supplies','months'],
-       trace:[['sage.orders.history','Riverside Care Homes, 6 months','average monthly order'],['pricelist.contract','tier B pricing','done'],['quotes.create_draft','3-month supply','draft saved']],
-       text:['Based on their average order over the last 6 months, here\'s a 3-month supply quote at their contract (Tier B) prices.'],
-       quote:{to:'Riverside Care Homes · 4 sites · Ref NCS-Q-1903',lines:[['Nitrile gloves (cases)',72,'£21.40'],['Incontinence pads (cases)',90,'£34.80'],['Blue roll 2-ply (cases)',54,'£18.20'],['Sanitiser 5L',36,'£12.60'],['Weekly delivery, 4 sites',12,'£0.00']],total:'£6,109.20',note:'Tier B contract pricing. Excludes VAT. Prices fixed for 90 days.'},
-       after:'Saved as a draft in Sage. HubSpot shows their buyer is Helen Price.'},
-      {job:'act',q:'Chase Riverside Care Homes for payment.',k:['chase','payment','riverside','overdue','invoice'],
-       trace:[['sage.invoices.outstanding','Riverside Care Homes','3 invoices'],['hubspot.contacts.get','accounts contact','found'],['outlook.drafts.create','payment chaser','draft ready']],
-       text:['Riverside Care Homes owe <strong>£14,820</strong> across 3 invoices; the oldest is 47 days overdue. Here\'s a polite chaser:'],
-       email:{to:'accounts@riversidecarehomes.co.uk (Helen Price)',subj:'Outstanding invoices – £14,820',body:'Dear Helen,\n\nI hope all is well across the four homes. I\'m writing about three invoices that are now past their 30-day terms:\n\n• INV-88412 – £5,940 – 47 days overdue\n• INV-88730 – £4,610 – 36 days overdue\n• INV-89015 – £4,270 – 31 days overdue\n\nCould you let me know when we can expect payment? I\'ve attached a statement. If anything is in dispute, just reply and we\'ll sort it quickly.\n\nKind regards,\nMark Ellis\nCredit Control, Northgate Catering Supplies'}}
-     ]},
-    {id:'clinic',ico:'🩺',label:'Clinic or practice',hint:'Physio, dental, beauty, vets',size:'sme',staff:'18',
-     co:'Elmwood Physio & Sports Clinic',where:'Physiotherapy clinic · Leeds · 18 staff',
-     systems:[['Cliniko','bookings and patient notes'],['Stripe','card payments'],['Xero','accounts'],['Microsoft 365','email and calendar']],
-     goals:'fill empty slots, get a monthly clinic report, price treatment packages and remind patients to rebook',
-     qs:[
-      {job:'answer',q:'How many empty appointment slots are there next week?',k:['empty','slot','appointment','next','week','available'],
-       trace:[['cliniko.availability','13–17 Oct 2026','6 clinicians'],['cliniko.appointments','13–17 Oct 2026','212 booked']],
-       text:['Next week has <strong>38 empty slots</strong> out of 250 (85% booked). Most gaps are Monday morning and Friday afternoon.'],
-       table:{h:['Clinician','Booked','Empty','Fill rate'],n:[1,2,3],r:[['Dr Amira Khan','40','2','95%'],['James Whitfield','36','6','86%'],['Sophie Lin','34','8','81%'],['Daniel Moore','33','9','79%'],['Grace Ndlovu','36','5','88%'],['Tom Pryce','33','8','80%']]},
-       after:'Want me to message patients on the waiting list about the Monday morning gaps?'},
-      {job:'report',q:"Create this month's clinic report.",k:['report','month','clinic','monthly'],
-       trace:[['cliniko.reports.appointments','Sep 2026','done'],['stripe.payments.summary','Sep 2026','done'],['xero.reports.profit_loss','Sep 2026','done']],
-       text:['Here\'s your clinic report for <strong>September 2026</strong>.'],
-       kpis:[['Revenue','£48,600','+5% vs Aug'],['Appointments','1,012','+4%'],['New patients','134','+11%'],['Did not attend','3.1%','-0.8 pts']],
-       bars:{t:'Appointments by service',u:'',r:[['Sports injury',384],['Back and neck',296],['Post-surgery rehab',168],['Sports massage',112],['Pilates classes',52]]},
-       after:'New patients are up 11%, mostly from the running club partnership. 41 patients finished a course without rebooking, which is worth a follow-up.'},
-      {job:'quote',q:'Price a 6-session treatment package for a new patient.',k:['price','package','session','treatment','quote'],
-       trace:[['pricelist.get','physio sessions','done'],['rules.packages','6+ sessions','8% off'],['quotes.create_draft','6-session package','draft saved']],
-       text:['Using your package rule (<strong>8% off 6 or more sessions</strong> paid upfront):'],
-       quote:{to:'New patient · Sports injury package · Ref ELM-P-0212',lines:[['Initial assessment (60 min)',1,'£65.00'],['Follow-up sessions (45 min)',5,'£52.00'],['Home exercise plan',1,'£0.00'],['Package discount 8%','','-£26.00']],total:'£299.00',note:'Paid upfront by card. Sessions valid for 4 months.'},
-       after:'I can turn this into a Stripe payment link for the patient.'},
-      {job:'act',q:"Remind patients who haven't rebooked.",k:['remind','rebook','patient','follow','up'],
-       trace:[['cliniko.patients.search','course incomplete, no future booking','41 patients'],['outlook.drafts.create','follow-up template','draft ready']],
-       text:['<strong>41 patients</strong> stopped part-way through a course in the last 60 days. Here\'s a gentle follow-up:'],
-       email:{to:'41 patients (personalised, from Cliniko)',subj:'How is your recovery going?',body:'Hi {first name},\n\nIt\'s been a few weeks since your last session with {clinician}, and we wanted to check how you\'re getting on.\n\nIf you\'d like to finish your course, you can book online at a time that suits you, including early mornings and Saturdays.\n\nIf you\'re feeling better, that\'s great news, and there\'s no need to reply.\n\nBest wishes,\nThe team at Elmwood Physio'}}
-     ]},
-    {id:'group',ico:'🏢',label:'Large organisation',hint:'Groups with many sites or teams',size:'large',staff:'600+',
-     co:'Calder Group',where:'Facilities services · 40 sites across the UK · 640 staff',
-     systems:[['Dynamics 365','ERP and finance'],['Salesforce','CRM'],['Snowflake','data warehouse'],['Workday','HR'],['Microsoft 365','Outlook, Teams, SharePoint']],
-     goals:'track regional performance, prepare board packs, draft renewal proposals and coordinate regional managers',
-     qs:[
-      {job:'answer',q:'Which regions are behind target this quarter?',k:['region','target','behind','quarter'],
-       trace:[['snowflake.query','revenue vs target by region, Q3 2026','6 regions'],['salesforce.opportunities','closing this quarter','done']],
-       text:['<strong>2 of 6 regions</strong> finished Q3 behind target. You only see regions your role allows; this view is for the Group Finance role.'],
-       table:{h:['Region','Target','Actual','Gap'],n:[1,2,3],r:[['North West','£4.20m','£3.86m','-8.1%'],['Midlands','£3.60m','£3.41m','-5.3%'],['Scotland','£2.40m','£2.47m','+2.9%'],['London','£5.10m','£5.31m','+4.1%'],['South West','£2.20m','£2.26m','+2.7%'],['Yorkshire','£2.90m','£2.94m','+1.4%']]},
-       after:'North West is behind mainly because the Fenwick Logistics contract renewal slipped into Q4.'},
-      {job:'report',q:'Create the board pack summary for Q3.',k:['board','pack','q3','summary','report'],
-       trace:[['dynamics.finance.trial_balance','Q3 2026','done'],['snowflake.query','KPIs by region','done'],['workday.headcount','30 Sep 2026','done'],['sharepoint.files.create','Board pack Q3 – draft','saved']],
-       text:['Draft board summary for <strong>Q3 2026</strong>, saved to SharePoint for the finance team to review.'],
-       kpis:[['Revenue','£20.25m','+3.4% YoY'],['EBITDA margin','11.8%','+0.6 pts'],['Headcount','640','+12'],['Contract renewals','92%','-2 pts','down']],
-       bars:{t:'Revenue by region (£m)',u:'£',s:'m',r:[['London',5.31],['North West',3.86],['Midlands',3.41],['Yorkshire',2.94],['Scotland',2.47],['South West',2.26]]},
-       after:'Key risks: Fenwick renewal (£1.1m a year), and agency staff costs in the Midlands. Every figure links back to its source query in the audit log.'},
-      {job:'quote',q:'Draft a renewal proposal for Fenwick Logistics.',k:['renewal','proposal','fenwick','quote','contract'],
-       trace:[['salesforce.accounts.get','Fenwick Logistics','contract ends 31 Dec'],['dynamics.contracts.pricing','current rates + 3.2% CPI','done'],['sharepoint.files.create','Fenwick renewal proposal – draft','saved']],
-       text:['Draft proposal for a 3-year renewal, priced from the current contract plus CPI. It\'s saved in SharePoint and marked for approval by the regional director.'],
-       quote:{to:'Fenwick Logistics · 6 depots · Ref CG-R-2026-77',lines:[['Cleaning and hygiene (annual)',1,'£612,000'],['Planned maintenance (annual)',1,'£388,000'],['Reactive call-outs (annual cap)',1,'£96,000'],['3-year commitment discount 4%','','-£43,840']],total:'£1,052,160 a year',note:'Needs regional director approval before it can be sent.'},
-       after:'Approval routed to Sarah Bell (Regional Director, North West) in Teams.'},
-      {job:'act',q:'Email regional managers about the Q3 gaps.',k:['email','regional','manager','gap','q3'],
-       trace:[['workday.people.search','regional managers, NW and Midlands','2 people'],['outlook.drafts.create','Q3 performance','draft ready']],
-       text:['Here\'s a draft to the two regional managers whose regions missed target:'],
-       email:{to:'Regional Managers: North West, Midlands',subj:'Q3 results and next steps',body:'Hi both,\n\nQ3 has closed, and North West (-8.1%) and Midlands (-5.3%) finished behind target. The full breakdown is in the board pack draft on SharePoint.\n\nCould you each send a short recovery plan by Friday 24 October, covering:\n• the main causes of the gap\n• contracts at risk in Q4\n• any support you need from the group team\n\nThanks,\nGroup Finance'}}
-     ]}
-  ];
+"use strict";
 
-  /* ---------- helpers ---------- */
-  function $(s,r){return (r||document).querySelector(s)}
-  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
-  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function wait(ms){return new Promise(function(r){setTimeout(r,reduce?0:ms)})}
+/* ---------- sizes ---------- */
+const SIZES = {
+  micro:{label:"Small team", sub:"1–9 staff", f:1},
+  sme:{label:"Growing SME", sub:"10–249 staff", f:8},
+  large:{label:"Large organisation", sub:"250+ staff", f:60}
+};
 
-  var log=$('#log'), suggest=$('#suggest'), cur=null, busy=false, run=0;
-  function scroll(){log.scrollTop=log.scrollHeight}
+/* ---------- industry datasets (all fictional) ---------- */
+const WEEKS = ["W33","W34","W35","W36","W37","W38","W39","W40"];
+const IND = [
+{ id:"retail", label:"Retail shop", sub:"Shops, boutiques, online stores",
+  keys:["shop","retail","store","boutique","ecommerce","e-commerce"],
+  names:{micro:"Willow Lane Gifts",sme:"Willow Lane Home · 5 stores + online",large:"Willow Lane Retail Group · 64 stores"},
+  systems:{micro:["EPOS till","Online shop","Xero","Gmail"],sme:["EPOS","Shopify","Xero","Microsoft 365"],large:["EPOS","E-commerce","Dynamics 365","Microsoft 365","Data warehouse"]},
+  kpis:[["Sales","m",18420,"+6%",1],["Transactions","n",1236,"+3%",1],["Average basket","s","£14.90","+3%",1],["Gross margin","s","52%","−1 pt",0]],
+  chart:{title:"Sales per week",u:"m",v:[3900,4100,4300,4050,4400,4520,4610,4890]},
+  perf:"Sales are up 6% on the previous 4 weeks. Margin slipped 1 point because of homeware discounts.",
+  insight:{q:"Which products will run out in the next two weeks?",keys:["stock","run out","low","reorder","products"],
+    tools:['epos.get_stock_levels(cover_days: "<14")','epos.get_sales_rate(period: "last_4_weeks")'],
+    intro:"<b>4 products</b> will run out within 14 days at the current sales rate. Two of them are bestsellers.",
+    cols:["Product","In stock|num","Sold per week|num","Days left"],
+    rows:[["Soy candle, Fig &amp; Cedar",{n:14},{n:11},{tag:"9 days",s:"warn"}],["Linen tea towel set",{n:6},{n:7},{tag:"6 days",s:"bad"}],["Ceramic mug, Sage",{n:22},{n:13},{tag:"12 days",s:"warn"}],["Gift card holder",{n:9},{n:5},{tag:"13 days",s:"warn"}]],
+    note:"Suggested reorder value: <span class='hl'>{m:1840}</span>. Want me to draft the order?"},
+  action:{q:"Draft a reorder email to Hollybrook Supplies",tools:['crm.get_supplier("Hollybrook Supplies")','epos.get_stock_levels(cover_days: "<14")','outlook.create_draft()'],
+    intro:"Here's a draft. I've used last month's order prices and your usual delivery day.",
+    to:"orders@hollybrook-supplies.example",subj:"Reorder for {co}, week 42",
+    body:"Hi Sarah,\n\nPlease could you send the following on our usual Thursday delivery:\n\n• Soy candle, Fig & Cedar: {n:48} units\n• Linen tea towel set: {n:30} units\n• Ceramic mug, Sage: {n:36} units\n• Gift card holder: {n:24} units\n\nEstimated total at last month's prices: {m:1840} ex VAT.\n\nThe tea towels are the most urgent. If they can come sooner, that would help.\n\nThanks,\nEmma\n{co}"},
+  quote:{q:"Quote 40 gift hampers for Kestrel Accountancy",client:"Kestrel Accountancy Ltd",ref:"Corporate Christmas gifts",
+    items:[["Luxury gift hamper (candle, mug, tea towel, chocolates)",40,32.5],["Branded gift tag and printed card",40,1.8],["Delivery to one business address",1,25],["Corporate discount, 10% on hampers",1,-130]]},
+  recs:["Reorder the 4 low-stock lines this week to protect about {m:1840} of sales.","Margin fell 1 point. Review discounting on homeware lines.","Saturdays bring about a third of weekly sales. Add staff cover on Saturdays."]
+},
+{ id:"takeaway", label:"Takeaway & restaurant", sub:"Takeaways, cafés, restaurants",
+  keys:["takeaway","restaurant","cafe","café","food","pizza","kitchen","catering"],
+  names:{micro:"Golden Lantern Takeaway",sme:"Golden Lantern Kitchens · 6 sites",large:"Golden Lantern Restaurants · 48 sites"},
+  systems:{micro:["EPOS till","Delivery apps","Online ordering","Xero"],sme:["EPOS","Delivery apps","Online ordering","Xero","Microsoft 365"],large:["EPOS","Delivery apps","Stock & recipes","Finance ERP","Microsoft 365"]},
+  kpis:[["Revenue","m",31480,"+4%",1],["Orders","n",2140,"+2%",1],["Average order","s","£14.71","+2%",1],["Delivery app share","s","58%","+3 pts",0]],
+  chart:{title:"Revenue per week",u:"m",v:[7200,7350,7000,7600,7650,7800,7900,8130]},
+  perf:"Revenue is up 4%. More of it now comes through the delivery apps, which costs you commission.",
+  insight:{q:"Which dishes make the least profit after delivery fees?",keys:["dish","profit","margin","menu","fees","commission"],
+    tools:['epos.get_item_sales(period: "last_4_weeks")','delivery_apps.get_commission_report()','recipes.get_food_costs()'],
+    intro:"<b>4 dishes</b> keep less than 20% after food cost and app commission. Prawn dishes are the weakest.",
+    cols:["Dish","Orders|num","Price|num","Profit after fees"],
+    rows:[["King prawn chow mein",{n:186},"£10.90",{tag:"8%",s:"bad"}],["Salt &amp; pepper prawns",{n:142},"£8.50",{tag:"11%",s:"bad"}],["Crispy duck, half",{n:97},"£15.80",{tag:"17%",s:"warn"}],["Seafood fried rice",{n:121},"£9.80",{tag:"19%",s:"warn"}]],
+    note:"Adding £1 to these four, or moving them to direct orders, would add about <span class='hl'>{m:690}</span> a month."},
+  action:{q:"Draft a weekend offer for our regular customers",tools:['crm.get_customers(segment: "regular", marketing_opt_in: true)','outlook.create_draft()'],
+    intro:"Here's a draft. It only goes to customers who opted in to offers.",
+    to:"{n:412} regular customers (opted in)",subj:"15% off this weekend when you order direct",
+    body:"Hi {first_name},\n\nThanks for being one of our regulars.\n\nThis Friday to Sunday, get 15% off when you order direct on our website or by phone. Use code LANTERN15.\n\nOrdering direct means more of your money stays with our kitchen team.\n\nSee you this weekend,\nThe team at {co}\n\nReply STOP to opt out."},
+  quote:{q:"Quote catering for a 60-person office party",client:"Brightwater Lettings Ltd",ref:"Office party buffet, Friday 11 December 2026",
+    items:[["Buffet menu B per head (6 dishes, rice and noodles)",60,12.5],["Vegetarian and vegan option per head",12,1.5],["Disposable serving kit and cutlery",1,45],["Delivery and set-up",1,35]]},
+  recs:["Add £1 to 4 low-margin prawn and duck dishes, or promote them on direct orders only.","Push direct ordering with a regulars' offer. Each direct order avoids app commission.","Friday 6–8pm is the busiest slot. Add one extra driver on Fridays."]
+},
+{ id:"taxi", label:"Taxi & transport", sub:"Taxis, private hire, couriers",
+  keys:["taxi","cab","private hire","transport","courier","drivers","logistics"],
+  names:{micro:"Cityline Cars",sme:"Cityline Private Hire · 85 drivers",large:"Cityline Transport Group · 900 drivers"},
+  systems:{micro:["Booking & dispatch","Driver app","Xero"],sme:["Booking & dispatch","Driver app","Account customers","Xero","Microsoft 365"],large:["Dispatch platform","Driver app","Contract CRM","Finance ERP","Microsoft 365"]},
+  kpis:[["Fares","m",48250,"+5%",1],["Jobs","n",3860,"+3%",1],["Average fare","s","£12.50","+2%",1],["Cancellations","s","4.1%","+0.6 pts",0]],
+  chart:{title:"Fares per week",u:"m",v:[10900,11200,11050,11500,11800,12050,11900,12500]},
+  perf:"Fares are up 5%. Cancellations rose slightly on Friday and Saturday nights.",
+  insight:{q:"Which account customers owe us money?",keys:["owe","debt","overdue","invoice","unpaid","account"],
+    tools:['xero.get_overdue_invoices(contact_type: "account")','dispatch.get_account_jobs(period: "last_4_weeks")'],
+    intro:"<b>4 accounts</b> have overdue invoices, totalling <span class='hl'>{m:6870}</span>. Riverside Care Homes is the oldest.",
+    cols:["Account","Invoices|num","Overdue|num","Days overdue"],
+    rows:[["Riverside Care Homes","3",{m:2640},{tag:"64 days",s:"bad"}],["Kingsway Hotel","2",{m:1980},{tag:"38 days",s:"warn"}],["Holt &amp; Partners Solicitors","2",{m:1450},{tag:"31 days",s:"warn"}],["St Anne's Medical Centre","1",{m:800},{tag:"15 days",s:"warn"}]],
+    note:"Riverside are still booking about {n:40} jobs a week on account."},
+  action:{q:"Draft a payment reminder to Riverside Care Homes",tools:['xero.get_invoices(contact: "Riverside Care Homes", status: "overdue")','outlook.create_draft()'],
+    intro:"Here's a firm but polite reminder. I've listed the invoices so they can pay quickly.",
+    to:"accounts@riverside-carehomes.example",subj:"Overdue invoices from {co}",
+    body:"Dear Accounts Team,\n\nOur records show three invoices that are now past their due date:\n\n• INV-2291, 1 August: {m:910}\n• INV-2318, 15 August: {m:880}\n• INV-2347, 29 August: {m:850}\n\nTotal outstanding: {m:2640}\n\nWe value your account and want to keep your bookings running smoothly. Please could you arrange payment, or let us know if there is a query, by Friday 16 October.\n\nBank details are on each invoice.\n\nKind regards,\nDaniel\nAccounts, {co}"},
+  quote:{q:"Quote a school run contract with 2 vehicles",client:"Meadowbank Primary School",ref:"Home-to-school transport, academic year 2026/27 (190 school days)",
+    items:[["School run, 8-seat vehicle, morning and afternoon, per school day",190,58],["Wheelchair-accessible vehicle, morning and afternoon, per school day",190,72],["DBS-checked passenger assistant, per school day",190,24]]},
+  recs:["Chase Riverside Care Homes now. Pause new account bookings over 60 days overdue.","Cancellations rose 0.6 points, mostly late on Fridays. Review driver cover.","Airport runs have the highest average fare. Offer them to account customers."]
+},
+{ id:"driving", label:"Driving school & training", sub:"Driving schools, tutors, trainers",
+  keys:["driving","instructor","lessons","school of motoring","training","tutor","tuition"],
+  names:{micro:"Clearview Driving School",sme:"Clearview Driver Training · 24 instructors",large:"Clearview Training Group · 310 instructors"},
+  systems:{micro:["Booking diary","Card payments","Gmail"],sme:["Booking diary","Payments","Student records","Microsoft 365"],large:["Booking platform","Payments","Learner records","Finance ERP","Microsoft 365"]},
+  kpis:[["Revenue","m",22030,"+7%",1],["Lessons delivered","n",612,"+5%",1],["First-time pass rate","s","61%","+4 pts",1],["New students","n",38,"+9%",1]],
+  chart:{title:"Revenue per week",u:"m",v:[4900,5050,5200,5100,5300,5450,5520,5760]},
+  perf:"Revenue is up 7%, and the first-time pass rate rose to 61%.",
+  insight:{q:"Which students are test-ready but have no test booked?",keys:["test","ready","pass","mock"],
+    tools:['diary.get_students(status: "active")','records.get_mock_test_scores()','tests.get_booked_tests()'],
+    intro:"<b>5 students</b> scored 85% or more in their last mock test but have no practical test booked.",
+    cols:["Student","Lessons|num","Last mock|num","Instructor"],
+    rows:[["Amelia R.","34","92%","Sam"],["Josh K.","41","88%","Hannah"],["Zara M.","29","87%","Sam"],["Leo T.","46","86%","Imran"],["Ella W.","38","85%","Hannah"]],
+    note:"Test waiting times are long, so booking now keeps these students on track."},
+  action:{q:"Draft a reminder for students with unpaid lessons",tools:['payments.get_balances(status: "unpaid")','outlook.create_draft()'],
+    intro:"Here's a friendly reminder. Each student gets their own balance and a payment link.",
+    to:"{n:7} students with unpaid balances",subj:"Your lesson balance with {co}",
+    body:"Hi {first_name},\n\nThanks for your lessons so far. You're making great progress.\n\nYou currently have {balance} unpaid for lessons already taken. You can pay securely here: {payment_link}\n\nPlease settle this before your next lesson so we can keep your slot.\n\nAny questions, just reply to this email.\n\nThanks,\n{instructor_name}\n{co}"},
+  quote:{q:"Quote a 30-hour intensive course",client:"Priya Shah (new student)",ref:"Intensive manual course, 2 weeks",
+    items:[["Intensive course: 30 hours of lessons over 2 weeks",30,38],["Theory test practice app access",1,15],["Use of car for the practical test",1,90],["Course booking discount",1,-60]]},
+  recs:["Book tests for the 5 test-ready students this week.","Chase 7 unpaid balances before their next lessons.","Pass rate is up 4 points. Use it in your marketing this month."]
+},
+{ id:"trades", label:"Trades & construction", sub:"Builders, plumbers, electricians",
+  keys:["trade","plumb","electric","builder","construction","contractor","roof","joiner","heating"],
+  names:{micro:"Hartley Plumbing &amp; Heating",sme:"Hartley Building Services · 40 staff",large:"Hartley Construction Group · 600 staff"},
+  systems:{micro:["Job management","Quotes & invoices","Xero"],sme:["Job management","Quotes & invoices","Xero","Microsoft 365"],large:["Project system","Estimating","Finance ERP","HR & timesheets","Microsoft 365"]},
+  kpis:[["Revenue","m",84600,"+9%",1],["Jobs completed","n",146,"+4%",1],["Quote win rate","s","38%","−3 pts",0],["Overdue invoices","m",9240,"+14%",0]],
+  chart:{title:"Revenue per week",u:"m",v:[19100,19800,20300,19900,20400,21100,20900,22200]},
+  perf:"Revenue is up 9%, but fewer quotes are being won and overdue invoices are rising.",
+  insight:{q:"Which quotes haven't been followed up?",keys:["follow","chase","pipeline","not heard","outstanding"],
+    tools:['jobs.get_quotes(status: "sent", no_reply_days: ">7")'],
+    intro:"<b>4 quotes</b> worth <span class='hl'>{m:31750}</span> were sent over a week ago with no follow-up.",
+    cols:["Customer","Job","Quote value|num","Sent"],
+    rows:[["Doyle household","Boiler replacement",{m:3450},"18 Sep"],["Elmfield Dental","Heating upgrade",{m:12800},"22 Sep"],["Park View Flats","Communal pipework",{m:9600},"25 Sep"],["M. Grant","Bathroom refit",{m:5900},"29 Sep"]],
+    note:"Elmfield Dental is the largest. Want me to draft a follow-up?"},
+  action:{q:"Draft a follow-up for the Elmfield Dental quote",tools:['jobs.get_quote("Q-1184")','outlook.get_thread("Elmfield Dental")','outlook.create_draft()'],
+    intro:"Here's a short follow-up. I've offered a site visit to keep it moving.",
+    to:"practice.manager@elmfield-dental.example",subj:"Your heating upgrade quote (Q-1184)",
+    body:"Hi Rachel,\n\nI wanted to check you received our quote for the heating upgrade, sent on 22 September ({m:12800} + VAT).\n\nWe can start in early November and work around surgery hours, so there is no disruption to patients.\n\nIf it helps, I can visit this week to go through the plan with you.\n\nBest regards,\nTom Hartley\n{co}"},
+  quote:{q:"Quote a full bathroom refit",client:"Doyle household",ref:"Main bathroom refit, approx. 2.4 m × 2.1 m",
+    items:[["Strip out and dispose of old bathroom suite",1,450],["Supply and fit bath, basin, WC and shower",1,2850],["First and second fix plumbing",1,980],["Wall and floor tiling (18 m²)",18,65],["Extractor fan and lighting, Part P certified",1,420]]},
+  recs:["Follow up 4 quotes worth {m:31750} this week, starting with Elmfield Dental.","Win rate fell 3 points. Compare lost quotes on price and response time.","Overdue invoices rose 14%. Send reminders at 7 and 21 days."]
+},
+{ id:"manufacturing", label:"Manufacturing & industry", sub:"Factories, engineering, production",
+  keys:["manufactur","factory","engineering","production","industrial","machine","plant"],
+  names:{micro:"Ashby Precision Engineering",sme:"Ashby Precision Ltd · 180 staff",large:"Ashby Industrial · 2,400 staff"},
+  systems:{micro:["Job sheets","Sage","Microsoft 365"],sme:["ERP","Production (MES)","Quality system","Microsoft 365"],large:["SAP ERP","MES","Quality (QMS)","Maintenance (CMMS)","Microsoft 365"]},
+  kpis:[["Units produced","n",18400,"+3%",1],["OEE","s","71%","+2 pts",1],["Scrap rate","s","2.8%","+0.4 pts",0],["On-time delivery","s","92%","−2 pts",0]],
+  chart:{title:"Units produced per week",u:"n",v:[4300,4450,4200,4500,4550,4600,4520,4730]},
+  perf:"Output is up 3%, but scrap rose and on-time delivery slipped to 92%.",
+  insight:{q:"Which machines had the most downtime last month?",keys:["machine","downtime","breakdown","oee","maintenance"],
+    tools:['mes.get_downtime(period: "2026-09")','maintenance.get_work_orders(period: "2026-09")'],
+    intro:"CNC-04 lost <b>31 hours</b> to a spindle bearing fault. That is about 40% of all downtime last month.",
+    cols:["Machine","Downtime|num","Main cause","Lost output|num"],
+    rows:[["CNC-04 (5-axis)","31 h",{tag:"Spindle bearing",s:"bad"},{n:1240}],["Press-02","22 h",{tag:"Tool changeover",s:"warn"},{n:960}],["CNC-07","14 h",{tag:"Waiting for material",s:"warn"},{n:610}],["Laser-01","9 h",{tag:"Planned service",s:"ok"},{n:380}]],
+    note:"Press-02 changeovers could be cut with a quick-change tooling review."},
+  action:{q:"Draft an update to Cobalt Motors about their late order",tools:['erp.get_order("SO-50712")','mes.get_job_status("SO-50712")','outlook.create_draft()'],
+    intro:"Here's a clear update with a new date and what we're doing about it.",
+    to:"purchasing@cobalt-motors.example",subj:"Order SO-50712: revised delivery date",
+    body:"Dear Mark,\n\nI'm writing about your order SO-50712 ({n:2000} brackets), due on 9 October.\n\nWe lost machine time on our 5-axis CNC because of a spindle fault, now repaired. {n:1400} parts are complete and passed inspection.\n\nWe can deliver the completed parts on Wednesday 14 October and the rest by Tuesday 20 October.\n\nI'm sorry for the delay. If a part delivery causes problems on your line, call me and we'll find a way.\n\nRegards,\nLaura Ashby\nOperations, {co}"},
+  quote:{q:"Quote 2,000 machined aluminium brackets",client:"Cobalt Motors Ltd",ref:"Bracket BR-220, drawing rev C",
+    items:[["Machined bracket, 6082-T6 aluminium, per part",2000,4.85],["Clear anodising, per part",2000,0.62],["First article inspection report",1,180],["Tooling and fixture set-up",1,650],["Palletised delivery",1,95]]},
+  recs:["Replace CNC-04 spindle bearings on a planned schedule to avoid repeat failures.","Review Press-02 changeovers. Quick-change tooling could recover about 15 hours a month.","Scrap rose 0.4 points. Check the new material batch on line 2."]
+},
+{ id:"wholesale", label:"Wholesale & distribution", sub:"Wholesalers, suppliers, B2B",
+  keys:["wholesale","distribut","supplier","b2b","depot","warehouse"],
+  names:{micro:"Fairfield Foods",sme:"Fairfield Foods Wholesale · 3 depots",large:"Fairfield Supply Group · 22 depots"},
+  systems:{micro:["Order system","Xero","Gmail"],sme:["CRM","Order & stock","Xero","Microsoft 365"],large:["Dynamics 365","Warehouse (WMS)","Route planning","Data warehouse","Microsoft 365"]},
+  kpis:[["Revenue","m",142800,"−2%",0],["Orders","n",1184,"−1%",0],["Order fill rate","s","96.2%","+0.5 pts",1],["Active customers","n",214,"−2%",0]],
+  chart:{title:"Revenue per week",u:"m",v:[36100,35800,36500,36200,35600,35900,35400,35900]},
+  perf:"Revenue is down 2%. The drop comes from fewer active customers, not smaller orders.",
+  insight:{q:"Which customers haven't ordered in 90 days?",keys:["90","inactive","lapsed","haven't ordered","not ordered","lost"],
+    tools:['crm.get_inactive_customers(days: 90)'],
+    intro:"<b>4 customers</b> are inactive, worth <span class='hl'>{m:38210}</span> in annual spend.",
+    cols:["Customer","Last order","Annual spend|num"],
+    rows:[["Harbour Fresh Foods","2 Jun 2026",{m:12480}],["Ridgeway Café","14 Jun 2026",{m:9870}],["The Old Mill Deli","28 May 2026",{m:8640}],["Castle Street Kitchen","9 Jun 2026",{m:7220}]],
+    note:"Harbour Fresh Foods was your 6th biggest customer last year."},
+  action:{q:"Draft a win-back email to Harbour Fresh Foods",tools:['crm.get_order_history("Harbour Fresh Foods")','outlook.create_draft()'],
+    intro:"Here's a draft based on what they used to buy most.",
+    to:"buying@harbourfreshfoods.example",subj:"We miss you at {co}",
+    body:"Hi James,\n\nWe noticed we haven't had an order from you since June, and wanted to check in.\n\nYou used to order our barista milk, free-range eggs and frozen pastries every week. All three are in stock, and we now deliver on Tuesdays and Fridays.\n\nAs a welcome back, we'll take 10% off your next order.\n\nIf anything went wrong last time, I'd really like to hear about it.\n\nBest wishes,\nAisha\nAccount Manager, {co}"},
+  quote:{q:"Quote a monthly supply contract for Bean & Bloom Cafés",client:"Bean &amp; Bloom Cafés Ltd",ref:"Monthly supply, 3 cafés, from November 2026",
+    items:[["Barista milk, 12 × 1 L, per case",48,13.2,0],["Coffee beans, house blend, 1 kg",40,16.5,0],["Frozen pastry selection, case of 48",16,38.4,0],["Paper cups 12 oz, case of 1,000",8,42,20],["Delivery, 3 drops per week",12,0,20]]},
+  recs:["Win back the 4 inactive customers worth {m:38210} a year.","Fill rate is up to 96.2%. Tell customers about the improvement.","Set an alert for any customer with no order in 45 days."]
+},
+{ id:"professional", label:"Professional services", sub:"Accountants, solicitors, consultants",
+  keys:["accountant","account firm","solicitor","law","legal","consult","agency","practice","advisor","adviser"],
+  names:{micro:"Mercer &amp; Lowe Accountants",sme:"Mercer &amp; Lowe LLP · 65 staff",large:"Mercer Lowe Advisory · 850 staff"},
+  systems:{micro:["Practice software","Xero","Microsoft 365"],sme:["Practice management","Time & billing","Microsoft 365","SharePoint"],large:["Practice management","Time & billing","CRM","Document management","Microsoft 365"]},
+  kpis:[["Fees billed","m",96400,"+5%",1],["Utilisation","s","74%","+2 pts",1],["Work in progress","m",58200,"+8%",0],["Debtor days","s","41","−3 days",1]],
+  chart:{title:"Fees billed per week",u:"m",v:[22800,23400,23100,23700,23900,24200,23800,24500]},
+  perf:"Fees billed are up 5% and debtor days are down. Work in progress is building up, so billing should catch up.",
+  insight:{q:"Which clients have deadlines soon with records missing?",keys:["deadline","missing","records","documents","due"],
+    tools:['practice.get_deadlines(within_days: 30)','sharepoint.check_client_folders(required: "year_end_pack")'],
+    intro:"<b>4 clients</b> have deadlines in the next 30 days and are still missing records.",
+    cols:["Client","Deadline","Missing","Partner"],
+    rows:[["Fenwick Bakery Ltd",{tag:"31 Oct 2026",s:"bad"},"Bank statements, Jul–Sep","A. Mercer"],["Dr K. Osei",{tag:"31 Oct 2026",s:"bad"},"Rental income records","A. Mercer"],["Tidewater Boats Ltd",{tag:"4 Nov 2026",s:"warn"},"Fixed asset invoices","S. Lowe"],["Lyle Architects",{tag:"7 Nov 2026",s:"warn"},"Payroll summary","S. Lowe"]],
+    note:"Two are due on 31 October. Want me to chase them?"},
+  action:{q:"Chase missing records from Fenwick Bakery",tools:['practice.get_client("Fenwick Bakery Ltd")','sharepoint.list_missing_documents()','outlook.create_draft()'],
+    intro:"Here's a clear request with the exact documents and a secure upload link.",
+    to:"director@fenwickbakery.example",subj:"Documents needed by 20 October for your accounts",
+    body:"Dear Helen,\n\nTo finish your accounts before the 31 October deadline, we still need:\n\n• Business bank statements for July, August and September 2026\n\nYou can upload them securely here: {upload_link}\n\nIf we receive them by Tuesday 20 October, we will have everything ready for you to approve the following week.\n\nThank you,\nAndrew Mercer\n{co}"},
+  quote:{q:"Quote annual accounts and tax for a small company",client:"Fenwick Bakery Ltd",ref:"Annual compliance package, year ending 31 March 2027",
+    items:[["Year-end statutory accounts (micro-entity)",1,950],["Corporation tax return (CT600)",1,450],["Directors' self-assessment tax returns",2,275],["Monthly bookkeeping review",12,60]]},
+  recs:["Chase the 4 clients with missing records, starting with the 31 October deadlines.","Work in progress is up 8%. Bill completed jobs this week.","Utilisation is 74%. Two staff are below 60% and could take on more work."]
+},
+{ id:"health", label:"Clinics & health", sub:"Physio, dental, beauty, wellbeing",
+  keys:["clinic","physio","dental","dentist","health","beauty","salon","therapy","gym","wellbeing"],
+  names:{micro:"Brookside Physio",sme:"Brookside Clinics · 7 sites",large:"Brookside Health Group · 60 sites"},
+  systems:{micro:["Booking system","Card payments","Gmail"],sme:["Booking system","Patient notes","Payments","Microsoft 365"],large:["Clinic platform","Patient records","Payments","Finance ERP","Microsoft 365"]},
+  kpis:[["Revenue","m",74200,"+6%",1],["Appointments","n",1380,"+4%",1],["Did not attend","s","6.2%","−0.8 pts",1],["Diary utilisation","s","81%","+3 pts",1]],
+  chart:{title:"Revenue per week",u:"m",v:[17200,17600,17900,17500,18100,18400,18600,19100]},
+  perf:"Revenue is up 6%. Missed appointments fell after text reminders were switched on.",
+  insight:{q:"Which patients didn't rebook after their first visit?",keys:["rebook","patient","first visit","return","no follow"],
+    tools:['bookings.get_patients(first_visit_within_days: 45, future_booking: false)'],
+    intro:"<b>11 patients</b> had a first appointment in the last 45 days but have not rebooked. These are the 4 most recent.",
+    cols:["Patient","First visit","Reason","Clinician"],
+    rows:[["M. Harper","29 Sep 2026","Lower back pain","R. Singh"],["D. Okoro","24 Sep 2026","Knee, post-surgery","L. Evans"],["S. Byrne","18 Sep 2026","Shoulder pain","R. Singh"],["A. Nowak","11 Sep 2026","Running injury","L. Evans"]],
+    note:"Patients who complete their treatment plan are more likely to recommend you."},
+  action:{q:"Draft a rebooking reminder for these patients",tools:['bookings.get_free_slots(next_days: 14)','outlook.create_draft()'],
+    intro:"Here's a caring reminder with real free slots. Each patient's name and clinician are filled in.",
+    to:"{n:11} patients without a follow-up",subj:"Your next appointment at {co}",
+    body:"Hi {first_name},\n\nWe hope you're feeling better since your first appointment with {clinician}.\n\nMost people need a few sessions to get lasting results. {clinician} has free slots next week, including Tuesday at 10:30 and Thursday at 17:15.\n\nBook online here: {booking_link}, or just reply to this email.\n\nTake care,\nThe team at {co}"},
+  quote:{q:"Quote a staff wellbeing package for 50 employees",client:"Orbis Logistics Ltd",ref:"Workplace physio and wellbeing, 6 months",
+    items:[["Workstation ergonomic assessments, half-day session",4,320,0],["On-site physio clinic day",6,560,0],["Treatment vouchers for staff",50,15,0]],
+    vatNote:"Physiotherapy by registered professionals is treated as VAT exempt in this sample."},
+  recs:["Contact the 11 patients who have not rebooked.","Missed appointments fell to 6.2%. Keep text reminders on for all clinicians.","Evening slots are 95% full. Consider one late clinic a week."]
+},
+{ id:"property", label:"Property & lettings", sub:"Letting agents, landlords, estates",
+  keys:["property","letting","landlord","estate","rent","tenant","housing"],
+  names:{micro:"Oakfield Lettings",sme:"Oakfield Property · 1,200 homes",large:"Oakfield Estates Group · 14,000 homes"},
+  systems:{micro:["Property software","Xero","Gmail"],sme:["Property management","Tenant portal","Xero","Microsoft 365"],large:["Housing management","Repairs system","Finance ERP","CRM","Microsoft 365"]},
+  kpis:[["Rent collected","s","97.1%","+0.4 pts",1],["Arrears","m",14300,"−6%",1],["Empty homes","n",9,"−18%",1],["Open repairs","n",42,"+12%",0]],
+  chart:{title:"Rent collected per week",u:"m",v:[27600,28100,27900,28300,28600,28400,28900,29100]},
+  perf:"Rent collection is up to 97.1% and arrears are down 6%. Open repairs are rising.",
+  insight:{q:"Which tenancies end in the next 60 days?",keys:["tenanc","renew","lease","expir","ending","end soon"],
+    tools:['property.get_tenancies(ending_within_days: 60)','outlook.get_last_contact()'],
+    intro:"<b>4 tenancies</b> end in the next 60 days. One tenant has not replied and one is leaving.",
+    cols:["Property","Tenant","End date","Status"],
+    rows:[["Flat 2, 18 Canal Street","T. Morgan","30 Oct 2026",{tag:"No reply",s:"bad"}],["14 Rowan Close","A. &amp; K. Patel","15 Nov 2026",{tag:"Renewing",s:"ok"}],["Flat 6, Mill House","J. Reid","22 Nov 2026",{tag:"Undecided",s:"warn"}],["3 Orchard Mews","L. Chen","8 Dec 2026",{tag:"Leaving",s:"bad"}]],
+    note:"Start marketing 3 Orchard Mews now to avoid an empty month."},
+  action:{q:"Draft an arrears reminder for Flat 4, 22 Mill Street",tools:['property.get_rent_account("Flat 4, 22 Mill Street")','outlook.create_draft()'],
+    intro:"Here's a supportive first reminder. It offers help before any formal step.",
+    to:"tenant, Flat 4, 22 Mill Street",subj:"Your rent account at Flat 4, 22 Mill Street",
+    body:"Dear Mr Hughes,\n\nOur records show your rent account is {m:1120} in arrears. The last payment we received was on 1 August.\n\nWe understand things can be difficult. If you are having trouble paying, please talk to us. We can agree a payment plan.\n\nPlease contact us by Friday 16 October to pay or discuss a plan.\n\nKind regards,\nNadia\nIncome Team, {co}"},
+  quote:{q:"Quote full management for a 3-bed house",client:"J. Okafor (landlord)",ref:"Full management, 3-bed house, rent £1,450 per month",
+    items:[["Full management fee, 12% of monthly rent",12,174],["Tenant find and referencing",1,450],["Inventory and check-in report",1,150],["Gas safety and electrical check coordination",1,60]]},
+  recs:["Call T. Morgan about Flat 2, 18 Canal Street. The tenancy ends on 30 October.","Start marketing 3 Orchard Mews now.","Open repairs are up 12%. Review contractor response times."]
+},
+{ id:"corporate", label:"Corporate & multi-department", sub:"Sales, finance, HR, operations",
+  keys:["corporate","enterprise","company","group","head office","board","department","organisation","organization"],
+  names:{micro:"Vantage Advisory · 8 staff",sme:"Vantage Group · 180 staff",large:"Vantage Group plc · 3,200 staff"},
+  systems:{micro:["HubSpot CRM","Xero","Microsoft 365"],sme:["CRM","Finance","HR system","Microsoft 365","SharePoint"],large:["Salesforce","SAP finance","Workday HR","Data warehouse","Microsoft 365"]},
+  kpis:[["Revenue","m",124000,"+3%",1],["Sales pipeline","m",410000,"+11%",1],["Win rate","s","29%","−2 pts",0],["Staff turnover (12 mo.)","s","11%","−1 pt",1]],
+  chart:{title:"Revenue per week",u:"m",v:[29000,30200,29800,30400,30600,31200,30700,31500]},
+  perf:"Revenue is up 3% and the pipeline grew 11%. Win rate dipped, so some deals are stalling.",
+  insight:{q:"Which large deals have gone quiet?",keys:["deal","pipeline","quiet","opportunit","stalled","sales"],
+    tools:['crm.get_opportunities(stage: "proposal", no_activity_days: ">21")','outlook.get_last_contact()'],
+    intro:"<b>4 deals</b> worth <span class='hl'>{m:129500}</span> have had no contact for over 3 weeks.",
+    cols:["Deal","Owner","Value|num","No contact for"],
+    rows:[["Halden Insurance, data platform","M. Clarke",{m:48000},{tag:"26 days",s:"warn"}],["Brook Street Clinics, rollout","J. Evans",{m:31500},{tag:"33 days",s:"bad"}],["Corvan Logistics, renewal","M. Clarke",{m:27200},{tag:"22 days",s:"warn"}],["Westmere Housing Trust, framework","R. Ahmed",{m:22800},{tag:"41 days",s:"bad"}]],
+    note:"Corvan is a renewal. Losing it would also hit next year's revenue."},
+  action:{q:"Draft a board update on Q3 sales",tools:['crm.get_sales_summary(period: "Q3-2026")','finance.get_revenue(period: "Q3-2026")','outlook.create_draft()'],
+    intro:"Here's a short board update. It uses figures from the CRM and finance system.",
+    to:"board@vantage-group.example",subj:"Q3 2026 sales update",
+    body:"Dear Board members,\n\nA short summary of Q3 2026 sales:\n\n• Revenue: {m:1580000}, up 3% on Q2\n• Pipeline: {m:410000}, up 11%\n• Win rate: 29%, down 2 points\n• 4 large deals ({m:129500}) have stalled. Owners have actions to re-engage this week.\n\nThe main risk is the Corvan Logistics renewal. We have a meeting booked for 20 October.\n\nFull report attached.\n\nKind regards,\nSophie Grant\nSales Director"},
+  quote:{q:"Prepare a quote for Halden Insurance",client:"Halden Insurance Ltd",ref:"Data platform discovery and pilot",
+    items:[["Discovery workshops and requirements",4,950],["Solution design and architecture",5,950],["Pilot build and testing",15,850],["Project management",6,700]]},
+  recs:["Re-engage the 4 stalled deals worth {m:129500}, starting with the Corvan renewal.","Win rate is down 2 points. Review recent losses for patterns.","Turnover improved to 11%. Keep the new onboarding programme."]
+}
+];
+const OTHER = {id:"other", label:"Something else", sub:"Show me a general example"};
 
-  /* ---------- business picker ---------- */
-  var list=$('#bizList');
-  BIZ.forEach(function(b){
-    var btn=el('button','dm-biz__btn','<span class="dm-biz__ico" aria-hidden="true">'+b.ico+'</span><span><strong>'+esc(b.label)+'</strong><small>'+esc(b.hint)+'</small></span>');
-    btn.type='button';btn.setAttribute('aria-pressed','false');btn.dataset.id=b.id;
-    btn.addEventListener('click',function(){pick(b.id)});
-    list.appendChild(btn);
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const chat = $("#chat");
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const sleep = ms => new Promise(r => setTimeout(r, RM ? Math.min(ms,60) : ms));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const st = {ind:null,size:null,used:new Set(),answers:0,busy:false,cta:false};
+const F = () => st.size ? SIZES[st.size].f : 1;
+
+function money(v, dp){
+  const a = Math.abs(v), sign = v < 0 ? "−" : "";
+  if (a >= 1e6) return sign + "£" + (a/1e6).toFixed(a >= 1e7 ? 1 : 2).replace(/\.0+$/,"") + "m";
+  return sign + "£" + a.toLocaleString("en-GB",{minimumFractionDigits:dp||0,maximumFractionDigits:dp||0});
+}
+const scaleM = v => money(Math.round(v * F() / (F() > 1 ? 10 : 1)) * (F() > 1 ? 10 : 1));
+const scaleN = v => Math.round(v * F()).toLocaleString("en-GB");
+function fx(s){
+  if (typeof s !== "string") return s;
+  return s.replace(/\{m:(\d+)\}/g,(_,n)=>scaleM(+n)).replace(/\{n:(\d+)\}/g,(_,n)=>scaleN(+n)).replace(/\{co\}/g, coName());
+}
+function cell(c){
+  if (c && typeof c === "object"){
+    if ("m" in c) return scaleM(c.m);
+    if ("n" in c) return scaleN(c.n);
+    if ("tag" in c) return `<span class="tag ${c.s}">${c.tag}</span>`;
+  }
+  return fx(String(c));
+}
+const coName = () => st.ind ? st.ind.names[st.size || "micro"].replace(/ · .*/,"") : "";
+const coFull = () => st.ind ? st.ind.names[st.size || "micro"] : "";
+const sysList = () => st.ind ? st.ind.systems[st.size || "micro"] : [];
+
+function scrollDown(){ chat.scrollTop = chat.scrollHeight; }
+function addMsg(role, html){
+  const d = document.createElement("div");
+  d.className = "msg " + role;
+  d.innerHTML = role === "bot" ? `<div class="stack">${html}</div>` : html;
+  chat.appendChild(d); scrollDown(); return d;
+}
+async function typing(ms){
+  const t = addMsg("bot", `<div class="typing" aria-label="Assistant is typing"><i></i><i></i><i></i></div>`);
+  await sleep(ms); t.remove();
+}
+function chips(items, cls, onPick){
+  const wrap = document.createElement("div");
+  wrap.className = "chips " + (cls||"");
+  items.forEach(it => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip";
+    b.innerHTML = it.html;
+    b.addEventListener("click", () => { if (st.busy) return; wrap.setAttribute("aria-disabled","true"); onPick(it.v); });
+    wrap.appendChild(b);
   });
+  return wrap;
+}
+function disableOldChips(){ chat.querySelectorAll(".chips").forEach(c => c.setAttribute("aria-disabled","true")); }
 
-  function pick(id){
-    var b=BIZ.find(function(x){return x.id===id});if(!b)return;
-    cur=b;run++;busy=false;
-    list.querySelectorAll('.dm-biz__btn').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.id===id))});
-    $('#coCard').innerHTML='<div class="dm-mono">Sample company</div><h4>'+esc(b.co)+'</h4><p>'+esc(b.where)+'</p><div class="dm-tags">'+b.systems.map(function(s){return '<span class="dm-tag" title="'+esc(s[1])+'"><i></i>'+esc(s[0])+'</span>'}).join('')+'</div>';
-    $('#chatCo').textContent='· '+b.co;
-    log.innerHTML='';
-    var hi=el('div','dm-msg dm-msg--bot');
-    hi.innerHTML='<p>Hi, I\'m the assistant for <strong>'+esc(b.co)+'</strong>. I\'m connected to '+b.systems.map(function(s){return esc(s[0])}).join(', ')+'.</p><p class="dm-hello">Pick a question below, or type your own.</p>';
-    log.appendChild(hi);
-    renderSuggest();
-    // architecture "your systems"
-    $('#sysFor').textContent='· '+b.co;
-    $('#sysList').innerHTML=b.systems.map(function(s){return '<div class="dm-node dm-node--sys">'+esc(s[0])+'<small>'+esc(s[1])+'</small></div>'}).join('');
-    // size tier
-    document.querySelectorAll('.dm-size').forEach(function(c){c.classList.toggle('is-sel',c.dataset.size===b.size)});
-    fillCompose();
+/* ---------- renderers ---------- */
+function tableHTML(cols, rows){
+  const hd = cols.map(c => { const [t,k] = c.split("|"); return `<th class="${k||""}">${t}</th>`; }).join("");
+  const nums = cols.map(c => c.split("|")[1] === "num");
+  const bd = rows.map(r => "<tr>" + r.map((c,i)=>`<td class="${nums[i]?"num":""}">${cell(c)}</td>`).join("") + "</tr>").join("");
+  return `<table class="t"><thead><tr>${hd}</tr></thead><tbody>${bd}</tbody></table>`;
+}
+function kpiVal(k){ return k[1]==="m" ? scaleM(k[2]) : k[1]==="n" ? scaleN(k[2]) : k[2]; }
+function kpisHTML(ind){
+  return `<div class="kpis">` + ind.kpis.map(k => `<div class="kpi"><div class="l">${k[0]}</div><div class="v">${kpiVal(k)}</div><div class="d ${k[4]?"good":"badd"}">${k[3]} vs prior 4 wks</div></div>`).join("") + `</div>`;
+}
+function chartSVG(ch){
+  const vals = ch.v.map(v => ch.u === "m" ? v * F() : v * F());
+  const W = 560, H = 190, L = 56, R = 8, T = 10, B = 26;
+  const max = Math.max(...vals);
+  const step = niceStep(max / 4);
+  const top = Math.ceil(max / step) * step;
+  const bw = (W - L - R) / vals.length;
+  const y = v => T + (H - T - B) * (1 - v / top);
+  let g = "";
+  for (let t = 0; t <= top + 1e-6; t += step){
+    g += `<line x1="${L}" x2="${W-R}" y1="${y(t)}" y2="${y(t)}" stroke="var(--c-grid)" stroke-width="1"/>`;
+    g += `<text x="${L-8}" y="${y(t)+4}" text-anchor="end" font-size="11" fill="var(--c-txt)" font-family="IBM Plex Mono, monospace">${ch.u==="m"?shortMoney(t):shortNum(t)}</text>`;
   }
-
-  function renderSuggest(){
-    suggest.innerHTML='';
-    cur.qs.forEach(function(q){
-      var s=el('button','dm-sug','<b style="--c:'+JOB[q.job][1]+'">'+JOB[q.job][0]+'</b>'+esc(q.q));
-      s.type='button';s.addEventListener('click',function(){ask(q.q,q)});
-      suggest.appendChild(s);
-    });
-  }
-
-  function match(text){
-    var t=text.toLowerCase(), best=null, score=0;
-    cur.qs.forEach(function(q){var s=0;q.k.forEach(function(k){if(t.indexOf(k)>-1)s++});if(s>score){score=s;best=q}});
-    return score>0?best:null;
-  }
-
-  /* ---------- ask / answer ---------- */
-  async function ask(text,q){
-    if(busy)return;
-    if(!cur){pick(BIZ[0].id)}
-    busy=true;var me=run;
-    var u=el('div','dm-msg dm-msg--user');u.textContent=text;log.appendChild(u);
-    q=q||match(text);
-    var bot=el('div','dm-msg dm-msg--bot');log.appendChild(bot);
-    var typing=el('div','dm-typing','<i></i><i></i><i></i>');bot.appendChild(typing);scroll();
-    await wait(500);if(me!==run)return;typing.remove();
-
-    if(!q){
-      bot.innerHTML='<p>In this guided demo I can only answer the sample questions for <strong>'+esc(cur.co)+'</strong>, such as:</p><p class="dm-hello">'+cur.qs.map(function(x){return '“'+esc(x.q)+'”'}).join('<br>')+'</p><p class="dm-note">In your own build, I\'d answer questions like yours from your real systems.</p>';
-      scroll();busy=false;return;
-    }
-
-    var tr=el('div','dm-trace');
-    q.trace.forEach(function(t){tr.appendChild(el('div','','→ <b>'+esc(t[0])+'</b>('+esc(t[1])+') <em>✓ '+esc(t[2])+'</em>'))});
-    bot.appendChild(tr);
-    var rows=tr.children;
-    for(var i=0;i<rows.length;i++){await wait(420);if(me!==run)return;rows[i].classList.add('on');scroll()}
-    await wait(300);if(me!==run)return;
-
-    var a=el('div','dm-ans');
-    q.text.forEach(function(p){a.appendChild(el('p','',p))});
-    if(q.kpis)a.appendChild(kpis(q.kpis));
-    if(q.table)a.appendChild(table(q.table));
-    var barsEl=q.bars?bars(q.bars):null;if(barsEl)a.appendChild(barsEl);
-    if(q.quote)a.appendChild(quote(q.quote));
-    if(q.email)a.appendChild(email(q.email));
-    if(q.after)a.appendChild(el('p','dm-note',q.after));
-    bot.appendChild(a);
-    requestAnimationFrame(function(){a.classList.add('on');if(barsEl)barsEl.querySelectorAll('.dm-bar__fill').forEach(function(f){f.style.width=f.dataset.w})});
-    scroll();
-    busy=false;
-  }
-
-  function kpis(k){
-    return el('div','dm-kpis',k.map(function(x){return '<div class="dm-kpi"><small>'+esc(x[0])+'</small><b>'+esc(x[1])+'</b><span class="'+(x[3]||'')+'">'+esc(x[2])+'</span></div>'}).join(''));
-  }
-  function table(t){
-    var w=el('div','dm-tbl-wrap');
-    var h='<table class="dm-tbl"><thead><tr>'+t.h.map(function(c,i){return '<th'+(t.n.indexOf(i)>-1?' class="n"':'')+'>'+esc(c)+'</th>'}).join('')+'</tr></thead><tbody>';
-    h+=t.r.map(function(r){return '<tr>'+r.map(function(c,i){return '<td'+(t.n.indexOf(i)>-1?' class="n"':'')+'>'+esc(c)+'</td>'}).join('')+'</tr>'}).join('');
-    w.innerHTML=h+'</tbody></table>';return w;
-  }
-  function fmt(v,b){
-    var n=b.s?v.toFixed(2):v.toLocaleString('en-GB');
-    return (b.u||'')+n+(b.s||'');
-  }
-  function bars(b){
-    var max=Math.max.apply(null,b.r.map(function(r){return r[1]}));
-    var w=el('div','dm-bars','<div class="dm-bars__t">'+esc(b.t)+'</div>');
-    b.r.forEach(function(r){
-      w.appendChild(el('div','dm-bar','<span>'+esc(r[0])+'</span><span class="dm-bar__track"><span class="dm-bar__fill" data-w="'+(r[1]/max*100).toFixed(1)+'%"></span></span><b>'+fmt(r[1],b)+'</b>'));
-    });
-    return w;
-  }
-  function money(s){return parseFloat(String(s).replace(/[^0-9.\-]/g,''))||0}
-  function quote(q){
-    var c=el('div','dm-card');
-    var rows=q.lines.map(function(l){
-      var line=l[1]===''?money(l[2]):money(l[2])*l[1];
-      return '<tr><td>'+esc(l[0])+'</td><td class="n">'+esc(l[1])+'</td><td class="n">'+esc(l[1]===''?'':l[2])+'</td><td class="n">'+(line<0?'-':'')+'£'+Math.abs(line).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td></tr>';
-    }).join('');
-    c.innerHTML='<div class="dm-card__head"><span>Draft quote · '+esc(q.to)+'</span><em>Draft · not sent</em></div>'+
-      '<div class="dm-tbl-wrap" style="margin:0;border:0;border-radius:0"><table class="dm-tbl"><thead><tr><th>Item</th><th class="n">Qty</th><th class="n">Unit</th><th class="n">Line</th></tr></thead><tbody>'+rows+
-      '<tr class="tot"><td colspan="3">Total</td><td class="n">'+esc(q.total)+'</td></tr></tbody></table></div>'+
-      '<div class="dm-card__body dm-note" style="margin:0">'+esc(q.note)+'</div>';
-    approvals(c,'Approve quote','Approved and saved. In your build, this is marked approved in your accounts system and logged with your name. (Demo: nothing was saved or sent.)');
-    return c;
-  }
-  function email(e){
-    var c=el('div','dm-card');
-    c.innerHTML='<div class="dm-card__head"><span>Draft message</span><em>Waiting for your approval</em></div>'+
-      '<div class="dm-card__body"><div class="dm-email__meta"><span>To: <b>'+esc(e.to)+'</b></span><span>Subject: <b>'+esc(e.subj)+'</b></span></div><div class="dm-email__text">'+esc(e.body)+'</div></div>';
-    approvals(c,'Approve and send','Approved. In your build, this sends from your own account and is logged: who approved it, when, and to whom. (Demo: nothing was sent.)',true);
-    return c;
-  }
-  function approvals(card,label,done,editable){
-    var acts=el('div','dm-card__acts');
-    var ok=el('button','dm-btn dm-btn--go',esc(label));ok.type='button';
-    acts.appendChild(ok);
-    var ed=null;
-    if(editable){
-      ed=el('button','dm-btn','Edit');ed.type='button';acts.appendChild(ed);
-      ed.addEventListener('click',function(){
-        var t=card.querySelector('.dm-email__text'),on=t.getAttribute('contenteditable')==='true';
-        t.setAttribute('contenteditable',on?'false':'true');ed.textContent=on?'Edit':'Done editing';if(!on)t.focus();
-      });
-    }
-    var no=el('button','dm-btn','Discard');no.type='button';acts.appendChild(no);
-    card.appendChild(acts);
-    function finish(msg,cls,head){
-      acts.remove();var t=card.querySelector('.dm-email__text');if(t)t.setAttribute('contenteditable','false');
-      var h=card.querySelector('.dm-card__head em');h.textContent=head;h.className=cls;
-      card.appendChild(el('div','dm-done',esc(msg)));scroll();
-    }
-    ok.addEventListener('click',function(){finish(done,'ok','Approved')});
-    no.addEventListener('click',function(){finish('Discarded. Nothing was saved or sent.','','Discarded')});
-  }
-
-  $('#askForm').addEventListener('submit',function(e){
-    e.preventDefault();var i=$('#askInput'),v=i.value.trim();if(!v)return;i.value='';ask(v);
+  vals.forEach((v,i) => {
+    const x = L + i*bw + bw*0.18, w = bw*0.64;
+    const last4 = i >= vals.length - 4;
+    g += `<rect x="${x}" y="${y(v)}" width="${w}" height="${(H-B)-y(v)}" rx="3" fill="${last4?"var(--c-bar-hi)":"var(--c-bar)"}"/>`;
+    g += `<text x="${x+w/2}" y="${H-8}" text-anchor="middle" font-size="11" fill="var(--c-txt)" font-family="IBM Plex Mono, monospace">${WEEKS[i]}</text>`;
   });
+  return `<div class="chart"><div class="ct">${ch.title}, last 8 weeks (highlighted: latest 4)</div><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${ch.title}">${g}</svg></div>`;
+}
+function niceStep(x){ const p = Math.pow(10, Math.floor(Math.log10(x))); const n = x/p; return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p; }
+function shortMoney(v){ return v>=1e6 ? "£"+(v/1e6).toFixed(v%1e6?1:0)+"m" : v>=1e3 ? "£"+(v/1e3).toFixed(v%1e3?1:0)+"k" : "£"+v; }
+function shortNum(v){ return v>=1e6 ? (v/1e6).toFixed(v%1e6?1:0)+"m" : v>=1e3 ? (v/1e3).toFixed(v%1e3?1:0)+"k" : String(v); }
 
-  /* ---------- enquiry composer ---------- */
-  var msgTouched=false;
-  $('#cMsg').addEventListener('input',function(){msgTouched=true});
-  function fillCompose(){
-    if(msgTouched)return;
-    var m;
-    if(cur){
-      var kind=cur.label.toLowerCase();
-      m='Hi MatsenseAI,\n\nI tried the AI assistant demo for a '+kind+'. We have about '+cur.staff+' staff and use systems similar to '+cur.systems.map(function(s){return s[0]}).join(', ')+'.\n\nI\'d like an assistant that can '+cur.goals+'.\n\nCould we book the free 30-minute call?\n\nThanks';
-    }else{
-      m='Hi MatsenseAI,\n\nI tried the AI assistant demo and would like to see what it could do with our own systems.\n\nCould we book the free 30-minute call?\n\nThanks';
-    }
-    $('#cMsg').value=m;
+async function runTools(list){
+  const box = addMsg("bot", `<div class="tools"></div>`).querySelector(".tools");
+  for (const t of list){
+    const el = document.createElement("div");
+    el.className = "tool";
+    el.innerHTML = `<span class="st"><span class="spin"></span></span><span>${esc(t)}</span>`;
+    box.appendChild(el); scrollDown();
+    await sleep(520 + Math.random()*380);
+    el.classList.add("done"); el.querySelector(".st").textContent = "✓";
   }
-  fillCompose();
+  await sleep(250);
+}
 
-  $('#cCopy').addEventListener('click',function(){
-    var s=$('#cStatus'),t=$('#cMsg').value;
-    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){s.textContent='Copied. Paste it into an email to info@matsenseai.co.uk.';s.className='dm-status ok'},function(){$('#cMsg').select();s.textContent='Press Ctrl/Cmd + C to copy.';s.className='dm-status'});
-  });
+/* ---------- quote + report ---------- */
+function quoteCalc(q){
+  let sub = 0, vat = 0;
+  q.items.forEach(it => { const line = it[1]*it[2]; sub += line; vat += line * ((it[3] ?? 20)/100); });
+  return {sub, vat, total: sub + vat};
+}
+const qNum = () => "QT-2026-" + (1040 + IND.indexOf(st.ind) * 7 + Object.keys(SIZES).indexOf(st.size || "micro"));
 
-  $('#composeForm').addEventListener('submit',async function(e){
-    e.preventDefault();
-    var s=$('#cStatus'),b=$('#cSend');
-    b.disabled=true;s.textContent='Sending…';s.className='dm-status';
-    var data={name:$('#cName').value.trim(),email:$('#cEmail').value.trim(),company:$('#cCompany').value.trim(),
-      services:'AI business assistant (demo enquiry)'+(cur?' · '+cur.label:''),message:$('#cMsg').value,source:'demo.html'};
-    try{
-      var r=await fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-      if(!r.ok)throw new Error();
-      s.textContent='Thanks, we\'ve got your message and will reply within one business day.';s.className='dm-status ok';
-      e.target.reset();msgTouched=false;fillCompose();
-    }catch(err){
-      s.textContent='Sorry, that didn\'t send. Please email info@matsenseai.co.uk instead.';s.className='dm-status err';
-    }
-    b.disabled=false;
-  });
+function paperHead(kind){
+  return `<div class="ph"><div class="brand">${coName()}<small>${kind}</small></div><div class="meta" style="text-align:right">Prepared with the AI assistant<br>12 October 2026</div></div>`;
+}
+function quoteDoc(){
+  const q = st.ind.quote, c = quoteCalc(q);
+  const rows = q.items.map(it => `<tr><td>${it[0]}</td><td class="num">${it[1].toLocaleString("en-GB")}</td><td class="num">${money(it[2],2)}</td><td class="num">${(it[3] ?? 20)}%</td><td class="num">${money(it[1]*it[2],2)}</td></tr>`).join("");
+  return paperHead("Quotation") +
+  `<h1>Quotation ${qNum()}</h1><p class="meta">${q.ref}</p>
+  <div class="two" style="margin-top:16px"><div><h4 style="margin-top:0">Prepared for</h4>${q.client}</div><div><h4 style="margin-top:0">Details</h4>Date: 12 October 2026<br>Valid until: 11 November 2026<br>Status: <span class="tag warn">Draft, awaiting approval</span></div></div>
+  <h4>Items</h4><div class="tw"><table><thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Unit price</th><th class="num">VAT</th><th class="num">Line total</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <div class="tot"><div><span>Subtotal</span><span>${money(c.sub,2)}</span></div><div><span>VAT</span><span>${money(c.vat,2)}</span></div><div class="g"><span>Total</span><span>${money(c.total,2)}</span></div></div>
+  ${q.vatNote ? `<p class="meta" style="margin-top:8px">${q.vatNote}</p>` : ""}
+  <h4>Terms</h4><ul><li>Prices come from the current price list in your system. The assistant does not set prices.</li><li>Payment due within 30 days of invoice.</li><li>This quote is valid for 30 days.</li></ul>
+  <div class="pf">Demo document. ${coName()} and ${q.client.replace(/&amp;/g,"&")} are fictional. In your build, quotes use your own template, price list and terms.</div>`;
+}
+function reportDoc(){
+  const ind = st.ind, s = SIZES[st.size || "micro"];
+  const k = ind.kpis.map(k => `<div><small>${k[0]}</small><b>${kpiVal(k)}</b><em class="${k[4]?"good":"badd"}">${k[3]}</em></div>`).join("");
+  return paperHead("Monthly management report") +
+  `<h1>Management report, September 2026</h1><p class="meta">${coFull()} · 4 weeks to 4 October 2026 · ${s.label} (${s.sub})</p>
+  <h4>Summary</h4><p>${fx(ind.perf)}</p>
+  <h4>Key figures</h4><div class="pk">${k}</div>
+  <h4>Trend</h4>${chartSVG(ind.chart)}
+  <h4>Needs attention</h4><p style="margin-bottom:8px">${fx(ind.insight.intro).replace(/<span class='hl'>|<\/span>/g,"")}</p><div class="tw">${tableHTML(ind.insight.cols, ind.insight.rows).replace('class="t"',"")}</div>
+  <h4>Recommended actions</h4><ol>${ind.recs.map(r=>`<li>${fx(r)}</li>`).join("")}</ol>
+  <h4>Data sources</h4><p class="meta">${sysList().join(" · ")}. Figures were read live at the time of the report. Nothing was changed in any system.</p>
+  <div class="pf">Demo document generated from sample data. All companies, people and figures are fictional. In your build, reports follow your own layout and branding.</div>`;
+}
+const dlg = $("#docDlg");
+function openDoc(kind){
+  $("#paper").innerHTML = kind === "quote" ? quoteDoc() : reportDoc();
+  $("#docLabel").textContent = (kind === "quote" ? "Quotation" : "Management report") + " · sample data";
+  $("#paper").scrollTop = 0;
+  if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open","");
+}
+$("#closeDoc").addEventListener("click", () => dlg.close ? dlg.close() : dlg.removeAttribute("open"));
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+try { if (window.self === window.top) $("#printBtn").hidden = false; } catch(e) {}
+$("#printBtn").addEventListener("click", () => window.print());
 
-  /* default selection */
-  pick('trades');
+/* ---------- prompt kinds ---------- */
+const KINDS = ["insight","perf","action","quote","report"];
+function promptText(kind){
+  const ind = st.ind;
+  return {insight: ind.insight.q, perf: "How did we do over the last 4 weeks?", action: ind.action.q, quote: ind.quote.q, report: "Create this month's management report"}[kind];
+}
+function suggest(lead){
+  const left = KINDS.filter(k => !st.used.has(k));
+  const list = left.length ? left : KINDS;
+  const html = (lead ? `<div class="txt muted" style="font-size:.88rem">${lead}</div>` : "");
+  const m = addMsg("bot", html);
+  m.querySelector(".stack").appendChild(chips(list.map(k => ({v:k, html:esc(promptText(k)).replace(/&amp;amp;/g,"&amp;")})), "q", runPrompt));
+  scrollDown();
+}
+
+async function runPrompt(kind){
+  if (st.busy) return; st.busy = true; disableOldChips();
+  const ind = st.ind;
+  addMsg("user", esc(promptText(kind)).replace(/&amp;amp;/g,"&amp;"));
+  await typing(500);
+  if (kind === "insight"){
+    await runTools(ind.insight.tools);
+    addMsg("bot", `<div class="txt">${fx(ind.insight.intro)}</div><div class="tbl-wrap">${tableHTML(ind.insight.cols, ind.insight.rows)}</div><div class="txt muted">${fx(ind.insight.note)}</div>`);
+  } else if (kind === "perf"){
+    const src = sysList()[0].toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+    await runTools([`${src}.get_kpis(period: "last_4_weeks", compare: "previous")`, `${src}.get_weekly_totals(weeks: 8)`]);
+    addMsg("bot", `<div class="txt">Here's ${coName()} over the last 4 weeks, compared with the 4 weeks before.</div>${kpisHTML(ind)}${chartSVG(ind.chart)}<div class="txt">${fx(ind.perf)}</div>`);
+  } else if (kind === "action"){
+    await runTools(ind.action.tools);
+    const a = ind.action;
+    const m = addMsg("bot", `<div class="txt">${fx(a.intro)}</div>
+      <div class="mail"><div class="mh"><div><span>To</span>${fx(a.to)}</div><div><span>Subject</span><b>${fx(a.subj)}</b></div></div>
+      <div class="mb">${esc(fx(a.body)).replace(/&amp;amp;/g,"&amp;")}</div>
+      <div class="mf"><button class="btn btn-sm approve" type="button">Approve and send</button><button class="btn btn-ghost btn-sm" type="button" data-edit>Edit</button><span class="muted" style="font-size:.8rem">Saved as a draft. Nothing is sent without your approval.</span></div></div>`);
+    const mb = m.querySelector(".mb"), mf = m.querySelector(".mf");
+    m.querySelector("[data-edit]").addEventListener("click", e => { const on = mb.getAttribute("contenteditable") === "true"; mb.setAttribute("contenteditable", on ? "false" : "true"); e.target.textContent = on ? "Edit" : "Done editing"; if (!on) mb.focus(); });
+    m.querySelector(".approve").addEventListener("click", () => { mb.setAttribute("contenteditable","false"); mf.innerHTML = `<span class="note-ok">✓ Approved. In your live build, this sends from your own mailbox and is recorded in the audit log. In this demo, nothing was sent.</span>`; });
+  } else if (kind === "quote"){
+    const q = ind.quote, c = quoteCalc(q);
+    await runTools([`pricing.get_price_list(customer: "${q.client.replace(/&amp;/g,"&")}")`, `quotes.calculate(items: ${q.items.length})`, `quotes.create_draft(ref: "${qNum()}")`]);
+    const m = addMsg("bot", `<div class="txt">Draft quote <b>${qNum()}</b> for ${q.client} is ready. The total is <span class="hl">${money(c.total,2)}</span> including VAT. Prices come from your price list, and the maths is done by the system, not guessed by the AI.</div>
+      <div class="doccard"><span class="ic" aria-hidden="true"></span><div class="meta"><b>Quotation ${qNum()}</b><small>${q.items.length} items · valid 30 days · draft</small></div><button class="btn btn-primary btn-sm" type="button">Open quote</button></div>`);
+    m.querySelector(".doccard button").addEventListener("click", () => openDoc("quote"));
+  } else if (kind === "report"){
+    const sys = sysList().map(s => s.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,""));
+    await runTools([`${sys[0]}.get_kpis(period: "2026-09")`, ...ind.insight.tools.slice(0,1), `docs.create_report(template: "monthly_management", format: "pdf")`]);
+    const m = addMsg("bot", `<div class="txt">Your September report is ready. It pulls figures from ${sysList().length} systems and includes a summary, key figures, a trend chart, issues to act on and recommended next steps.</div>
+      <div class="doccard"><span class="ic" aria-hidden="true"></span><div class="meta"><b>Management report, September 2026</b><small>${coName()} · 1 page · PDF</small></div><button class="btn btn-primary btn-sm" type="button">Open report</button></div>`);
+    m.querySelector(".doccard button").addEventListener("click", () => openDoc("report"));
+  }
+  st.used.add(kind); st.answers++;
+  await sleep(350);
+  if (st.answers === 3 && !st.cta){
+    st.cta = true;
+    const m = addMsg("bot", `<div class="txt">That's the idea. Everything here used sample data for <b>${coName()}</b>. We can build the same thing on your own systems, with your prices, report layouts and approval rules.</div><div><a class="btn btn-primary btn-sm" href="#contact">Book a free 30-minute call</a></div>`);
+  }
+  suggest(st.used.size >= KINDS.length ? "You've tried them all. Run any again:" : "Try another:");
+  st.busy = false;
+}
+
+/* ---------- flow ---------- */
+async function start(auto){
+  chat.innerHTML = ""; st.ind = null; st.size = null; st.used.clear(); st.answers = 0; st.cta = false; st.busy = true;
+  updateChrome();
+  await typing(450);
+  const m = addMsg("bot", `<div class="txt">Hi, I'm the MatsenseAI demo assistant. To show you something useful, <b>what kind of business are you?</b></div>`);
+  const all = IND.map(i => ({v:i.id, html:`${i.label}<small>${i.sub}</small>`})).concat([{v:"other", html:`${OTHER.label}<small>${OTHER.sub}</small>`}]);
+  m.querySelector(".stack").appendChild(chips(all, "grid", pickIndustry));
+  st.busy = false;
+  if (auto) pickIndustry(auto);
+}
+async function pickIndustry(id){
+  if (st.busy) return; st.busy = true; disableOldChips();
+  const ind = id === "other" ? IND.find(i => i.id === "corporate") : IND.find(i => i.id === id);
+  addMsg("user", id === "other" ? OTHER.label : ind.label);
+  st.ind = ind;
+  await typing(450);
+  const m = addMsg("bot", `<div class="txt">${id === "other" ? "No problem. I'll use a general business example, and we tailor every real build to your sector. " : ""}<b>How big is the business?</b> This changes the sample company and the systems it uses.</div>`);
+  m.querySelector(".stack").appendChild(chips(Object.entries(SIZES).map(([k,s]) => ({v:k, html:`${s.label}<small>${s.sub}</small>`})), "", pickSize));
+  st.busy = false;
+}
+async function pickSize(k){
+  if (st.busy) return; st.busy = true; disableOldChips();
+  addMsg("user", SIZES[k].label + " (" + SIZES[k].sub + ")");
+  st.size = k;
+  await typing(400);
+  await runTools([`demo.load_sample_company(sector: "${st.ind.id}", size: "${k}")`, ...sysList().map(s => `connect("${s}")`)]);
+  updateChrome();
+  addMsg("bot", `<div class="txt">I've loaded a sample company: <b>${coFull()}</b>. It's connected to ${sysList().length} systems, shown at the top. Ask me something, or pick a question:</div>`);
+  st.busy = false;
+  suggest("");
+}
+function updateChrome(){
+  $("#coPill").textContent = st.ind && st.size ? coName() : "Choose a business type";
+  $("#sysChips").innerHTML = st.ind && st.size ? sysList().map(s => `<span class="pill">${esc(s)}</span>`).join("") : "";
+  const arch = $("#archSystems");
+  const list = st.ind && st.size ? sysList() : ["CRM or booking system","Till, orders or jobs","Accounts (e.g. Xero, Sage)","Microsoft 365 or Google"];
+  arch.innerHTML = `<div class="lab">${st.ind && st.size ? "Systems for " + esc(st.ind.label.toLowerCase()) : "Your systems"}</div>` + list.map(s => `<div class="node">${esc(s)}</div>`).join("");
+  document.querySelectorAll(".size").forEach(el => { const on = el.dataset.size === st.size; el.classList.toggle("on", on); el.querySelector(".you").hidden = !on; });
+  const it = $("#interest");
+  it.textContent = st.ind && st.size ? `You tried: ${st.ind.label} · ${SIZES[st.size].label}` : "";
+  const sector = st.ind ? st.ind.label.toLowerCase() : "my business";
+  const size = st.size ? SIZES[st.size].sub : "";
+  $("#enquiry").value = `Hello MatsenseAI,\n\nI tried the AI assistant demo for ${sector}${size ? " (" + size + ")" : ""}.\n\nWe use: [your systems, e.g. till, CRM, accounts, Microsoft 365]\nWe would most like help with: [quotes / reports / chasing invoices / other]\n\nPlease contact me to book a free 30-minute call.\n\nName:\nCompany:\nPhone:`;
+  const subj = "AI assistant demo enquiry" + (st.ind ? " – " + st.ind.label + (st.size ? " (" + SIZES[st.size].label + ")" : "") : "");
+  $("#mailLink").href = "mailto:info@matsenseai.co.uk?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent($("#enquiry").value);
+}
+
+/* free text: map to the closest demo question */
+$("#askForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const inp = $("#ask"), q = inp.value.trim();
+  if (!q || st.busy) return;
+  inp.value = "";
+  const t = q.toLowerCase();
+  if (!st.ind){
+    const hit = IND.find(i => i.keys.some(k => t.includes(k)));
+    if (hit) return pickIndustry(hit.id);
+    addMsg("user", esc(q)); await typing(400);
+    addMsg("bot", `<div class="txt">Pick the closest business type above, or choose <b>Something else</b>. In your own build, I would know your business already.</div>`);
+    return;
+  }
+  if (!st.size){
+    const k = /large|corporate|enterprise|plc|250|hundreds|thousand/.test(t) ? "large" : /sme|medium|growing|\b(1\d|[2-9]\d|1\d\d|2[0-4]\d)\b/.test(t) ? "sme" : /small|just me|micro|sole|few|family/.test(t) ? "micro" : null;
+    if (k) return pickSize(k);
+    addMsg("user", esc(q)); await typing(400);
+    addMsg("bot", `<div class="txt">Please choose a size above so I can load the right sample company.</div>`);
+    return;
+  }
+  const ind = st.ind;
+  let kind = null;
+  if (ind.insight.keys.some(k => t.includes(k))) kind = "insight";
+  else if (/report|summary|board pack|management/.test(t)) kind = "report";
+  else if (/quote|quotation|price for|estimate|proposal|cost of/.test(t)) kind = "quote";
+  else if (/email|draft|message|remind|chase|write|text|letter|follow-up|offer/.test(t)) kind = "action";
+  else if (/how did|how are|perform|sales|revenue|turnover|kpi|week|month|trend|doing/.test(t)) kind = "perf";
+  if (kind){
+    st.busy = true; disableOldChips();
+    addMsg("user", esc(q)); await typing(450);
+    addMsg("bot", `<div class="txt muted" style="font-size:.88rem">In this demo, I'll answer the closest sample question: “${esc(promptText(kind)).replace(/&amp;amp;/g,"&amp;")}”</div>`);
+    st.busy = false;
+    return runPrompt(kind);
+  }
+  st.busy = true; disableOldChips();
+  addMsg("user", esc(q)); await typing(450);
+  addMsg("bot", `<div class="txt">Good question. This demo only has a few prepared answers. In your own build, I can answer questions like this from your live systems. Try one of these:</div>`);
+  st.busy = false;
+  suggest("");
+});
+
+$("#resetBtn").addEventListener("click", () => { if (!st.busy) { start(); $("#demo").scrollIntoView({behavior: RM ? "auto" : "smooth"}); } });
+
+$("#copyBtn").addEventListener("click", () => {
+  const ta = $("#enquiry"), note = $("#copyNote");
+  const fallback = () => { ta.focus(); ta.select(); note.textContent = "Selected. Press Ctrl+C or ⌘C to copy."; };
+  try {
+    navigator.clipboard.writeText(ta.value).then(() => { note.textContent = "Copied. Paste it into an email to info@matsenseai.co.uk."; }, fallback);
+  } catch(e){ fallback(); }
+});
+
+/* deep link: ai-demo.html#takeaway opens straight into that sector (useful for email campaigns) */
+const h = (location.hash || "").slice(1).toLowerCase();
+const deep = IND.find(i => i.id === h) ? h : null;
+updateChrome();
+start(deep);
+if (deep) setTimeout(() => $("#demo").scrollIntoView(), 50);
 })();
-
-(function(){const path=(location.pathname.split('/').pop()||'index.html').replace('.html','');const map={index:'home','':'home',about:'about',services:'services',work:'work',process:'process',demo:'demo',contact:'contact'};const k=map[path]||'home';document.querySelectorAll('[data-link]').forEach(a=>a.classList.toggle('is-active',a.dataset.link===k));})();
-(function(){var h=document.querySelector('.nav__hamburger'),o=document.querySelector('.nav__mobile-overlay');if(!h||!o)return;h.addEventListener('click',function(){h.classList.toggle('is-open');o.classList.toggle('is-open');document.body.style.overflow=o.classList.contains('is-open')?'hidden':'';});o.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){h.classList.remove('is-open');o.classList.remove('is-open');document.body.style.overflow='';});});})();
 </script>
 </body>
 </html>
