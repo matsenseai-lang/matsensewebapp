@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>MatsenseAI — AI Business Assistant</title>
+<!-- Source for downloads/MatsenseAI-AI-Business-Assistant.pdf. Print to A4 with backgrounds on. -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* All text colours meet WCAG 2.2 AA (4.5:1) or better on their background. */
+  :root{
+    --ink:#14141F;      /* 18.3:1 on white */
+    --ink-2:#3E4152;    /* 10.1:1 on white */
+    --ink-3:#5A5D70;    /*  6.5:1 on white */
+    --line:#DCDDE6;
+    --paper:#FFFFFF;
+    --tint:#F4F5FA;
+    --teal:#00708F;     /*  5.7:1 on white */
+    --violet:#5B2FD6;   /*  7.4:1 on white */
+    --magenta:#B0145E;  /*  6.8:1 on white */
+    --green:#1A7A4C;    /*  5.3:1 on white */
+    --night:#0B0B14;
+    --grad:linear-gradient(135deg,#36E2FF 0%,#8B5BFF 50%,#FF3DA5 100%);
+    --f:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+    --serif:'Fraunces',Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  @page{size:A4;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#fff;color:var(--ink);font-family:var(--f);font-size:10.5pt;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;height:297mm;padding:18mm 18mm 16mm;position:relative;overflow:hidden;page-break-after:always;display:flex;flex-direction:column}
+  .page:last-child{page-break-after:auto}
+  .page > *{flex-shrink:0}
+  .run{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:7.5pt;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-bottom:6mm;border-bottom:1px solid var(--line);margin-bottom:9mm}
+  .run b{color:var(--ink);font-weight:500}
+  .foot{margin-top:auto;padding-top:5mm;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:7.5pt;color:var(--ink-3)}
+  .kick{font-family:var(--mono);font-size:8pt;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:500}
+  h1{font-size:34pt;line-height:1.02;letter-spacing:-.03em;font-weight:600}
+  h2{font-size:21pt;line-height:1.1;letter-spacing:-.02em;font-weight:600;margin-top:2.5mm}
+  h2 em,h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--violet)}
+  h3{font-size:12pt;font-weight:600;letter-spacing:-.01em}
+  .lede{font-size:11.5pt;color:var(--ink-2);margin-top:4mm;max-width:150mm}
+  p + p{margin-top:2.5mm}
+  .muted{color:var(--ink-2)}
+  .small{font-size:8.5pt;color:var(--ink-3)}
+  .sect{margin-top:9mm}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:4mm}
+  .card{border:1px solid var(--line);border-radius:3mm;padding:5mm;background:#fff}
+  .card--tint{background:var(--tint);border-color:transparent}
+  .card .kick{display:block;margin-bottom:1.5mm}
+  .card p{font-size:9.5pt;color:var(--ink-2);margin-top:1.5mm}
+  .card q{quotes:none;display:block;margin-top:3mm;padding-top:3mm;border-top:1px solid var(--line);font-family:var(--serif);font-style:italic;font-size:10pt;color:var(--ink)}
+  .mini.card{padding:3.6mm 4mm}.mini h3{font-size:10.5pt}.mini p{font-size:8.8pt;margin-top:1mm}
+  .bar{height:1.2mm;border-radius:1mm;background:var(--grad);margin-bottom:4mm}
+  ul.ticks{list-style:none;display:grid;gap:2mm;margin-top:3mm}
+  ul.ticks li{padding-left:6mm;position:relative;font-size:9.5pt;color:var(--ink-2)}
+  ul.ticks li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+  .tag{display:inline-block;font-family:var(--mono);font-size:7.5pt;letter-spacing:.08em;text-transform:uppercase;padding:1mm 2.5mm;border-radius:10mm;border:1px solid var(--line);color:var(--ink-2);margin:0 1.5mm 1.5mm 0}
+
+  /* cover */
+  .cover{background:var(--night);color:#F1F2F7;padding:22mm 20mm 18mm}
+  .cover::before{content:"";position:absolute;width:150mm;height:150mm;border-radius:50%;background:radial-gradient(circle,rgba(54,226,255,.35),transparent 65%);top:-40mm;left:-50mm}
+  .cover::after{content:"";position:absolute;width:170mm;height:170mm;border-radius:50%;background:radial-gradient(circle,rgba(139,91,255,.35),transparent 65%);bottom:-50mm;right:-60mm}
+  .cover > *{position:relative;z-index:1}
+  .brand{display:flex;align-items:center;gap:3mm;font-size:15pt;font-weight:600;letter-spacing:-.01em}
+  .brand i{width:3mm;height:3mm;border-radius:50%;background:#36E2FF;box-shadow:0 0 4mm #36E2FF}
+  .cover .kick{color:#7FE9FF}
+  .cover h1{font-size:46pt;margin-top:6mm;color:#FFFFFF}
+  .cover h1 em{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cover .lede{color:#D3D5E0;font-size:13pt;max-width:140mm}
+  .cover-meta{margin-top:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:6mm;padding-top:8mm;border-top:1px solid rgba(255,255,255,.2);font-size:9.5pt;color:#E4E6EE}
+  .cover-meta b{display:block;font-family:var(--mono);font-size:7.5pt;letter-spacing:.14em;text-transform:uppercase;color:#A9ADC2;font-weight:400;margin-bottom:1mm}
+  .contents{margin-top:14mm;display:grid;gap:2.2mm;font-size:10.5pt;color:#E4E6EE;max-width:120mm}
+  .contents div{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(255,255,255,.18);padding-bottom:1.6mm}
+  .contents span:last-child{font-family:var(--mono);color:#A9ADC2}
+
+  /* team */
+  .person{display:flex;gap:4mm}
+  .av{flex:none;width:12mm;height:12mm;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:10pt;color:#fff;background:linear-gradient(135deg,#00708F,#5B2FD6)}
+  .person p{font-size:9pt;color:var(--ink-2);margin-top:1mm}
+  .person .role{font-family:var(--mono);font-size:7.5pt;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-top:.5mm}
+  dl.facts{display:grid;grid-template-columns:42mm 1fr;gap:2.5mm 5mm;font-size:9.5pt}
+  dl.facts dt{color:var(--ink-3);font-family:var(--mono);font-size:7.5pt;letter-spacing:.1em;text-transform:uppercase;padding-top:.6mm}
+  dl.facts dd{color:var(--ink)}
+
+  /* architecture */
+  .arch{display:grid;grid-template-columns:1fr 8mm 1.2fr 8mm 1fr;align-items:center;gap:2mm;margin-top:6mm}
+  .node{border:1px solid var(--line);border-radius:2mm;padding:2mm 3mm;font-size:9.5pt;font-weight:500;margin-top:2mm;background:#fff}
+  .node small{display:block;font-weight:400;color:var(--ink-3);font-size:8pt}
+  .arrow{text-align:center;font-size:16pt;color:var(--ink-3)}
+  .core{border:1.5px solid var(--violet);border-radius:3mm;padding:5mm;background:#F6F2FF}
+  .core .kick{color:var(--violet)}
+
+  /* report */
+  .sample{display:inline-flex;gap:2mm;align-items:center;font-family:var(--mono);font-size:7.5pt;letter-spacing:.1em;text-transform:uppercase;color:#8A3B00;background:#FFF1E5;border:1px solid #F5C9A6;border-radius:10mm;padding:1mm 3mm}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin-top:6mm}
+  .kpi{border:1px solid var(--line);border-radius:2.5mm;padding:3.5mm}
+  .kpi b{display:block;font-family:var(--mono);font-size:7pt;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:400}
+  .kpi strong{display:block;font-size:17pt;font-weight:600;letter-spacing:-.02em;margin-top:1mm;font-variant-numeric:tabular-nums}
+  .kpi span{font-size:8.5pt;color:var(--green);font-weight:500}
+  .kpi span.down{color:var(--magenta)}
+  table{width:100%;border-collapse:collapse;font-size:9.5pt}
+  th{font-family:var(--mono);font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:2mm 3mm;background:var(--tint)}
+  td{padding:2.2mm 3mm;border-top:1px solid var(--line)}
+  .n{text-align:right;font-variant-numeric:tabular-nums}
+  .chart text{font-family:var(--f);font-size:11px;fill:var(--ink-2)}
+  .chart .v{fill:var(--ink);font-weight:600}
+  .steps-num{font-family:var(--mono);font-size:8pt;color:var(--teal);font-weight:500}
+  .cta{background:var(--night);color:#F1F2F7;border-radius:4mm;padding:7mm 8mm;margin-top:6mm;position:relative;overflow:hidden}
+  .cta::after{content:"";position:absolute;right:-30mm;top:-30mm;width:90mm;height:90mm;border-radius:50%;background:radial-gradient(circle,rgba(139,91,255,.45),transparent 65%)}
+  .cta > *{position:relative;z-index:1}
+  .cta h2{color:#fff}
+  .cta h2 em{color:#C9B5FF}
+  .cta p{color:#D3D5E0;margin-top:3mm;max-width:130mm}
+  .cta .contact{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:7mm;font-size:10pt}
+  .cta .contact b{display:block;font-family:var(--mono);font-size:7.5pt;letter-spacing:.12em;text-transform:uppercase;color:#A9ADC2;font-weight:400;margin-bottom:1mm}
+  .cta a{color:#7FE9FF;text-decoration:none}
+  a{color:var(--teal)}
+</style>
+</head>
+<body>
+
+<!-- 1 COVER -->
+<section class="page cover">
+  <div class="brand">MatsenseAI <i></i></div>
+  <div style="margin-top:38mm">
+    <div class="kick">Service overview · Sample report</div>
+    <h1>Ask your business data <em>anything.</em></h1>
+    <p class="lede">An AI business assistant connected to your till, CRM, accounts, bookings and Microsoft 365. Your team asks questions in plain English and gets answers, reports, quotes and draft emails from your live data.</p>
+  </div>
+  <div class="contents">
+    <div><span>About MatsenseAI</span><span>02</span></div>
+    <div><span>What the assistant does</span><span>03</span></div>
+    <div><span>How it works, security and UK GDPR</span><span>04</span></div>
+    <div><span>Sample management report</span><span>05</span></div>
+    <div><span>Built to your size, and how we work</span><span>06</span></div>
+    <div><span>Our services and next steps</span><span>07</span></div>
+  </div>
+  <div class="cover-meta">
+    <div><b>Prepared by</b>MatsenseAI Ltd<br>UK software &amp; AI consultancy</div>
+    <div><b>Contact</b>info@matsenseai.co.uk<br>matsenseai.co.uk</div>
+    <div><b>Edition</b>October 2026</div>
+  </div>
+</section>
+
+<!-- 2 ABOUT -->
+<section class="page">
+  <div class="run"><b>MatsenseAI</b><span>About us</span></div>
+  <div class="kick">01 · About MatsenseAI</div>
+  <h2>Research-grounded engineering, <em>delivered by one team.</em></h2>
+  <p class="lede">MatsenseAI was founded by Dr Ateeq Ur Rehman to bring rigorous, research-grounded software engineering and AI expertise to organisations that need more than a generic agency. The company is led day-to-day by Director Beenish Aman, and every project is delivered directly by our own team, with no subcontractors.</p>
+
+  <div class="sect grid2">
+    <div class="card card--tint"><span class="kick">Build</span><h3>Software engineering</h3><p>Enterprise-grade, high-security application development.</p></div>
+    <div class="card card--tint"><span class="kick">AI</span><h3>AI consultancy &amp; product development</h3><p>Research-led AI advisory work and hands-on ML/AI product delivery.</p></div>
+  </div>
+
+  <div class="sect">
+    <h3>Our leadership team</h3>
+    <div class="grid2" style="margin-top:4mm;row-gap:6mm">
+      <div class="person"><div class="av">AR</div><div><h3>Dr Ateeq Ur Rehman</h3><div class="role">Founder &amp; Lead Architect</div><p>Associate Professor of Software Engineering at the University of Staffordshire, UK. Over 15 years of software consultancy experience and a specialist in robust, high-security enterprise applications. A highly cited AI researcher.</p></div></div>
+      <div class="person"><div class="av">BA</div><div><h3>Beenish Aman</h3><div class="role">Director &amp; Project Lead</div><p>Over 7 years of project management and organisational leadership experience, overseeing delivery of large-scale software projects, including work delivered within strict grant timelines.</p></div></div>
+      <div class="person"><div class="av">BH</div><div><h3>Bob Hobbs</h3><div class="role">Senior Consultant</div><p>Over 30 years of software development and consultancy experience, including more than two decades as a lead developer on enterprise applications.</p></div></div>
+      <div class="person"><div class="av">LO</div><div><h3>Lawrence Obidike</h3><div class="role">Lead Software Engineer</div><p>Full-stack development expert, specialising in OT (operational technology) integration and scalable industrial platforms.</p></div></div>
+    </div>
+  </div>
+
+  <div class="foot"><span>MatsenseAI Ltd · matsenseai.co.uk</span><span>02</span></div>
+</section>
+
+<!-- 3 WHAT IT DOES -->
+<section class="page">
+  <div class="run"><b>MatsenseAI</b><span>AI business assistant</span></div>
+  <div class="kick">02 · What the assistant does</div>
+  <h2>Four jobs your team does every week, <em>done in seconds.</em></h2>
+  <p class="lede">The assistant can only use the tools we give it. It reads data first. Anything that changes a record or sends a message waits for a person to approve it.</p>
+
+  <div class="sect grid2" style="row-gap:5mm">
+    <div class="card"><div class="bar"></div><span class="kick">Answer</span><h3>Questions from live data</h3><p>Customers, orders, stock, bookings, invoices and jobs, across all your systems at once.</p><q>“Which customers haven't ordered in 90 days?”</q></div>
+    <div class="card"><div class="bar"></div><span class="kick">Report</span><h3>Reports on demand</h3><p>Weekly, monthly or board reports with figures, charts and next steps, in your own layout.</p><q>“Create this month's management report.”</q></div>
+    <div class="card"><div class="bar"></div><span class="kick">Quote</span><h3>Quotes and proposals</h3><p>Built from your own price list and rules, so prices stay correct. Saved as a draft for you to check.</p><q>“Quote a full bathroom refit for the Doyles.”</q></div>
+    <div class="card"><div class="bar"></div><span class="kick">Act</span><h3>Emails and follow-ups</h3><p>Drafts reminders, chasers and offers in your tone. Nothing is sent until you approve it.</p><q>“Chase Riverside Care Homes for payment.”</q></div>
+  </div>
+
+  <div class="sect card card--tint">
+    <h3>Works inside the tools your team already uses</h3>
+    <div style="margin-top:3mm"><span class="tag">Claude</span><span class="tag">ChatGPT</span><span class="tag">Microsoft Copilot</span><span class="tag">Your own website or app</span></div>
+    <h3 style="margin-top:5mm">Connects to systems like</h3>
+    <div style="margin-top:3mm"><span class="tag">Tills &amp; POS</span><span class="tag">Xero / Sage</span><span class="tag">CRM</span><span class="tag">Bookings</span><span class="tag">Stock &amp; warehouse</span><span class="tag">ERP</span><span class="tag">Data warehouse</span><span class="tag">HR</span><span class="tag">Microsoft 365</span></div>
+  </div>
+  <div class="foot"><span>MatsenseAI Ltd · matsenseai.co.uk</span><span>03</span></div>
+</section>
+
+<!-- 4 HOW IT WORKS -->
+<section class="page">
+  <div class="run"><b>MatsenseAI</b><span>How it works</span></div>
+  <div class="kick">03 · How it works</div>
+  <h2>One secure connector between <em>your AI tools and your systems.</em></h2>
+  <p class="lede">We build one connection layer using the open Model Context Protocol (MCP). Each AI tool connects to it once. Each of your systems is wired in once. Adding a new tool or system later is one connection, not a rebuild.</p>
+
+  <div class="arch">
+    <div><span class="kick">Your AI tools</span>
+      <div class="node">Claude<small>web, desktop, mobile</small></div>
+      <div class="node">ChatGPT<small>web, desktop, mobile</small></div>
+      <div class="node">Microsoft Copilot<small>Teams, Outlook</small></div>
+      <div class="node">Chat on your website<small>for customers, optional</small></div>
+    </div>
+    <div class="arrow">⇄</div>
+    <div class="core"><span class="kick">Secure connector</span><h3 style="margin-top:1mm">Your MCP server</h3>
+      <ul class="ticks">
+        <li>Hosted in your own cloud, UK region</li>
+        <li>Staff sign in with their work account</li>
+        <li>Each person sees only what their role allows</li>
+        <li>Approval before any change or message</li>
+        <li>Every action logged: who, what, when</li>
+      </ul>
+    </div>
+    <div class="arrow">⇄</div>
+    <div><span class="kick">Your systems</span>
+      <div class="node">Till / POS<small>sales, products</small></div>
+      <div class="node">Accounts<small>invoices, payments</small></div>
+      <div class="node">CRM &amp; bookings<small>customers, jobs</small></div>
+      <div class="node">Microsoft 365<small>email, files, calendar</small></div>
+    </div>
+  </div>
+
+  <div class="sect">
+    <div class="kick">Security and UK GDPR</div>
+    <h3 style="font-size:15pt;margin-top:1.5mm">Your data stays under your control</h3>
+    <div class="grid3" style="margin-top:5mm">
+      <div class="card mini"><h3>✓ No shared passwords</h3><p>The AI never holds system passwords. Every request runs as the signed-in person, with their own permissions.</p></div>
+      <div class="card mini"><h3>✓ Read-only by default</h3><p>We start with read access. Write actions are added one by one, each with an approval step.</p></div>
+      <div class="card mini"><h3>✓ Full audit trail</h3><p>Every question and action is logged with who, what, when and the result.</p></div>
+      <div class="card mini"><h3>✓ UK hosting</h3><p>The connector runs in your own cloud account in a UK region, with secrets kept in a key vault.</p></div>
+      <div class="card mini"><h3>✓ UK GDPR</h3><p>We complete a data protection impact assessment at the start. Business AI plans do not train on your data by default.</p></div>
+      <div class="card mini"><h3>✓ No lock-in</h3><p>Built on an open standard, so you can switch or mix AI providers without rebuilding.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>MatsenseAI Ltd · matsenseai.co.uk</span><span>04</span></div>
+</section>
+
+<!-- 5 SAMPLE REPORT -->
+<section class="page">
+  <div class="run"><b>MatsenseAI</b><span>Sample output</span></div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6mm">
+    <div><div class="kick">04 · Sample management report</div>
+    <h2>What “create this month's report” <em>gives you.</em></h2></div>
+    <span class="sample" style="margin-top:1mm">Sample · fictional data</span>
+  </div>
+  <p class="lede">Produced by the assistant from accounts and job-management data in seconds. The company, people and figures below are made up for illustration.</p>
+
+  <div class="card" style="margin-top:7mm;padding:6mm">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:3mm">
+      <div><h3 style="font-size:14pt">Kestrel Home Improvements</h3><div class="small">Kitchens and bathrooms · Bristol · 9 staff</div></div>
+      <div class="small" style="text-align:right">Management report<br><b style="color:var(--ink)">September 2026</b></div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><b>Revenue</b><strong>£86,400</strong><span>+9% vs Aug</span></div>
+      <div class="kpi"><b>Gross margin</b><strong>31%</strong><span class="down">−2 pts</span></div>
+      <div class="kpi"><b>Jobs completed</b><strong>9</strong><span>+1</span></div>
+      <div class="kpi"><b>Owed to you</b><strong>£18,950</strong><span style="color:var(--ink-3)">4 invoices</span></div>
+    </div>
+
+    <div class="grid2" style="margin-top:6mm;align-items:start">
+      <div>
+        <div class="kick" style="color:var(--ink-3)">Revenue by job type</div>
+        <svg class="chart" viewBox="0 0 300 130" width="100%" role="img" aria-label="Revenue by job type: Kitchens £44,200, Bathrooms £29,600, Repairs £8,100, Other £4,500">
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#00708F"/><stop offset="1" stop-color="#5B2FD6"/></linearGradient></defs>
+          <g transform="translate(0,6)">
+            <text x="0" y="12">Kitchens</text><rect x="68" y="2" width="150.0" height="13" rx="3" fill="url(#g)"/><text class="v" x="223.0" y="12.5">£44,200</text>
+            <text x="0" y="42">Bathrooms</text><rect x="68" y="32" width="100.5" height="13" rx="3" fill="url(#g)"/><text class="v" x="173.5" y="42.5">£29,600</text>
+            <text x="0" y="72">Repairs</text><rect x="68" y="62" width="27.5" height="13" rx="3" fill="url(#g)"/><text class="v" x="100.5" y="72.5">£8,100</text>
+            <text x="0" y="102">Other</text><rect x="68" y="92" width="15.3" height="13" rx="3" fill="url(#g)"/><text class="v" x="88.3" y="102.5">£4,500</text>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="kick" style="color:var(--ink-3);margin-bottom:2mm">Jobs over budget</div>
+        <table>
+          <thead><tr><th>Job</th><th class="n">Quoted</th><th class="n">Over by</th></tr></thead>
+          <tbody>
+            <tr><td>Patel kitchen refit</td><td class="n">£14,800</td><td class="n">£1,120</td></tr>
+            <tr><td>Moss Road bathroom</td><td class="n">£7,200</td><td class="n">£440</td></tr>
+            <tr><td>Hughes en-suite</td><td class="n">£5,100</td><td class="n">£160</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top:6mm;padding:4mm 5mm;background:var(--tint);border-radius:2.5mm">
+      <h3>Summary and next steps</h3>
+      <ul class="ticks">
+        <li>Margin dipped 2 points because of tile price rises in August. <b>Update the supplier price list</b> so new quotes stay accurate.</li>
+        <li>The Patel job logged 36 extra labour hours after a wall was found out of true. <b>Consider billing a variation.</b></li>
+        <li>£6,400 is over 30 days overdue across two invoices. <b>Chaser emails are drafted and waiting for approval.</b></li>
+      </ul>
+    </div>
+    <p class="small" style="margin-top:4mm">Sources: accounts (profit and loss, aged receivables) and job management (job costs). Every figure links back to its source in the audit log.</p>
+  </div>
+  <div class="foot"><span>Try the live demo: matsenseai.co.uk/demo.html</span><span>05</span></div>
+</section>
+
+<!-- 6 SIZES + PROCESS -->
+<section class="page">
+  <div class="run"><b>MatsenseAI</b><span>Scope and delivery</span></div>
+  <div class="kick">05 · Built to your size</div>
+  <h2>From a single shop to a group <em>with hundreds of sites.</em></h2>
+  <p class="lede">The idea is the same at every size. The scope, security and rollout change.</p>
+
+  <div class="sect grid3">
+    <div class="card"><div class="bar"></div><span class="kick">1–9 staff</span><h3>Small businesses</h3>
+      <ul class="ticks"><li>Shops, takeaways, trades, drivers, clinics</li><li>2–3 systems, e.g. till, accounts, email</li><li>Quotes, daily summaries and reminders</li><li>Works in the AI app you already use</li></ul>
+      <p style="margin-top:4mm;color:var(--ink);font-weight:600">Typical build: 2–4 weeks</p></div>
+    <div class="card"><div class="bar"></div><span class="kick">10–249 staff</span><h3>Growing SMEs</h3>
+      <ul class="ticks"><li>3–6 systems including CRM and Microsoft 365</li><li>Team access with roles and approvals</li><li>Scheduled reports for managers</li><li>Pilot group first, then full team</li></ul>
+      <p style="margin-top:4mm;color:var(--ink);font-weight:600">Typical build: 6–10 weeks</p></div>
+    <div class="card"><div class="bar"></div><span class="kick">250+ staff</span><h3>Large organisations</h3>
+      <ul class="ticks"><li>ERP, CRM, data warehouse, HR and M365</li><li>Single sign-on, role-based access, audit trail</li><li>Data protection impact assessment</li><li>Phased rollout across departments</li></ul>
+      <p style="margin-top:4mm;color:var(--ink);font-weight:600">Typical first rollout: 10–12 weeks</p></div>
+  </div>
+  <p class="small" style="margin-top:3mm">Timelines are typical ranges. We confirm scope, timeline and a fixed price after a free discovery call.</p>
+
+  <div class="sect">
+    <div class="kick">How we work</div>
+    <h3 style="font-size:15pt;margin-top:1.5mm">Four steps, with a sign-off after each one</h3>
+    <div class="grid4" style="margin-top:5mm">
+      <div class="card card--tint"><div class="steps-num">STEP 1</div><h3 style="margin-top:1mm">Free 30-minute call</h3><p>We learn your systems, your team and the questions you ask most.</p></div>
+      <div class="card card--tint"><div class="steps-num">STEP 2</div><h3 style="margin-top:1mm">Discovery and design</h3><p>We check API access, agree the tools, and give you a fixed price.</p></div>
+      <div class="card card--tint"><div class="steps-num">STEP 3</div><h3 style="margin-top:1mm">Build and pilot</h3><p>A small group uses it on your live data. We tune it with their feedback.</p></div>
+      <div class="card card--tint"><div class="steps-num">STEP 4</div><h3 style="margin-top:1mm">Rollout and support</h3><p>Training, handover and an optional monthly support plan.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>MatsenseAI Ltd · matsenseai.co.uk</span><span>06</span></div>
+</section>
+
+<!-- 7 SERVICES + CTA -->
+<section class="page">
+  <div class="run"><b>MatsenseAI</b><span>Services and contact</span></div>
+  <div class="kick">06 · Our services</div>
+  <h2>More than an AI assistant: <em>the full build.</em></h2>
+  <div class="sect grid3" style="margin-top:5mm">
+    <div class="card mini"><span class="kick">01</span><h3>AI Consultancy</h3><p>Independent advice on where AI genuinely fits your organisation, led by an active AI researcher.</p></div>
+    <div class="card mini"><span class="kick">02</span><h3>AI/ML Product Development</h3><p>Design and build of machine learning and AI-driven products, from proof of concept to production.</p></div>
+    <div class="card mini"><span class="kick">03</span><h3>Website Design</h3><p>Brand-first marketing sites that read like a statement and convert like a funnel.</p></div>
+    <div class="card mini"><span class="kick">04</span><h3>Development</h3><p>Hand-coded, edge-deployed, obsessively fast.</p></div>
+    <div class="card mini"><span class="kick">05</span><h3>SEO</h3><p>Technical audits, content and growth ops.</p></div>
+    <div class="card mini"><span class="kick">06</span><h3>Digital Marketing</h3><p>Paid, lifecycle and creative.</p></div>
+  </div>
+  <p class="small" style="margin-top:3mm">We also build SaaS and POS products and offer ongoing maintenance.</p>
+
+  <div class="cta">
+    <div class="kick" style="color:#7FE9FF">Next step</div>
+    <h2>Want this on <em>your own systems?</em></h2>
+    <p>Book a free 30-minute call. We will show you what your version would look like, what it connects to, and what it would cost. No obligation.</p>
+    <div class="contact">
+      <div><b>Book a call</b><a href="https://matsenseai.co.uk/contact.html">matsenseai.co.uk/contact</a></div>
+      <div><b>Email</b><a href="mailto:info@matsenseai.co.uk">info@matsenseai.co.uk</a></div>
+      <div><b>Try the demo</b><a href="https://matsenseai.co.uk/demo.html">matsenseai.co.uk/demo</a></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:7mm">
+    <h3 style="margin-bottom:4mm">Company details</h3>
+    <dl class="facts">
+      <dt>Company</dt><dd>MatsenseAI Ltd · Private limited company · Active</dd>
+      <dt>Registered office</dt><dd>36 Malthouse Road, Stoke-On-Trent, England, ST2 9HY</dd>
+      <dt>Nature of business</dt><dd>Business and domestic software development; engineering-related scientific and technical consulting; research and experimental development on natural sciences and engineering; other professional, scientific and technical activities</dd>
+      <dt>Hours</dt><dd>Monday – Friday, 09:00 – 17:30 GMT</dd>
+    </dl>
+  </div>
+  <div class="foot"><span>© 2026 MatsenseAI Ltd · Sample report figures are fictional.</span><span>07</span></div>
+</section>
+
+</body>
+</html>
