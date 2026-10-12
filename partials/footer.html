@@ -37,6 +37,7 @@
       <ul>
         <li><a href="work.html">Selected work</a></li>
         <li><a href="process.html">Our process</a></li>
+        <li><a href="demo.html">AI assistant demo</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="#">Changelog</a></li>
       </ul>
@@ -69,7 +70,7 @@
   // active nav state
   (function(){
     const path = (location.pathname.split('/').pop() || 'index.html').replace('.html','');
-    const map = {index:'home','':'home',about:'about',services:'services',work:'work',process:'process',contact:'contact'};
+    const map = {index:'home','':'home',about:'about',services:'services',work:'work',process:'process',demo:'demo',contact:'contact'};
     const k = map[path] || 'home';
     document.querySelectorAll('[data-link]').forEach(a => a.classList.toggle('is-active', a.dataset.link===k));
   })();

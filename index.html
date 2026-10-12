@@ -771,6 +771,7 @@ section,footer,.topbar,.nav,.announce,main{position:relative;z-index:2}
     <a href="services.html" data-link="services">Services <svg viewBox="0 0 10 10"><path d="M1 3 L5 7 L9 3"/></svg></a>
     <a href="work.html" data-link="work">Work</a>
     <a href="process.html" data-link="process">Process</a>
+    <a href="demo.html" data-link="demo">Demo</a>
     <a href="contact.html" data-link="contact">Contact</a>
   </nav>
   <div class="nav__cta">
@@ -786,6 +787,7 @@ section,footer,.topbar,.nav,.announce,main{position:relative;z-index:2}
   <a href="services.html">Services <svg viewBox="0 0 10 10"><path d="M1 3 L5 7 L9 3"/></svg></a>
   <a href="work.html">Work</a>
   <a href="process.html">Process</a>
+  <a href="demo.html">Demo</a>
   <a href="contact.html">Contact</a>
   <a href="contact.html" class="mobile-cta">Start a project →</a>
 </div>
@@ -1097,6 +1099,7 @@ section,footer,.topbar,.nav,.announce,main{position:relative;z-index:2}
       <ul>
         <li><a href="work.html">Selected work</a></li>
         <li><a href="process.html">Our process</a></li>
+        <li><a href="demo.html">AI assistant demo</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </div>
@@ -1121,7 +1124,7 @@ section,footer,.topbar,.nav,.announce,main{position:relative;z-index:2}
   // active nav state
   (function(){
     const path = (location.pathname.split('/').pop() || 'index.html').replace('.html','');
-    const map = {index:'home','':'home',about:'about',services:'services',work:'work',process:'process',contact:'contact'};
+    const map = {index:'home','':'home',about:'about',services:'services',work:'work',process:'process',demo:'demo',contact:'contact'};
     const k = map[path] || 'home';
     document.querySelectorAll('[data-link]').forEach(a => a.classList.toggle('is-active', a.dataset.link===k));
   })();
