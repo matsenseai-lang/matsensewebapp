@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /uploads
 
-Sitemap: https://matsenseai.co.uk/sitemap.xml
+Sitemap: https://www.matsenseai.co.uk/sitemap.xml
