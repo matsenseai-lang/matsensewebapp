@@ -239,7 +239,7 @@ section.sec{padding-block:104px}
 @media (max-width:900px){.clients{grid-template-columns:1fr 1fr}} @media (max-width:520px){.clients{grid-template-columns:1fr}}
 
 /* Team */
-.team{display:grid;grid-template-columns:1.25fr 1fr;gap:28px}
+.team{display:grid;grid-template-columns:1fr;gap:28px}
 .team>*{min-width:0}
 .founder{background:var(--ink);color:var(--paper);border-radius:24px;padding:40px;display:grid;gap:18px;align-content:start;position:relative;overflow:hidden}
 .founder::after{content:"";position:absolute;right:-60px;bottom:-60px;width:220px;height:220px;border-radius:50%;border:40px solid color-mix(in srgb,var(--hi) 30%,transparent)}
@@ -248,7 +248,7 @@ section.sec{padding-block:104px}
 .founder .role{color:var(--hi);font-weight:600}
 .founder ul{list-style:none;margin:0;padding:0;display:grid;gap:12px;position:relative;z-index:1}
 .founder li{padding-left:16px;border-left:2px solid var(--hi);opacity:.92}
-.members{display:grid;gap:14px}
+.members{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
 .mem{display:grid;grid-template-columns:56px 1fr;gap:16px;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
 .mem .av{width:56px;height:56px;font-size:1.1rem;background:var(--accent-soft);color:var(--accent)}
 .mem .role{color:var(--accent);font-weight:600;font-size:.92rem}
@@ -716,19 +716,8 @@ footer{border-top:1px solid var(--band-line);padding-block:30px 40px;color:var(-
     <div class="wrap">
       <div class="sec-head"><p class="label">Who we are</p><h2 id="tm-h">Senior people on every project.</h2><p class="lead">A UK company based in Stoke-on-Trent, with academic and industry experience. You talk directly to the people building your software.</p></div>
       <div class="team">
-        <article class="founder">
-          <div class="av" aria-hidden="true">AR</div>
-          <div><h3>Dr Ateeq Ur Rehman</h3><p class="role">Founder and Lead Architect</p></div>
-          <ul>
-            <li>Associate Professor of Software Engineering, University of Staffordshire</li>
-            <li>Over 15 years of software consultancy experience</li>
-            <li>Specialist in secure enterprise applications</li>
-            <li>Highly cited AI researcher</li>
-          </ul>
-        </article>
         <div class="members">
           <article class="mem"><div class="av" aria-hidden="true">BA</div><div><h3>Beenish Aman</h3><p class="role">Director and Project Lead</p><p class="b">Over 7 years managing large software projects, including work to strict grant timelines.</p></div></article>
-          <article class="mem"><div class="av" aria-hidden="true">BH</div><div><h3>Bob Hobbs</h3><p class="role">Senior Consultant</p><p class="b">Over 30 years in software, including 20+ years as lead developer on enterprise applications.</p></div></article>
           <article class="mem"><div class="av" aria-hidden="true">LO</div><div><h3>Lawrence Obidike</h3><p class="role">Lead Software Engineer</p><p class="b">Full-stack developer specialising in industrial (OT) systems and platforms that scale.</p></div></article>
         </div>
       </div>
